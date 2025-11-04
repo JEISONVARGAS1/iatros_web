@@ -1,0 +1,41 @@
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/util/debouncer_util.dart';
+
+part 'patients_seek_state.freezed.dart';
+
+@freezed
+sealed class PatientsSeekState with _$PatientsSeekState {
+const factory PatientsSeekState({
+  required UserModel myUser,
+  StreamSubscription? userSub,
+  required String? phoneNumber,
+  required List<UserModel> users,
+  required DebouncerUtil debouncer,
+  required String identificationNumber,
+  required TextEditingController nameController,
+  required TextEditingController emailController,
+  required TextEditingController lastNameController,
+
+  String? selectedIdentificationType,
+  String? identificationError,
+
+
+}) = PatientsSeekStateData;
+
+  factory PatientsSeekState.initial() => PatientsSeekState(
+    users: [],
+    phoneNumber: null,
+    myUser: UserModel.init(),
+    identificationNumber: "",
+    selectedIdentificationType: null,
+    identificationError: null,
+    debouncer: DebouncerUtil(seconds: 1),
+    nameController: TextEditingController(),
+    emailController: TextEditingController(),
+    lastNameController: TextEditingController(),
+  );
+}
