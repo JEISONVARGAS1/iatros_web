@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
 import 'package:iatros_web/features/auth/repository/auth_repository.dart';
 
@@ -10,110 +13,110 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) {
     final repository = ref.watch(authRepositoryProvider);
-    return AuthController(repository);
+    final globalController = ref.read(globalControllerProvider.notifier);
+    return AuthController(repository, globalController, ref);
   },
 );
 
 class AuthController extends StateNotifier<AuthState> {
+  final Ref _ref;
   final AuthRepository _repository;
+  final GlobalController _globalController;
 
-  AuthController(this._repository) : super(AuthState.init()) {
-    /* _checkAuthStatus(); */
-  }
-  /* 
-  Future<void> _checkAuthStatus() async {
-    state = state.copyWith(isLoading: true);
-    
-    final response = await _repository.getCurrentUser();
-    
-    if (response.isSuccessful && response.data != null) {
-      state = state.copyWith(
-        isLoading: false,
-        isAuthenticated: true,
-        user: response.data,
-        errorMessage: null,
-      );
-    } else {
-      state = state.copyWith(
-        isLoading: false,
-        isAuthenticated: false,
-        user: null,
-        errorMessage: response.message,
-      );
-    }
-  } */
+  AuthController(this._repository, this._globalController, this._ref)
+    : super(AuthState.initial());
 
   Future<void> login(String email, String password) async {
-    state = state.copyWith(isLoginLoading: true, errorMessage: null);
+    _setState(state.copyWith(isLoginLoading: true, errorMessage: ""));
 
     final response = await _repository.login(email, password);
 
     if (response.isSuccessful) {
-      // Obtener el usuario actual después del login exitoso
-      /* final userResponse = await _repository.getCurrentUser(); */
-
-      state = state.copyWith(
-        isLoginLoading: false,
-        isAuthenticated: true,
-
-        errorMessage: null,
+      _setState(
+        state.copyWith(
+          errorMessage: "",
+          isLoginLoading: false,
+          isAuthenticated: true,
+        ),
       );
+
+      // Start streaming user data after successful login
+
+      _globalController.getStreamUser(response.data!.id!);
     } else {
-      state = state.copyWith(
-        isLoginLoading: false,
-        isAuthenticated: false,
-        user: null,
-        errorMessage: response.message,
+      _setState(
+        state.copyWith(
+          isLoginLoading: false,
+          isAuthenticated: false,
+          user: null,
+          errorMessage: response.message,
+        ),
       );
     }
   }
 
   Future<void> register(UserModel user, String password) async {
-    state = state.copyWith(isRegisterLoading: true, errorMessage: null);
+    _setState(state.copyWith(errorMessage: "", isRegisterLoading: false));
 
     final response = await _repository.register(user, password);
 
     if (response.isSuccessful) {
-      // Obtener el usuario actual después del registro exitoso
-      /* final userResponse = await _repository.getCurrentUser(); */
-
-      state = state.copyWith(
-        user: user,
-        errorMessage: null,
-        isAuthenticated: true,
-        isRegisterLoading: false,
+      _setState(
+        state.copyWith(
+          user: user,
+          errorMessage: "",
+          isAuthenticated: true,
+          isRegisterLoading: false,
+        ),
       );
     } else {
-      state = state.copyWith(
-        isRegisterLoading: false,
-        isAuthenticated: false,
-        user: null,
-        errorMessage: response.message,
+      _setState(
+        state.copyWith(
+          user: null,
+          isAuthenticated: false,
+          isRegisterLoading: false,
+          errorMessage: response.message,
+        ),
       );
     }
   }
 
   Future<void> logout() async {
-    state = state.copyWith(isLogoutLoading: true, errorMessage: null);
+    // Cancel user stream subscription before logout
+    final globalController = _ref.read(globalControllerProvider.notifier);
+    globalController.cancelUserSub();
+
+    _setState(
+      state.copyWith(
+        user: null,
+        errorMessage: "",
+        isAuthenticated: false,
+        isRegisterLoading: false,
+      ),
+    );
 
     final response = await _repository.logout();
 
-    state = state.copyWith(
-      isLogoutLoading: false,
-      isAuthenticated: false,
-      user: null,
-      errorMessage: response.isSuccessful ? null : response.message,
+    _setState(
+      state.copyWith(
+        user: null,
+        isLogoutLoading: false,
+        isAuthenticated: false,
+        errorMessage: response.isSuccessful ? "" : response.message,
+      ),
     );
   }
 
   Future<void> resetPassword(String email) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    _setState(state.copyWith(isLoading: false, errorMessage: ""));
 
     final response = await _repository.resetPassword(email);
 
-    state = state.copyWith(
-      isLoading: false,
-      errorMessage: response.isSuccessful ? null : response.message,
+    _setState(
+      state.copyWith(
+        isLoading: false,
+        errorMessage: response.isSuccessful ? "" : response.message,
+      ),
     );
   }
 
@@ -137,7 +140,13 @@ class AuthController extends StateNotifier<AuthState> {
     return null;
   }
 
-  void clearError() {
-    state = state.copyWith(errorMessage: null);
+  void clearError() => _setState(state.copyWith(errorMessage: ""));
+
+  activeError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: AppColors.error),
+    );
   }
+
+  _setState(AuthState newState) => state = newState;
 }

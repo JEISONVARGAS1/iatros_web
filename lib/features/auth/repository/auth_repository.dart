@@ -4,7 +4,7 @@ import 'package:iatros_web/features/auth/data/auth_api_interface.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 
 abstract class AuthRepositoryInterface {
-  Future<QueryResponseModel> login(String email, String password);
+  Future<QueryResponseModel<UserModel>> login(String email, String password);
   Future<QueryResponseModel> register(UserModel user, String password);
   Future<QueryResponseModel> logout();/* 
   Future<QueryResponseModel<UserModel>> getCurrentUser(); */
@@ -19,7 +19,7 @@ class AuthRepository implements AuthRepositoryInterface {
       : _authApi = authApi ?? AuthApi();
 
   @override
-  Future<QueryResponseModel> login(String email, String password) async {
+  Future<QueryResponseModel<UserModel>> login(String email, String password) async {
     try {
       final res = await _authApi.login(email, password);
       return QueryResponseModel(data: res);
@@ -56,19 +56,6 @@ class AuthRepository implements AuthRepositoryInterface {
       );
     }
   }
-
-/*   @override
-  Future<QueryResponseModel<UserModel>> getCurrentUser() async {
-    try {
-      final res = await _authApi.getCurrentUser();
-      return res;
-    } catch (e) {
-      return QueryResponseModel<UserModel>(
-        isSuccessful: false, 
-        message: e.toString()
-      );
-    }
-  } */
 
   @override
   Future<QueryResponseModel> resetPassword(String email) async {

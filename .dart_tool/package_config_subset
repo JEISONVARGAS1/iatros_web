@@ -74,6 +74,10 @@ characters
 3.4
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/characters-1.4.0/
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/characters-1.4.0/lib/
+charcode
+3.0
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/charcode-1.4.0/
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/charcode-1.4.0/lib/
 checked_yaml
 3.8
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/checked_yaml-2.0.4/
@@ -102,6 +106,10 @@ crypto
 3.4
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/crypto-3.0.6/
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/crypto-3.0.6/lib/
+csslib
+3.1
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/csslib-1.0.2/
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/csslib-1.0.2/lib/
 cupertino_icons
 3.1
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.8/
@@ -230,6 +238,10 @@ hive_generator
 2.12
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/hive_generator-2.0.1/
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/hive_generator-2.0.1/lib/
+html
+3.2
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/html-0.15.6/
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/html-0.15.6/lib/
 http
 3.4
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/http-1.5.0/
@@ -526,6 +538,14 @@ typed_data
 3.5
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/typed_data-1.4.0/
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib/
+universal_html
+2.17
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/universal_html-2.2.4/
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/universal_html-2.2.4/lib/
+universal_io
+2.17
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/universal_io-2.2.2/
+file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/universal_io-2.2.2/lib/
 url_launcher
 3.6
 file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/url_launcher-6.3.2/

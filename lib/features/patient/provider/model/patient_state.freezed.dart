@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PatientState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  UserModel get myUser => throw _privateConstructorUsedError;
   DebouncerUtil get debouncer => throw _privateConstructorUsedError;
   UserModel? get selectedPatient => throw _privateConstructorUsedError;
   TextEditingController get tController => throw _privateConstructorUsedError;
@@ -62,7 +64,9 @@ abstract class $PatientStateCopyWith<$Res> {
       _$PatientStateCopyWithImpl<$Res, PatientState>;
   @useResult
   $Res call(
-      {DebouncerUtil debouncer,
+      {bool isLoading,
+      UserModel myUser,
+      DebouncerUtil debouncer,
       UserModel? selectedPatient,
       TextEditingController tController,
       TextEditingController nController,
@@ -100,6 +104,8 @@ class _$PatientStateCopyWithImpl<$Res, $Val extends PatientState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
+    Object? myUser = null,
     Object? debouncer = null,
     Object? selectedPatient = freezed,
     Object? tController = null,
@@ -123,6 +129,14 @@ class _$PatientStateCopyWithImpl<$Res, $Val extends PatientState>
     Object? diseaseAndReviewBySystemsController = null,
   }) {
     return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      myUser: null == myUser
+          ? _value.myUser
+          : myUser // ignore: cast_nullable_to_non_nullable
+              as UserModel,
       debouncer: null == debouncer
           ? _value.debouncer
           : debouncer // ignore: cast_nullable_to_non_nullable
@@ -221,7 +235,9 @@ abstract class _$$PatientStateDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DebouncerUtil debouncer,
+      {bool isLoading,
+      UserModel myUser,
+      DebouncerUtil debouncer,
       UserModel? selectedPatient,
       TextEditingController tController,
       TextEditingController nController,
@@ -257,6 +273,8 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
+    Object? myUser = null,
     Object? debouncer = null,
     Object? selectedPatient = freezed,
     Object? tController = null,
@@ -280,6 +298,14 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
     Object? diseaseAndReviewBySystemsController = null,
   }) {
     return _then(_$PatientStateDataImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      myUser: null == myUser
+          ? _value.myUser
+          : myUser // ignore: cast_nullable_to_non_nullable
+              as UserModel,
       debouncer: null == debouncer
           ? _value.debouncer
           : debouncer // ignore: cast_nullable_to_non_nullable
@@ -373,7 +399,9 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
 
 class _$PatientStateDataImpl implements PatientStateData {
   const _$PatientStateDataImpl(
-      {required this.debouncer,
+      {required this.isLoading,
+      required this.myUser,
+      required this.debouncer,
       required this.selectedPatient,
       required this.tController,
       required this.nController,
@@ -397,6 +425,10 @@ class _$PatientStateDataImpl implements PatientStateData {
       : _diagnosesFound = diagnosesFound,
         _selectedDiagnoses = selectedDiagnoses;
 
+  @override
+  final bool isLoading;
+  @override
+  final UserModel myUser;
   @override
   final DebouncerUtil debouncer;
   @override
@@ -455,7 +487,7 @@ class _$PatientStateDataImpl implements PatientStateData {
 
   @override
   String toString() {
-    return 'PatientState(debouncer: $debouncer, selectedPatient: $selectedPatient, tController: $tController, nController: $nController, fcController: $fcController, frController: $frController, anController: $anController, so2Controller: $so2Controller, tamController: $tamController, diagnosesFound: $diagnosesFound, imcController: $imcController, sizeController: $sizeController, reasonController: $reasonController, selectedDiagnoses: $selectedDiagnoses, weightController: $weightController, heightController: $heightController, systolicController: $systolicController, diastolicController: $diastolicController, backgroundController: $backgroundController, paraclinicalController: $paraclinicalController, diseaseAndReviewBySystemsController: $diseaseAndReviewBySystemsController)';
+    return 'PatientState(isLoading: $isLoading, myUser: $myUser, debouncer: $debouncer, selectedPatient: $selectedPatient, tController: $tController, nController: $nController, fcController: $fcController, frController: $frController, anController: $anController, so2Controller: $so2Controller, tamController: $tamController, diagnosesFound: $diagnosesFound, imcController: $imcController, sizeController: $sizeController, reasonController: $reasonController, selectedDiagnoses: $selectedDiagnoses, weightController: $weightController, heightController: $heightController, systolicController: $systolicController, diastolicController: $diastolicController, backgroundController: $backgroundController, paraclinicalController: $paraclinicalController, diseaseAndReviewBySystemsController: $diseaseAndReviewBySystemsController)';
   }
 
   @override
@@ -463,6 +495,9 @@ class _$PatientStateDataImpl implements PatientStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PatientStateDataImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.myUser, myUser) || other.myUser == myUser) &&
             (identical(other.debouncer, debouncer) ||
                 other.debouncer == debouncer) &&
             (identical(other.selectedPatient, selectedPatient) ||
@@ -512,6 +547,8 @@ class _$PatientStateDataImpl implements PatientStateData {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        isLoading,
+        myUser,
         debouncer,
         selectedPatient,
         tController,
@@ -547,7 +584,9 @@ class _$PatientStateDataImpl implements PatientStateData {
 
 abstract class PatientStateData implements PatientState {
   const factory PatientStateData(
-      {required final DebouncerUtil debouncer,
+      {required final bool isLoading,
+      required final UserModel myUser,
+      required final DebouncerUtil debouncer,
       required final UserModel? selectedPatient,
       required final TextEditingController tController,
       required final TextEditingController nController,
@@ -570,6 +609,10 @@ abstract class PatientStateData implements PatientState {
       required final TextEditingController
           diseaseAndReviewBySystemsController}) = _$PatientStateDataImpl;
 
+  @override
+  bool get isLoading;
+  @override
+  UserModel get myUser;
   @override
   DebouncerUtil get debouncer;
   @override

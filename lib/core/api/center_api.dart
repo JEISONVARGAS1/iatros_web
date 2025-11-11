@@ -21,12 +21,16 @@ class CenterApi {
     }
   }
 
-  Future<QueryResponseModel> get({required String urlSpecific}) async {
+  Future<QueryResponseModel> get({
+    required String urlSpecific,
+    bool isCustomUrl = false,
+  }) async {
     try {
-      final response = await http.get(
-        Uri.parse(Server().productApi(urlSpecific)), 
-        headers: _headers
-      );
+      Uri url = Uri.parse(Server().productApi(urlSpecific));
+
+      if (isCustomUrl) url = Uri.parse(urlSpecific);
+
+      final response = await http.get(url, headers: _headers);
       final dataDecode = response.body.isNotEmpty
           ? json.decode(utf8.decode(response.bodyBytes))
           : [];
@@ -36,15 +40,15 @@ class CenterApi {
       } else {
         return QueryResponseModel(
           data: [],
-          message: "Error",
           isSuccessful: false,
+          message: connectionError,
         );
       }
-    } catch (_) {
+    } on http.ClientException catch (e) {
       return QueryResponseModel(
         data: [],
         isSuccessful: false,
-        message: connectionError,
+        message: e.message.toString(),
       );
     }
   }

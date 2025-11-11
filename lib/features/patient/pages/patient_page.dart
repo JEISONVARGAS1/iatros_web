@@ -20,7 +20,7 @@ class _PatientPageState extends ConsumerState<PatientPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) =>
-          ref.read(patientControllerProvider.notifier).initPage(widget.userId),
+          ref.read(patientControllerProvider.notifier).initPage(widget.userId), 
     );
     super.initState();
   }
@@ -32,130 +32,141 @@ class _PatientPageState extends ConsumerState<PatientPage> {
 
     return Scaffold(
       backgroundColor: AppColors.gray50,
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.paddingLG),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UIHelpers.verticalSpaceLG,
-            Text("Paciente", style: AppTypography.h1),
-            UIHelpers.verticalSpaceLG,
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Columna de datos personales
-                  Expanded(
-                    flex: 1,
-                    child: Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.paddingMD),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Datos Personales', style: AppTypography.h4),
-                              UIHelpers.verticalSpaceMD,
-                              if (state.selectedPatient != null) ...[
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: _buildPersonalDataRow(
-                                        'Nombre',
-                                        state.selectedPatient!.name,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: _buildPersonalDataRow(
-                                        'Apellido',
-                                        state.selectedPatient!.lastName,
-                                      ),
-                                    ),
-                                  ],
+      body: LoadingOverlay(
+        isLoading: state.isLoading,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.paddingLG),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              UIHelpers.verticalSpaceLG,
+              Text("Paciente", style: AppTypography.h1),
+              UIHelpers.verticalSpaceLG,
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Columna de datos personales
+                    Expanded(
+                      flex: 1,
+                      child: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSpacing.paddingMD),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Datos Personales',
+                                  style: AppTypography.h4,
                                 ),
-                                UIHelpers.verticalSpaceLG,
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: _buildPersonalDataRow(
-                                        'Número de Cédula',
-                                        state
-                                            .selectedPatient!
-                                            .identificationNumber,
+                                UIHelpers.verticalSpaceMD,
+                                if (state.selectedPatient != null) ...[
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _buildPersonalDataRow(
+                                          'Nombre',
+                                          state.selectedPatient!.name,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: _buildPersonalDataRow(
-                                        'Número Telefónico',
-                                        state.selectedPatient!.phone,
+                                      Expanded(
+                                        child: _buildPersonalDataRow(
+                                          'Apellido',
+                                          state.selectedPatient!.lastName,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                  UIHelpers.verticalSpaceLG,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _buildPersonalDataRow(
+                                          'Número de Cédula',
+                                          state
+                                              .selectedPatient!
+                                              .identificationNumber,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: _buildPersonalDataRow(
+                                          'Número Telefónico',
+                                          state.selectedPatient!.phone,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  UIHelpers.verticalSpaceLG,
+                                  _buildPersonalDataRow(
+                                    'Correo Electrónico',
+                                    state.selectedPatient!.email,
+                                  ),
+                                  UIHelpers.verticalSpaceLG,
+                                ] else ...[
+                                  const Center(
+                                    child: Text('Seleccione un paciente'),
+                                  ),
+                                ],
 
                                 UIHelpers.verticalSpaceLG,
-                                _buildPersonalDataRow(
-                                  'Correo Electrónico',
-                                  state.selectedPatient!.email,
-                                ),
-                                UIHelpers.verticalSpaceLG,
-                              ] else ...[
-                                const Center(
-                                  child: Text('Seleccione un paciente'),
+
+                                Text('Diagnósticos', style: AppTypography.h4),
+
+                                UIHelpers.verticalSpaceMD,
+                                MultiSelectDropdown<DiagnosisModel>(
+                                  options: state.diagnosesFound,
+                                  hint: 'Buscar y seleccionar diagnósticos...',
+                                  selectedItems: state.selectedDiagnoses,
+                                  onChanged: (diagnoses) {
+                                    controller.updateSelectedDiagnoses(
+                                      diagnoses,
+                                    );
+                                  },
+                                  displayText: (diagnosis) =>
+                                      '${diagnosis.name} (${diagnosis.code})',
+                                  onSearch: (query) async =>
+                                      await controller.searchDiagnoses(query),
                                 ),
                               ],
-
-                              UIHelpers.verticalSpaceLG,
-
-                              Text('Diagnósticos', style: AppTypography.h4),
-
-                              UIHelpers.verticalSpaceMD,
-                              MultiSelectDropdown<DiagnosisModel>(
-                                options: state.diagnosesFound,
-                                hint: 'Buscar y seleccionar diagnósticos...',
-                                selectedItems: state.selectedDiagnoses,
-                                onChanged: (diagnoses) {
-                                  controller.updateSelectedDiagnoses(diagnoses);
-                                },
-                                displayText: (diagnosis) =>
-                                    '${diagnosis.name} (${diagnosis.code})',
-                                onSearch: (query) async =>
-                                    await controller.searchDiagnoses(query),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  UIHelpers.horizontalSpaceLG,
-                  Expanded(
-                    flex: 2,
-                    child: Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.paddingMD),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Consulta Médica', style: AppTypography.h4),
-                              UIHelpers.verticalSpaceLG,
-                              ObjectivePhysicalExamination(
-                                state: state,
-                                controller: controller,
-                              ),
-                            ],
+                    UIHelpers.horizontalSpaceLG,
+                    Expanded(
+                      flex: 2,
+                      child: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSpacing.paddingMD),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Consulta Médica',
+                                  style: AppTypography.h4,
+                                ),
+                                UIHelpers.verticalSpaceLG,
+                                ObjectivePhysicalExamination(
+                                  state: state,
+                                  controller: controller,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

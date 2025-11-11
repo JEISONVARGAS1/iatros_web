@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bef7bd4e-749e-4bc9-9e73-483a6a433624" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_graph.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_graph.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/flutter_assets/.env" beforeDir="false" afterPath="$PROJECT_DIR$/build/flutter_assets/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/build/flutter_assets/NOTICES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/api/center_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/api/center_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/data/global_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/data/global_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/data/global_api_interface.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/data/global_api_interface.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/provider/global_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/provider/global_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/repository/global_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/repository/global_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/login_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/register_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/register_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/provider/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/provider/auth_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/provider/model/auth_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/provider/model/auth_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/provider/model/auth_state.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/provider/model/auth_state.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/repository/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/repository/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/lobby/pages/lobby.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/lobby/pages/lobby.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/data/patients_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/data/patients_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/data/patients_api_interface.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/data/patients_api_interface.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/pages/widget/objective_physical_examination.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/pages/widget/objective_physical_examination.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/provider/model/patient_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/provider/model/patient_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/provider/model/patient_state.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/provider/model/patient_state.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/provider/patient_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/provider/patient_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/provider/patient_controller.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/provider/patient_controller.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patient/repository/patients_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patient/repository/patients_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/pages/patients_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/pages/patients_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/pages/widget/form_create_patient.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/pages/widget/form_create_patient.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/provider/model/patients_seek_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/provider/model/patients_seek_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/provider/model/patients_seek_state.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/provider/model/patients_seek_state.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/provider/patients_seek_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/provider/patients_seek_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/patients_seek/provider/patients_seek_controller.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/patients_seek/provider/patients_seek_controller.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uikit/components/inputs/identification_selector.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uikit/components/inputs/identification_selector.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uikit/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uikit/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/main.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JEISONVARGAS1&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/JEISONVARGAS1/iatros_web.git&quot;,
+    &quot;accountId&quot;: &quot;68745ce0-0a3b-463c-abdc-0e8bccc07163&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="3508cjtIWTVzvjdRpTA4jkL1BE5" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" />
+    <panes>
+      <pane id="ProjectPane">
+        <option name="show-excluded-files" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bef7bd4e-749e-4bc9-9e73-483a6a433624" name="Changes" comment="" />
+      <created>1762235710046</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1762235710046</updated>
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1762235925689</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762235925689</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1762235931632</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762235931632</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init">
+      <option name="closed" value="true" />
+      <created>1762235983104</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1762235983104</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
+</project>

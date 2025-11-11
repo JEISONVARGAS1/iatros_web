@@ -4,16 +4,29 @@ import 'package:iatros_web/core/models/user_model.dart';
 part 'auth_state.freezed.dart';
 
 @freezed
-class AuthState with _$AuthState {
+sealed class AuthState with _$AuthState {
   const factory AuthState({
-    @Default(false) bool isLoading,
-    @Default(false) bool isAuthenticated,
+    required bool isLoading,
     UserModel? user,
-    String? errorMessage,
-    @Default(false) bool isLoginLoading,
-    @Default(false) bool isRegisterLoading,
-    @Default(false) bool isLogoutLoading,
-  }) = _AuthState;
+    required bool isLoginLoading,
+    required bool isRegisterLoading,
+    required bool isLogoutLoading,
+    required String errorMessage,
+    required bool isAuthenticated,
 
-  factory AuthState.init() => const AuthState();
+    required double addressLatitude,
+    required double addressLongitude,
+  }) = AuthStateData;
+
+  factory AuthState.initial() => AuthState(
+    isLoading: false,
+    errorMessage: "",
+    isLoginLoading: false,
+    user: UserModel.init(),
+    isLogoutLoading: false,
+    isAuthenticated: false,
+    isRegisterLoading: false,
+    addressLatitude: 0,
+    addressLongitude: 0
+  );
 }

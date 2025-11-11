@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iatros_web/core/models/diagnosis_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/models/diagnosis_model.dart';
+import 'package:iatros_web/core/models/medical_consultation_model.dart';
 import 'package:iatros_web/features/patient/data/patients_api_interface.dart';
 
 class Patients extends PatientsInterface {
@@ -41,14 +42,14 @@ Future<List<DiagnosisModel>> searchDiagnoses(String query) async {
 }
 
   @override
-  Future<UserModel> createUsers(UserModel user) async {
+  Future<MedicalConsultationModel> createMedicalConsultation(MedicalConsultationModel consultation) async {
     final res = await _supabase
-        .from('users')
-        .insert(user.toJson())
+        .from('medical_consultation')
+        .insert(consultation.toJson())
         .select()
         .maybeSingle();
 
-    return UserModel.fromJson(res);
+    return MedicalConsultationModel.fromJson(res!);
   }
 }
 

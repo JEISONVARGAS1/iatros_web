@@ -1,0 +1,22 @@
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$lobbyControllerHash() => r'ab749193f465ec3bb1c6377828d426c81cb9c250';
+
+/// See also [LobbyController].
+@ProviderFor(LobbyController)
+final lobbyControllerProvider =
+    AutoDisposeAsyncNotifierProvider<LobbyController, LobbyState>.internal(
+  LobbyController.new,
+  name: r'lobbyControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$lobbyControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$LobbyController = AutoDisposeAsyncNotifier<LobbyState>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

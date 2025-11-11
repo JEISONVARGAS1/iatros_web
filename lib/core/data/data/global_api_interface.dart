@@ -5,4 +5,5 @@ abstract class GlobalApiInterface extends CenterApi {
   GlobalApiInterface({super.token});
 
   Stream<UserModel> getStreamUser(String id);
+  Future<UserModel> getUserById(String id);
 }

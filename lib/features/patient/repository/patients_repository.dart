@@ -1,4 +1,5 @@
 import 'package:iatros_web/core/models/diagnosis_model.dart';
+import 'package:iatros_web/core/models/medical_consultation_model.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/core/models/query_response_model.dart';
@@ -7,8 +8,8 @@ import 'package:iatros_web/features/patient/data/patients_api_interface.dart';
 
 abstract class PatientsRepositoryInterface {
   Future<QueryResponseModel<UserModel>> getUserById(String id);
-  Future<QueryResponseModel<UserModel>> createUsers(UserModel user);
   Future<QueryResponseModel<List<DiagnosisModel>>> searchDiagnoses(String query);
+  Future<QueryResponseModel<MedicalConsultationModel>> createMedicalConsultation(MedicalConsultationModel user);
 }
 
 class _PatientsRepository implements PatientsRepositoryInterface {
@@ -38,9 +39,9 @@ class _PatientsRepository implements PatientsRepositoryInterface {
   }
 
   @override
-  Future<QueryResponseModel<UserModel>> createUsers(UserModel user) async {
+  Future<QueryResponseModel<MedicalConsultationModel>> createMedicalConsultation(MedicalConsultationModel user) async {
     try {
-      final res = await _globalApi.createUsers(user);
+      final res = await _globalApi.createMedicalConsultation(user);
       return QueryResponseModel(data: res);
     } catch (e) {
       return QueryResponseModel(isSuccessful: false, message: e.toString());

@@ -111,11 +111,13 @@ class UserHiveModel extends HiveObject {
         professionalBiography: user.professionalBiography,
         identificationType: user.identificationType,
         identificationNumber: user.identificationNumber,
+        // ignore: unnecessary_type_check
         createdAt: user.createdAt is DateTime
-            ? user.createdAt as DateTime
+            ? user.createdAt
             : DateTime.parse(user.createdAt.toString()),
+        // ignore: unnecessary_type_check
         updateAt: user.updateAt is DateTime
-            ? user.updateAt as DateTime
+            ? user.updateAt
             : DateTime.parse(user.updateAt.toString()),
       );
 

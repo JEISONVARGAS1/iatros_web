@@ -21,12 +21,10 @@ class GlobalApi extends GlobalApiInterface {
           event: PostgresChangeEvent.all,
           filter: PostgresChangeFilter(
             value: id,
-            column: 'UID',
+            column: 'id',
             type: PostgresChangeFilterType.eq,
           ),
           callback: (payload) {
-            print('Cambio detectado en usuario $id: ${payload.newRecord}');
-
             try {
               final record = payload.newRecord.isNotEmpty
                   ? payload.newRecord
@@ -35,7 +33,6 @@ class GlobalApi extends GlobalApiInterface {
               final user = UserModel.fromJson(record);
               controller.add(user);
             } catch (e) {
-              print('Error procesando cambio de usuario: $e');
               controller.addError(e);
             }
           },
@@ -45,6 +42,18 @@ class GlobalApi extends GlobalApiInterface {
     controller.onCancel = () => _supabase.removeChannel(channel);
 
     return controller.stream;
+  }
+
+  @override
+  Future<UserModel> getUserById(String id) async {
+    final response = await _supabase
+        .from('users')
+        .select()
+        .eq('id', id)
+        .single();
+
+    final user = UserModel.fromJson(response);
+    return user;
   }
 }
 

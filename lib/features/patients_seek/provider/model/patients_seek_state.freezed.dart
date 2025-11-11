@@ -29,8 +29,25 @@ mixin _$PatientsSeekState {
       throw _privateConstructorUsedError;
   TextEditingController get lastNameController =>
       throw _privateConstructorUsedError;
+  TextEditingController get addressController =>
+      throw _privateConstructorUsedError;
+  TextEditingController get identificationNumberController =>
+      throw _privateConstructorUsedError;
+  ValueNotifier<String?> get selectedIdentificationTypeNotifier =>
+      throw _privateConstructorUsedError;
+  ValueNotifier<DateTime?> get dateOfBirthNotifier =>
+      throw _privateConstructorUsedError;
+  ValueNotifier<Gender?> get selectedGenderNotifier =>
+      throw _privateConstructorUsedError;
+  ValueNotifier<BloodType?> get selectedBloodTypeNotifier =>
+      throw _privateConstructorUsedError;
   String? get selectedIdentificationType => throw _privateConstructorUsedError;
   String? get identificationError => throw _privateConstructorUsedError;
+  DateTime? get dateOfBirth => throw _privateConstructorUsedError;
+  Gender? get selectedGender => throw _privateConstructorUsedError;
+  BloodType? get selectedBloodType => throw _privateConstructorUsedError;
+  double? get addressLatitude => throw _privateConstructorUsedError;
+  double? get addressLongitude => throw _privateConstructorUsedError;
 
   /// Create a copy of PatientsSeekState
   /// with the given fields replaced by the non-null parameter values.
@@ -55,8 +72,19 @@ abstract class $PatientsSeekStateCopyWith<$Res> {
       TextEditingController nameController,
       TextEditingController emailController,
       TextEditingController lastNameController,
+      TextEditingController addressController,
+      TextEditingController identificationNumberController,
+      ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      ValueNotifier<DateTime?> dateOfBirthNotifier,
+      ValueNotifier<Gender?> selectedGenderNotifier,
+      ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       String? selectedIdentificationType,
-      String? identificationError});
+      String? identificationError,
+      DateTime? dateOfBirth,
+      Gender? selectedGender,
+      BloodType? selectedBloodType,
+      double? addressLatitude,
+      double? addressLongitude});
 }
 
 /// @nodoc
@@ -83,8 +111,19 @@ class _$PatientsSeekStateCopyWithImpl<$Res, $Val extends PatientsSeekState>
     Object? nameController = null,
     Object? emailController = null,
     Object? lastNameController = null,
+    Object? addressController = null,
+    Object? identificationNumberController = null,
+    Object? selectedIdentificationTypeNotifier = null,
+    Object? dateOfBirthNotifier = null,
+    Object? selectedGenderNotifier = null,
+    Object? selectedBloodTypeNotifier = null,
     Object? selectedIdentificationType = freezed,
     Object? identificationError = freezed,
+    Object? dateOfBirth = freezed,
+    Object? selectedGender = freezed,
+    Object? selectedBloodType = freezed,
+    Object? addressLatitude = freezed,
+    Object? addressLongitude = freezed,
   }) {
     return _then(_value.copyWith(
       myUser: null == myUser
@@ -123,6 +162,31 @@ class _$PatientsSeekStateCopyWithImpl<$Res, $Val extends PatientsSeekState>
           ? _value.lastNameController
           : lastNameController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      addressController: null == addressController
+          ? _value.addressController
+          : addressController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      identificationNumberController: null == identificationNumberController
+          ? _value.identificationNumberController
+          : identificationNumberController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      selectedIdentificationTypeNotifier: null ==
+              selectedIdentificationTypeNotifier
+          ? _value.selectedIdentificationTypeNotifier
+          : selectedIdentificationTypeNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<String?>,
+      dateOfBirthNotifier: null == dateOfBirthNotifier
+          ? _value.dateOfBirthNotifier
+          : dateOfBirthNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<DateTime?>,
+      selectedGenderNotifier: null == selectedGenderNotifier
+          ? _value.selectedGenderNotifier
+          : selectedGenderNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<Gender?>,
+      selectedBloodTypeNotifier: null == selectedBloodTypeNotifier
+          ? _value.selectedBloodTypeNotifier
+          : selectedBloodTypeNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<BloodType?>,
       selectedIdentificationType: freezed == selectedIdentificationType
           ? _value.selectedIdentificationType
           : selectedIdentificationType // ignore: cast_nullable_to_non_nullable
@@ -131,6 +195,26 @@ class _$PatientsSeekStateCopyWithImpl<$Res, $Val extends PatientsSeekState>
           ? _value.identificationError
           : identificationError // ignore: cast_nullable_to_non_nullable
               as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      selectedGender: freezed == selectedGender
+          ? _value.selectedGender
+          : selectedGender // ignore: cast_nullable_to_non_nullable
+              as Gender?,
+      selectedBloodType: freezed == selectedBloodType
+          ? _value.selectedBloodType
+          : selectedBloodType // ignore: cast_nullable_to_non_nullable
+              as BloodType?,
+      addressLatitude: freezed == addressLatitude
+          ? _value.addressLatitude
+          : addressLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      addressLongitude: freezed == addressLongitude
+          ? _value.addressLongitude
+          : addressLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -154,8 +238,19 @@ abstract class _$$PatientsSeekStateDataImplCopyWith<$Res>
       TextEditingController nameController,
       TextEditingController emailController,
       TextEditingController lastNameController,
+      TextEditingController addressController,
+      TextEditingController identificationNumberController,
+      ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      ValueNotifier<DateTime?> dateOfBirthNotifier,
+      ValueNotifier<Gender?> selectedGenderNotifier,
+      ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       String? selectedIdentificationType,
-      String? identificationError});
+      String? identificationError,
+      DateTime? dateOfBirth,
+      Gender? selectedGender,
+      BloodType? selectedBloodType,
+      double? addressLatitude,
+      double? addressLongitude});
 }
 
 /// @nodoc
@@ -180,8 +275,19 @@ class __$$PatientsSeekStateDataImplCopyWithImpl<$Res>
     Object? nameController = null,
     Object? emailController = null,
     Object? lastNameController = null,
+    Object? addressController = null,
+    Object? identificationNumberController = null,
+    Object? selectedIdentificationTypeNotifier = null,
+    Object? dateOfBirthNotifier = null,
+    Object? selectedGenderNotifier = null,
+    Object? selectedBloodTypeNotifier = null,
     Object? selectedIdentificationType = freezed,
     Object? identificationError = freezed,
+    Object? dateOfBirth = freezed,
+    Object? selectedGender = freezed,
+    Object? selectedBloodType = freezed,
+    Object? addressLatitude = freezed,
+    Object? addressLongitude = freezed,
   }) {
     return _then(_$PatientsSeekStateDataImpl(
       myUser: null == myUser
@@ -220,6 +326,31 @@ class __$$PatientsSeekStateDataImplCopyWithImpl<$Res>
           ? _value.lastNameController
           : lastNameController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      addressController: null == addressController
+          ? _value.addressController
+          : addressController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      identificationNumberController: null == identificationNumberController
+          ? _value.identificationNumberController
+          : identificationNumberController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      selectedIdentificationTypeNotifier: null ==
+              selectedIdentificationTypeNotifier
+          ? _value.selectedIdentificationTypeNotifier
+          : selectedIdentificationTypeNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<String?>,
+      dateOfBirthNotifier: null == dateOfBirthNotifier
+          ? _value.dateOfBirthNotifier
+          : dateOfBirthNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<DateTime?>,
+      selectedGenderNotifier: null == selectedGenderNotifier
+          ? _value.selectedGenderNotifier
+          : selectedGenderNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<Gender?>,
+      selectedBloodTypeNotifier: null == selectedBloodTypeNotifier
+          ? _value.selectedBloodTypeNotifier
+          : selectedBloodTypeNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<BloodType?>,
       selectedIdentificationType: freezed == selectedIdentificationType
           ? _value.selectedIdentificationType
           : selectedIdentificationType // ignore: cast_nullable_to_non_nullable
@@ -228,6 +359,26 @@ class __$$PatientsSeekStateDataImplCopyWithImpl<$Res>
           ? _value.identificationError
           : identificationError // ignore: cast_nullable_to_non_nullable
               as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      selectedGender: freezed == selectedGender
+          ? _value.selectedGender
+          : selectedGender // ignore: cast_nullable_to_non_nullable
+              as Gender?,
+      selectedBloodType: freezed == selectedBloodType
+          ? _value.selectedBloodType
+          : selectedBloodType // ignore: cast_nullable_to_non_nullable
+              as BloodType?,
+      addressLatitude: freezed == addressLatitude
+          ? _value.addressLatitude
+          : addressLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      addressLongitude: freezed == addressLongitude
+          ? _value.addressLongitude
+          : addressLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -245,8 +396,19 @@ class _$PatientsSeekStateDataImpl implements PatientsSeekStateData {
       required this.nameController,
       required this.emailController,
       required this.lastNameController,
+      required this.addressController,
+      required this.identificationNumberController,
+      required this.selectedIdentificationTypeNotifier,
+      required this.dateOfBirthNotifier,
+      required this.selectedGenderNotifier,
+      required this.selectedBloodTypeNotifier,
       this.selectedIdentificationType,
-      this.identificationError})
+      this.identificationError,
+      this.dateOfBirth,
+      this.selectedGender,
+      this.selectedBloodType,
+      this.addressLatitude,
+      this.addressLongitude})
       : _users = users;
 
   @override
@@ -274,13 +436,35 @@ class _$PatientsSeekStateDataImpl implements PatientsSeekStateData {
   @override
   final TextEditingController lastNameController;
   @override
+  final TextEditingController addressController;
+  @override
+  final TextEditingController identificationNumberController;
+  @override
+  final ValueNotifier<String?> selectedIdentificationTypeNotifier;
+  @override
+  final ValueNotifier<DateTime?> dateOfBirthNotifier;
+  @override
+  final ValueNotifier<Gender?> selectedGenderNotifier;
+  @override
+  final ValueNotifier<BloodType?> selectedBloodTypeNotifier;
+  @override
   final String? selectedIdentificationType;
   @override
   final String? identificationError;
+  @override
+  final DateTime? dateOfBirth;
+  @override
+  final Gender? selectedGender;
+  @override
+  final BloodType? selectedBloodType;
+  @override
+  final double? addressLatitude;
+  @override
+  final double? addressLongitude;
 
   @override
   String toString() {
-    return 'PatientsSeekState(myUser: $myUser, userSub: $userSub, phoneNumber: $phoneNumber, users: $users, debouncer: $debouncer, identificationNumber: $identificationNumber, nameController: $nameController, emailController: $emailController, lastNameController: $lastNameController, selectedIdentificationType: $selectedIdentificationType, identificationError: $identificationError)';
+    return 'PatientsSeekState(myUser: $myUser, userSub: $userSub, phoneNumber: $phoneNumber, users: $users, debouncer: $debouncer, identificationNumber: $identificationNumber, nameController: $nameController, emailController: $emailController, lastNameController: $lastNameController, addressController: $addressController, identificationNumberController: $identificationNumberController, selectedIdentificationTypeNotifier: $selectedIdentificationTypeNotifier, dateOfBirthNotifier: $dateOfBirthNotifier, selectedGenderNotifier: $selectedGenderNotifier, selectedBloodTypeNotifier: $selectedBloodTypeNotifier, selectedIdentificationType: $selectedIdentificationType, identificationError: $identificationError, dateOfBirth: $dateOfBirth, selectedGender: $selectedGender, selectedBloodType: $selectedBloodType, addressLatitude: $addressLatitude, addressLongitude: $addressLongitude)';
   }
 
   @override
@@ -303,28 +487,65 @@ class _$PatientsSeekStateDataImpl implements PatientsSeekStateData {
                 other.emailController == emailController) &&
             (identical(other.lastNameController, lastNameController) ||
                 other.lastNameController == lastNameController) &&
-            (identical(other.selectedIdentificationType,
-                    selectedIdentificationType) ||
+            (identical(other.addressController, addressController) ||
+                other.addressController == addressController) &&
+            (identical(other.identificationNumberController,
+                    identificationNumberController) ||
+                other.identificationNumberController ==
+                    identificationNumberController) &&
+            (identical(other.selectedIdentificationTypeNotifier,
+                    selectedIdentificationTypeNotifier) ||
+                other.selectedIdentificationTypeNotifier ==
+                    selectedIdentificationTypeNotifier) &&
+            (identical(other.dateOfBirthNotifier, dateOfBirthNotifier) ||
+                other.dateOfBirthNotifier == dateOfBirthNotifier) &&
+            (identical(other.selectedGenderNotifier, selectedGenderNotifier) ||
+                other.selectedGenderNotifier == selectedGenderNotifier) &&
+            (identical(other.selectedBloodTypeNotifier, selectedBloodTypeNotifier) ||
+                other.selectedBloodTypeNotifier == selectedBloodTypeNotifier) &&
+            (identical(other.selectedIdentificationType, selectedIdentificationType) ||
                 other.selectedIdentificationType ==
                     selectedIdentificationType) &&
             (identical(other.identificationError, identificationError) ||
-                other.identificationError == identificationError));
+                other.identificationError == identificationError) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.selectedGender, selectedGender) ||
+                other.selectedGender == selectedGender) &&
+            (identical(other.selectedBloodType, selectedBloodType) ||
+                other.selectedBloodType == selectedBloodType) &&
+            (identical(other.addressLatitude, addressLatitude) ||
+                other.addressLatitude == addressLatitude) &&
+            (identical(other.addressLongitude, addressLongitude) ||
+                other.addressLongitude == addressLongitude));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      myUser,
-      userSub,
-      phoneNumber,
-      const DeepCollectionEquality().hash(_users),
-      debouncer,
-      identificationNumber,
-      nameController,
-      emailController,
-      lastNameController,
-      selectedIdentificationType,
-      identificationError);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        myUser,
+        userSub,
+        phoneNumber,
+        const DeepCollectionEquality().hash(_users),
+        debouncer,
+        identificationNumber,
+        nameController,
+        emailController,
+        lastNameController,
+        addressController,
+        identificationNumberController,
+        selectedIdentificationTypeNotifier,
+        dateOfBirthNotifier,
+        selectedGenderNotifier,
+        selectedBloodTypeNotifier,
+        selectedIdentificationType,
+        identificationError,
+        dateOfBirth,
+        selectedGender,
+        selectedBloodType,
+        addressLatitude,
+        addressLongitude
+      ]);
 
   /// Create a copy of PatientsSeekState
   /// with the given fields replaced by the non-null parameter values.
@@ -347,8 +568,19 @@ abstract class PatientsSeekStateData implements PatientsSeekState {
       required final TextEditingController nameController,
       required final TextEditingController emailController,
       required final TextEditingController lastNameController,
+      required final TextEditingController addressController,
+      required final TextEditingController identificationNumberController,
+      required final ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      required final ValueNotifier<DateTime?> dateOfBirthNotifier,
+      required final ValueNotifier<Gender?> selectedGenderNotifier,
+      required final ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       final String? selectedIdentificationType,
-      final String? identificationError}) = _$PatientsSeekStateDataImpl;
+      final String? identificationError,
+      final DateTime? dateOfBirth,
+      final Gender? selectedGender,
+      final BloodType? selectedBloodType,
+      final double? addressLatitude,
+      final double? addressLongitude}) = _$PatientsSeekStateDataImpl;
 
   @override
   UserModel get myUser;
@@ -369,9 +601,31 @@ abstract class PatientsSeekStateData implements PatientsSeekState {
   @override
   TextEditingController get lastNameController;
   @override
+  TextEditingController get addressController;
+  @override
+  TextEditingController get identificationNumberController;
+  @override
+  ValueNotifier<String?> get selectedIdentificationTypeNotifier;
+  @override
+  ValueNotifier<DateTime?> get dateOfBirthNotifier;
+  @override
+  ValueNotifier<Gender?> get selectedGenderNotifier;
+  @override
+  ValueNotifier<BloodType?> get selectedBloodTypeNotifier;
+  @override
   String? get selectedIdentificationType;
   @override
   String? get identificationError;
+  @override
+  DateTime? get dateOfBirth;
+  @override
+  Gender? get selectedGender;
+  @override
+  BloodType? get selectedBloodType;
+  @override
+  double? get addressLatitude;
+  @override
+  double? get addressLongitude;
 
   /// Create a copy of PatientsSeekState
   /// with the given fields replaced by the non-null parameter values.

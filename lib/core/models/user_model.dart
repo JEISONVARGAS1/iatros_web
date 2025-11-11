@@ -1,3 +1,6 @@
+import 'gender.dart';
+import 'blood_type.dart';
+
 enum TypeUser { DOCTOR, PATIENT }
 
 class UserModel {
@@ -5,18 +8,24 @@ class UserModel {
   final String name;
   final String phone;
   final String email;
+  final Gender? gender;
+  final String address;
   final String lastName;
+  final double? latitude;
+  final double? longitude;
+  final TypeUser typeUser;
   final DateTime updateAt;
   final DateTime createdAt;
-  final TypeUser typeUser;
+  final BloodType? bloodType;
   final String specialization;
   final String medicalLicense;
   final int yearsOfExperience;
+  final DateTime? dateOfBirth;
+  final String identificationType;
   final String professionalCardUrl;
   final String identityDocumentUrl;
-  final String professionalBiography;
-  final String identificationType;
   final String identificationNumber;
+  final String professionalBiography;
 
   UserModel({
     this.id,
@@ -35,6 +44,12 @@ class UserModel {
     required this.identityDocumentUrl,
     required this.professionalBiography,
     required this.identificationNumber,
+    this.address = "",
+    this.latitude,
+    this.longitude,
+    this.dateOfBirth,
+    this.gender,
+    this.bloodType,
   });
 
   UserModel copyWith({
@@ -54,23 +69,35 @@ class UserModel {
     String? professionalBiography,
     String? identificationType,
     String? identificationNumber,
+    String? address,
+    double? latitude,
+    double? longitude,
+    DateTime? dateOfBirth,
+    Gender? gender,
+    BloodType? bloodType,
   }) => UserModel(
     id: id ?? this.id,
     name: name ?? this.name,
     phone: phone ?? this.phone,
     email: email ?? this.email,
+    gender: gender ?? this.gender,
+    address: address ?? this.address,
+    latitude: latitude ?? this.latitude,
+    longitude: longitude ?? this.longitude,
     updateAt: updateAt ?? this.updateAt,
     typeUser: typeUser ?? this.typeUser,
     lastName: lastName ?? this.lastName,
+    bloodType: bloodType ?? this.bloodType,
     createdAt: createdAt ?? this.createdAt,
+    dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     medicalLicense: medicalLicense ?? this.medicalLicense,
     specialization: specialization ?? this.specialization,
     yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
+    identificationType: identificationType ?? this.identificationType,
     professionalCardUrl: professionalCardUrl ?? this.professionalCardUrl,
     identityDocumentUrl: identityDocumentUrl ?? this.identityDocumentUrl,
-    professionalBiography: professionalBiography ?? this.professionalBiography,
-    identificationType: identificationType ?? this.identificationType,
     identificationNumber: identificationNumber ?? this.identificationNumber,
+    professionalBiography: professionalBiography ?? this.professionalBiography,
   );
 
   factory UserModel.fromJson(json) => UserModel(
@@ -78,43 +105,48 @@ class UserModel {
     name: json["name"] ?? "",
     phone: json["phone"] ?? "",
     email: json["email"] ?? "",
-    createdAt: json["created_at"] != null
-        ? DateTime.parse(json["created_at"])
-        : DateTime.now(),
-
+    address: json["address"] ?? "",
+    latitude: json["latitude"]?.toDouble(),
+    longitude: json["longitude"]?.toDouble(),
     lastName: json["last_name"] ?? "",
-
-    updateAt: json["update_at"] != null
-        ? DateTime.parse(json["update_at"])
-        : DateTime.now(),
-
     specialization: json["specialization"] ?? "",
     medicalLicense: json["medical_license"] ?? "",
-    yearsOfExperience: json["years_experience"] ?? 0,
     typeUser: _generateTypeUser(json["type_user"]),
+    yearsOfExperience: json["years_experience"] ?? 0,
+    identificationType: json["identification_type"] ?? "",
     professionalCardUrl: json["professional_card_url"] ?? "",
     identityDocumentUrl: json["identity_document_url"] ?? "",
     professionalBiography: json["professional_biography"] ?? "",
-    identificationType: json["identification_type"] ?? "",
     identificationNumber: json["identification_number"] ?? "",
+    gender: json["gender"] != null ? _generateGender(json["gender"]) : null,
+    bloodType: json["blood_type"] != null ? bloodTypeFromString(json["blood_type"]) : null,
+    updateAt: json["update_at"] != null ? DateTime.parse(json["update_at"]): DateTime.now(),
+    dateOfBirth: json["date_of_birth"] != null ? DateTime.parse(json["date_of_birth"]) : null,
+    createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : DateTime.now(),
   );
 
   factory UserModel.init() => UserModel(
     name: "",
     email: "",
     phone: "",
+    address: "",
+    latitude: null,
+    longitude: null,
     lastName: "",
+    gender: null,
+    bloodType: null,
+    dateOfBirth: null,
     specialization: "",
     medicalLicense: "",
     yearsOfExperience: 0,
+    identificationType: "",
     professionalCardUrl: "",
     identityDocumentUrl: "",
-    typeUser: TypeUser.DOCTOR,
     updateAt: DateTime.now(),
+    identificationNumber: "",
+    typeUser: TypeUser.DOCTOR,
     createdAt: DateTime.now(),
     professionalBiography: "",
-    identificationType: "",
-    identificationNumber: "",
   );
 
   Map<String, dynamic> toJson() {
@@ -134,9 +166,25 @@ class UserModel {
       "professional_biography": professionalBiography,
       "identification_type": identificationType,
       "identification_number": identificationNumber,
+      "address": address,
     };
 
     if (id != null) data["id"] = id!;
+    if (dateOfBirth != null) {
+      data["date_of_birth"] = dateOfBirth!.toIso8601String();
+    }
+    if (gender != null) {
+      data["gender"] = gender!.name;
+    }
+    if (bloodType != null) {
+      data["blood_type"] = bloodType!.value;
+    }
+    if (latitude != null) {
+      data["latitude"] = latitude as Object;
+    }
+    if (longitude != null) {
+      data["longitude"] = longitude as Object;
+    }
 
     return data;
   }
@@ -150,5 +198,18 @@ TypeUser _generateTypeUser(String? text) {
     return TypeUser.PATIENT;
   } else {
     return TypeUser.DOCTOR;
+  }
+}
+
+Gender _generateGender(String? text) {
+  switch (text?.toLowerCase()) {
+    case 'male':
+      return Gender.male;
+    case 'female':
+      return Gender.female;
+    case 'other':
+      return Gender.other;
+    default:
+      return Gender.other;
   }
 }

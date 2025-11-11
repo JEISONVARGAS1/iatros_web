@@ -107,7 +107,7 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                                   style: TextStyle(
                                     color: AppColors.primaryDark,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                    fontSize: 25,
                                   ),
                                 ),
                                 const SizedBox(height: 40),
@@ -155,7 +155,7 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                                   title: "Cerrar sesión",
                                   icon: Icons.logout,
                                   isLogout: true,
-                                  onTap: () => controller.logout(),
+                                  onTap: () => _showLogoutConfirmation(context, controller),
                                 ),
                                 SizedBox(height: context.sizeHeight(0.02)),
                               ],
@@ -189,6 +189,77 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
     );
   }
 
+  void _showLogoutConfirmation(BuildContext context, LobbyController controller) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.logout,
+                color: AppColors.error,
+                size: 28,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Cerrar sesión',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            '¿Estás seguro de que quieres cerrar sesión?',
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                controller.logout();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.error,
+                foregroundColor: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              ),
+              child: const Text(
+                'Cerrar sesión',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildNavTile({
     required String title,
     required IconData icon,
@@ -209,11 +280,15 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
           border: Border.all(
             color: selected
                 ? AppColors.primary.withOpacity(0.3)
+                : isLogout
+                ? AppColors.error.withOpacity(0.4)
                 : AppColors.white.withOpacity(0.1),
-            width: selected ? 2.0 : 1.5,
+            width: selected ? 2.0 : isLogout ? 2.0 : 1.5,
           ),
           backgroundColor: selected
               ? AppColors.primary.withOpacity(0.1)
+              : isLogout
+              ? AppColors.error.withOpacity(0.05)
               : AppColors.surface.withOpacity(0.05),
           child: ListTile(
             contentPadding: EdgeInsets.zero,
@@ -224,7 +299,7 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                   : selected
                   ? AppColors.primaryDark
                   : AppColors.gray500,
-              size: 22,
+              size: isLogout ? 24 : 22,
             ),
             title: Text(
               title,
@@ -234,8 +309,12 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                     : selected
                     ? AppColors.primaryDark
                     : AppColors.textSecondary,
-                fontWeight: selected ? FontWeight.w900 : FontWeight.w300,
-                fontSize: selected ? 16 : 15,
+                fontWeight: selected
+                    ? FontWeight.w900
+                    : isLogout
+                    ? FontWeight.w600
+                    : FontWeight.w300,
+                fontSize: selected ? 16 : isLogout ? 16 : 15,
                 letterSpacing: 0.1,
               ),
             ),

@@ -3,6 +3,8 @@ import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/models/gender.dart';
+import 'package:iatros_web/core/models/blood_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:iatros_web/uikit/utils/custom_show_dialog.dart';
 import 'package:iatros_web/features/patients_seek/repository/patients_seek_repository.dart';
@@ -47,6 +49,12 @@ class PatientsSeekController extends _$PatientsSeekController {
       lastName: state.value!.lastNameController.text,
       identificationNumber: state.value!.identificationNumber,
       identificationType: state.value!.selectedIdentificationType,
+      address: state.value!.addressController.text,
+      dateOfBirth: state.value!.dateOfBirth,
+      gender: state.value!.selectedGender,
+      bloodType: state.value!.selectedBloodType,
+      latitude: state.value!.addressLatitude,
+      longitude: state.value!.addressLongitude,
     );
 
     final res = await repository.createUsers(patient);
@@ -63,12 +71,32 @@ class PatientsSeekController extends _$PatientsSeekController {
 
   setPhoneNumber(String? value) =>
       _setState(state.value!.copyWith(phoneNumber: value));
-  setIdentificationNumber(String? value) =>
-      _setState(state.value!.copyWith(identificationNumber: value ?? ""));
-  setSelectedIdentificationType(String? value) =>
-      _setState(state.value!.copyWith(selectedIdentificationType: value));
+  setIdentificationNumber(String? value) {
+    final newValue = value ?? "";
+    _setState(state.value!.copyWith(identificationNumber: newValue));
+  }
+  setSelectedIdentificationType(String? value) {
+    _setState(state.value!.copyWith(selectedIdentificationType: value));
+    state.value!.selectedIdentificationTypeNotifier.value = value;
+  }
   setIdentificationError(String? value) =>
       _setState(state.value!.copyWith(identificationError: value));
+  setDateOfBirth(DateTime? value) {
+    _setState(state.value!.copyWith(dateOfBirth: value));
+    state.value!.dateOfBirthNotifier.value = value;
+  }
+  setSelectedGender(Gender? value) {
+    _setState(state.value!.copyWith(selectedGender: value));
+    state.value!.selectedGenderNotifier.value = value;
+  }
+  setSelectedBloodType(BloodType? value) {
+    _setState(state.value!.copyWith(selectedBloodType: value));
+    state.value!.selectedBloodTypeNotifier.value = value;
+  }
+  setAddressLatitude(double? value) =>
+      _setState(state.value!.copyWith(addressLatitude: value));
+  setAddressLongitude(double? value) =>
+      _setState(state.value!.copyWith(addressLongitude: value));
 
   Future<void> showCreatePatients(
     BuildContext context, {
@@ -80,8 +108,6 @@ class PatientsSeekController extends _$PatientsSeekController {
     title: title,
     description: description,
     body: FormCreatePatient(
-      controller: this,
-      state: state.value!,
       goToPatient: goToPatient,
     ),
   );

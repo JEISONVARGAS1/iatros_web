@@ -193,7 +193,7 @@ class ObjectivePhysicalExamination extends StatelessWidget {
           Center(
             child: PrimaryButton(
               label: 'Guardar Consulta',
-              onPressed: () => controller.saveConsultation(context),
+              onPressed: () => controller.createMedicalConsultation(context),
             ),
           ),
         ],

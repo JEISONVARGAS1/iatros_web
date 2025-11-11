@@ -1,36 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:iatros_web/features/patients_seek/provider/patients_seek_controller.dart';
 import 'package:iatros_web/features/patients_seek/provider/model/patients_seek_state.dart';
 
-class FormCreatePatient extends StatefulWidget {
-  final PatientsSeekState state;
+class FormCreatePatient extends ConsumerStatefulWidget {
   final Function(UserModel) goToPatient;
-  final PatientsSeekController controller;
 
   const FormCreatePatient({
     super.key,
-    required this.state,
-    required this.controller,
     required this.goToPatient,
   });
 
   @override
-  State<FormCreatePatient> createState() => _FormCreatePatientState();
+  ConsumerState<FormCreatePatient> createState() => _FormCreatePatientState();
 }
 
-class _FormCreatePatientState extends State<FormCreatePatient> {
-  String? errorMessage;
+class _FormCreatePatientState extends ConsumerState<FormCreatePatient> {
   String? phoneErrorMessage;
   late String phoneData = "";
-  String? identificationType;
-  late String identification = "";
   final _formKey = GlobalKey<FormState>();
+  bool _hasTriedToValidate = false; // Flag para saber si se intentó validar
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(patientsSeekControllerProvider);
+    final controller = ref.read(patientsSeekControllerProvider.notifier);
+
+    return state.when(
+      data: (data) => _buildForm(context, data, controller),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+    );
+  }
+
+  Widget _buildForm(BuildContext context, PatientsSeekState state, PatientsSeekController controller) {
     return Form(
       key: _formKey,
       child: Column(
@@ -45,7 +51,7 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
                 child: TextInput(
                   label: 'Nombre',
                   hint: 'Tu nombre',
-                  controller: widget.state.nameController,
+                  controller: state.nameController,
                   isRequired: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -63,7 +69,7 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
                 child: TextInput(
                   label: 'Apellido',
                   hint: 'Tu apellido',
-                  controller: widget.state.lastNameController,
+                  controller: state.lastNameController,
                   isRequired: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -83,7 +89,7 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
           TextInput(
             label: 'Correo electrónico',
             hint: 'tu@email.com',
-            controller: widget.state.emailController,
+            controller: state.emailController,
             keyboardType: TextInputType.emailAddress,
             isRequired: true,
             validator: (value) {
@@ -101,17 +107,13 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
           UIHelpers.verticalSpaceMD,
 
           IdentificationSelector(
-            selectedType: identificationType,
-            identificationNumber: identification,
-            errorText: errorMessage,
-            onTypeChanged: (value) {
-              setState(() => identificationType = value);
-              widget.controller.setSelectedIdentificationType(value);
-            },
-            onNumberChanged: (value) {
-              setState(() => identification = value);
-              widget.controller.setIdentificationNumber(value);
-            },
+            selectedTypeNotifier: state.selectedIdentificationTypeNotifier,
+            numberController: state.identificationNumberController,
+            errorText: (state.selectedIdentificationType == null || state.identificationNumber.isEmpty) && _hasTriedToValidate
+                ? 'La identificación es requerida'
+                : null,
+            onTypeChanged: controller.setSelectedIdentificationType,
+            onNumberChanged: controller.setIdentificationNumber,
             isRequired: true,
           ),
           UIHelpers.verticalSpaceMD,
@@ -171,7 +173,7 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
                 ),
                 initialCountryCode: 'CO',
                 onChanged: (phone) {
-                  widget.controller.setPhoneNumber(phone.completeNumber);
+                  controller.setPhoneNumber(phone.completeNumber);
                   setState(() {
                     phoneData = phone.completeNumber;
                     phoneErrorMessage = null;
@@ -201,19 +203,75 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
 
           UIHelpers.verticalSpaceMD,
 
+          AddressAutocompleteInput(
+            label: 'Dirección de Residencia',
+            hint: 'Busca tu dirección',
+            controller: state.addressController,
+            isRequired: true,
+            errorText:
+                (state.addressController.text.isEmpty &&
+                    _hasTriedToValidate)
+                ? 'La dirección es requerida'
+                : null,
+            onAddressSelected: (address) {
+              setState(() {
+                // La dirección ya se actualiza en el controller
+              });
+            },
+            onPlaceDetailsSelected: (placeDetails) {
+              setState(() {
+                controller.setAddressLatitude(placeDetails.latitude);
+                controller.setAddressLongitude(placeDetails.longitude);
+                state.addressController.text =
+                    placeDetails.formattedAddress;
+              });
+            },
+          ),
+          UIHelpers.verticalSpaceMD,
+          DatePickerInput(
+            isRequired: true,
+            label: 'Fecha de Nacimiento',
+            selectedDateNotifier: state.dateOfBirthNotifier,
+            onDateSelected: controller.setDateOfBirth,
+            lastDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+            errorText: state.dateOfBirth == null && _hasTriedToValidate
+                ? 'La fecha de nacimiento es requerida'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
+          GenderSelector(
+            selectedGenderNotifier: state.selectedGenderNotifier,
+            onChanged: controller.setSelectedGender,
+            isRequired: true,
+            errorText:
+                state.selectedGender == null && _hasTriedToValidate
+                ? 'El sexo es requerido'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
+          BloodTypeSelector(
+            selectedBloodTypeNotifier: state.selectedBloodTypeNotifier,
+            onChanged: controller.setSelectedBloodType,
+            isRequired: true,
+            errorText:
+                state.selectedBloodType == null && _hasTriedToValidate
+                ? 'El grupo sanguíneo es requerido'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
           Center(
             child: SecondaryButton(
               label: "Crear paciente",
               onPressed: () {
-                setState(() => errorMessage = null);
+                setState(() => _hasTriedToValidate = true);
 
                 // Validate form
                 if (_formKey.currentState!.validate()) {
                   // Additional validation for identification
-                  if (identificationType == null || identification.isEmpty) {
-                    setState(
-                      () => errorMessage = 'La identificación es requerida',
-                    );
+                  if (state.selectedIdentificationType == null || state.identificationNumber.isEmpty) {
                     return;
                   }
                   if (phoneData.isEmpty) {
@@ -222,8 +280,17 @@ class _FormCreatePatientState extends State<FormCreatePatient> {
                     });
                     return;
                   }
+                  if (state.dateOfBirth == null) {
+                    return;
+                  }
+                  if (state.selectedGender == null) {
+                    return;
+                  }
+                  if (state.selectedBloodType == null) {
+                    return;
+                  }
 
-                  widget.controller.createPatient(
+                  controller.createPatient(
                     context,
                     (user) => widget.goToPatient(user),
                   );

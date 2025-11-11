@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iatros_web/uikit/index.dart';
+import 'package:iatros_web/core/models/gender.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/models/blood_type.dart';
 import 'package:iatros_web/features/auth/provider/auth_controller.dart';
 import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
-import 'package:iatros_web/router.dart';
 import 'package:iatros_web/uikit/extensions/context_extension.dart';
-import 'package:iatros_web/uikit/index.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -28,24 +30,32 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   String _phoneNumber = '';
   final _bioController = TextEditingController();
   final _yearsExperienceController = TextEditingController();
+  final _addressController = TextEditingController();
 
   int _currentPage = 0;
+  bool _hasTriedToValidate = false; // Flag para saber si se intentó validar
   String? _selectedSpecialization;
   dynamic _professionalCardImage; // Cambiar a dynamic
   dynamic _identityDocumentImage; // Cambiar a dynamic
   String? _selectedIdentificationType;
   String _identificationNumber = '';
+  DateTime? _dateOfBirth;
+  Gender? _selectedGender;
+  BloodType? _selectedBloodType;
+  double? _addressLatitude;
+  double? _addressLongitude;
 
   @override
   void dispose() {
+    _bioController.dispose();
     _pageController.dispose();
     _nameController.dispose();
-    _lastNameController.dispose();
     _emailController.dispose();
+    _addressController.dispose();
+    _lastNameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _medicalLicenseController.dispose();
-    _bioController.dispose();
     _yearsExperienceController.dispose();
     super.dispose();
   }
@@ -56,10 +66,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final authController = ref.read(authControllerProvider.notifier);
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
-      if (next.errorMessage != null) {
+      if (next.errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage!),
+            content: Text(next.errorMessage),
             backgroundColor: AppColors.error,
           ),
         );
@@ -128,6 +138,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         onPageChanged: (page) {
                           setState(() {
                             _currentPage = page;
+                            _hasTriedToValidate =
+                                false; // Reset al cambiar de página
                           });
                         },
                         children: [
@@ -169,6 +181,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               : PrimaryButton(
                                   label: 'Siguiente',
                                   onPressed: () {
+                                    setState(() => _hasTriedToValidate = true);
                                     if (_validateCurrentStep()) {
                                       _pageController.nextPage(
                                         duration: const Duration(
@@ -283,9 +296,80 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           ),
           UIHelpers.verticalSpaceMD,
 
+          AddressAutocompleteInput(
+            label: 'Dirección de Residencia',
+            hint: 'Busca tu dirección',
+            controller: _addressController,
+            isRequired: true,
+            errorText:
+                (_addressController.text.isEmpty &&
+                    _hasTriedToValidate &&
+                    _currentPage == 0)
+                ? 'La dirección es requerida'
+                : null,
+            onAddressSelected: (address) {
+              setState(() {
+                // La dirección ya se actualiza en el controller
+              });
+            },
+            onPlaceDetailsSelected: (placeDetails) {
+              setState(() {
+                _addressLatitude = placeDetails.latitude;
+                _addressLongitude = placeDetails.longitude;
+                _addressController.text = placeDetails.formattedAddress;
+              });
+            },
+          ),
+          UIHelpers.verticalSpaceMD,
+
+          DatePickerInput(
+            label: 'Fecha de Nacimiento',
+            onDateSelected: (date) {
+              setState(() {
+                _dateOfBirth = date;
+              });
+            },
+            isRequired: true,
+            errorText:
+                _dateOfBirth == null && _hasTriedToValidate && _currentPage == 0
+                ? 'La fecha de nacimiento es requerida'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
+          GenderSelector(
+            onChanged: (value) {
+              setState(() {
+                _selectedGender = value;
+              });
+            },
+            isRequired: true,
+            errorText:
+                _selectedGender == null &&
+                    _hasTriedToValidate &&
+                    _currentPage == 0
+                ? 'El sexo es requerido'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
+          BloodTypeSelector(
+            onChanged: (value) {
+              setState(() {
+                _selectedBloodType = value;
+              });
+            },
+            isRequired: true,
+            errorText:
+                _selectedBloodType == null &&
+                    _hasTriedToValidate &&
+                    _currentPage == 0
+                ? 'El grupo sanguíneo es requerido'
+                : null,
+          ),
+          UIHelpers.verticalSpaceMD,
+
           IdentificationSelector(
-            selectedType: _selectedIdentificationType,
-            identificationNumber: _identificationNumber,
             onTypeChanged: (value) {
               setState(() {
                 _selectedIdentificationType = value;
@@ -532,7 +616,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       case 0:
         return _formKey.currentState!.validate() &&
             _selectedIdentificationType != null &&
-            _identificationNumber.isNotEmpty;
+            _identificationNumber.isNotEmpty &&
+            _dateOfBirth != null &&
+            _selectedGender != null &&
+            _selectedBloodType != null;
       case 1:
         return _selectedSpecialization != null;
       case 2:
@@ -558,6 +645,33 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor ingresa tu número de identificación'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+    if (_dateOfBirth == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor selecciona tu fecha de nacimiento'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+    if (_selectedGender == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor selecciona tu sexo'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+    if (_selectedBloodType == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor selecciona tu grupo sanguíneo'),
           backgroundColor: AppColors.error,
         ),
       );
@@ -606,6 +720,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           : 0,
       identificationType: _selectedIdentificationType!,
       identificationNumber: _identificationNumber,
+      address: _addressController.text.trim(),
+      latitude: _addressLatitude,
+      longitude: _addressLongitude,
+      dateOfBirth: _dateOfBirth!,
+      gender: _selectedGender!,
+      bloodType: _selectedBloodType!,
     );
     ref
         .read(authControllerProvider.notifier)

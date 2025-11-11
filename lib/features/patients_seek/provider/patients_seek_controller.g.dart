@@ -7,7 +7,7 @@ part of 'patients_seek_controller.dart';
 // **************************************************************************
 
 String _$patientsSeekControllerHash() =>
-    r'd4ce970357de9eb560b096b5afd89cbbc9a10e3a';
+    r'804543ac1d6afa87c7cf36c813f5c01c44b52d7c';
 
 /// See also [PatientsSeekController].
 @ProviderFor(PatientsSeekController)

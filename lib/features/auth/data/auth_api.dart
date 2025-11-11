@@ -12,8 +12,9 @@ class AuthApi extends AuthApiInterface {
 
   @override
   Future<UserModel> login(String email, String password) async {
-    await _supabase.auth.signInWithPassword(email: email, password: password);
-    return UserModel.init();
+    final item = await _supabase.auth.signInWithPassword(email: email, password: password);
+    final user = UserModel.init().copyWith(email: email, id: item.user!.id);
+    return user;
   }
 
   @override

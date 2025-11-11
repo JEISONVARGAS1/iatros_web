@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iatros_web/features/home/provider/home_controller.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -10,8 +12,23 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) =>
+          ref.read(homeControllerProvider.notifier).init(), 
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    final state = ref.watch(homeControllerProvider).value!;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +57,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             children: [
                               Text("name", style: AppTypography.h5),
                               Text(
-                                "jeison vargas",
+                                "${state.myUser.name} ${state.myUser.lastName}",
                                 style: AppTypography.bodySmall,
                               ),
                             ],

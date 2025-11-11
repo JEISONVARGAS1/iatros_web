@@ -1,0 +1,23 @@
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$patientsSeekControllerHash() =>
+    r'804543ac1d6afa87c7cf36c813f5c01c44b52d7c';
+
+/// See also [PatientsSeekController].
+@ProviderFor(PatientsSeekController)
+final patientsSeekControllerProvider = AutoDisposeAsyncNotifierProvider<
+    PatientsSeekController, PatientsSeekState>.internal(
+  PatientsSeekController.new,
+  name: r'patientsSeekControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$patientsSeekControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$PatientsSeekController = AutoDisposeAsyncNotifier<PatientsSeekState>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

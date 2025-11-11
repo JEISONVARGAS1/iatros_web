@@ -6,6 +6,7 @@ import 'package:iatros_web/core/models/query_response_model.dart';
 
 abstract class GlobalRepositoryInterface {
   QueryResponseModel<Stream<UserModel>> getUserStream(String id);
+  Future<QueryResponseModel<UserModel>> getUserById(String id);
 }
 
 class _GlobalRepository implements GlobalRepositoryInterface {
@@ -17,6 +18,16 @@ class _GlobalRepository implements GlobalRepositoryInterface {
   QueryResponseModel<Stream<UserModel>> getUserStream(String id) {
     try {
       final res = _globalApi.getStreamUser(id);
+      return QueryResponseModel(data: res);
+    } catch (e) {
+      return QueryResponseModel(isSuccessful: false, message: e.toString());
+    }
+  }
+
+  @override
+  Future<QueryResponseModel<UserModel>> getUserById(String id) async {
+    try {
+      final res = await _globalApi.getUserById(id);
       return QueryResponseModel(data: res);
     } catch (e) {
       return QueryResponseModel(isSuccessful: false, message: e.toString());

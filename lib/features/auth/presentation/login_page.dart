@@ -1,3 +1,4 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
@@ -31,10 +32,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final controller = ref.read(authControllerProvider.notifier);
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
-      if (next.errorMessage != null) {
+      if (next.errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage!),
+            content: Text(next.errorMessage),
             backgroundColor: AppColors.error,
           ),
         );
@@ -44,6 +45,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Navigate to lobby on successful login
       if (previous?.isAuthenticated == false && next.isAuthenticated) {
         context.go(AppRoutes.lobby.path);
+        // Prevent back button from going to login page
+        html.window.history.pushState(null, '', AppRoutes.lobby.path);
       }
     });
 

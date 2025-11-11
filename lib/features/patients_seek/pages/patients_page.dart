@@ -46,7 +46,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
                   controller: _searchController,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: 'Buscar paciente...',
+                    hintText: 'Buscar paciente por documento...',
                     filled: true,
                     fillColor: AppColors.surface,
                     contentPadding: const EdgeInsets.symmetric(
