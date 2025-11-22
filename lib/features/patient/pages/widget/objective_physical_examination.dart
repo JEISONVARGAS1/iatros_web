@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:iatros_web/features/patient/provider/model/patient_state.dart';
-import 'package:iatros_web/features/patient/provider/patient_controller.dart';
 import 'package:iatros_web/uikit/index.dart' hide TextInput;
-import 'package:iatros_web/uikit/components/inputs/text_input.dart'
-    as CustomTextInput;
+import 'package:iatros_web/uikit/components/inputs/resizable_input.dart';
+import 'package:iatros_web/features/patient/provider/patient_controller.dart';
+import 'package:iatros_web/features/patient/provider/model/patient_state.dart';
+import 'package:iatros_web/uikit/components/inputs/text_input.dart' as CustomTextInput;
 
 class ObjectivePhysicalExamination extends StatelessWidget {
   final PatientState state;
@@ -22,22 +22,19 @@ class ObjectivePhysicalExamination extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTextInput.TextInput(
-            label: 'Motivo de la consulta',
+          ResizableInput(
+            hintText: 'Motivo de la consulta',
             controller: state.reasonController,
-            maxLines: 3,
           ),
           UIHelpers.verticalSpaceMD,
-          CustomTextInput.TextInput(
-            label: 'Enfermedad actual y revisión por sistemas',
+          ResizableInput(
+            hintText: 'Enfermedad actual y revisión por sistemas',
             controller: state.diseaseAndReviewBySystemsController,
-            maxLines: 3,
           ),
           UIHelpers.verticalSpaceMD,
-          CustomTextInput.TextInput(
-            label: 'Antecedentes',
+          ResizableInput(
+            hintText: 'Antecedentes',
             controller: state.backgroundController,
-            maxLines: 3,
           ),
           UIHelpers.verticalSpaceLG,
           Text('Objetivo - Examen fisico', style: AppTypography.h5),
@@ -151,7 +148,7 @@ class ObjectivePhysicalExamination extends StatelessWidget {
                 child: CustomTextInput.TextInput(
                   maxLength: 3,
                   label: 'Altura',
-                  hint: "Metros",
+                  hint: "Centímetros",
                   controller: state.heightController,
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -161,6 +158,7 @@ class ObjectivePhysicalExamination extends StatelessWidget {
               Expanded(
                 child: CustomTextInput.TextInput(
                   hint: "Kg",
+                  maxLength: 3,
                   label: 'Peso',
                   controller: state.weightController,
                   keyboardType: TextInputType.number,
@@ -171,6 +169,7 @@ class ObjectivePhysicalExamination extends StatelessWidget {
               Expanded(
                 child: CustomTextInput.TextInput(
                   label: 'IMC',
+                  isReadOnly: true,
                   hint: "Índice de masa corporal",
                   controller: state.imcController,
                   keyboardType: TextInputType.number,
@@ -183,10 +182,16 @@ class ObjectivePhysicalExamination extends StatelessWidget {
           UIHelpers.verticalSpaceLG,
 
           // Paraclínicos
-          CustomTextInput.TextInput(
-            label: 'Paraclínicos',
+          ResizableInput(
+            hintText: 'Paraclínicos',
             controller: state.paraclinicalController,
-            maxLines: 5,
+          ),
+          UIHelpers.verticalSpaceLG,
+
+          // Paraclínicos
+          ResizableInput(
+            hintText: 'Análisis y plan',
+            controller: state.analysisAndPlanController,
           ),
           UIHelpers.verticalSpaceLG,
 

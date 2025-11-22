@@ -6,7 +6,7 @@ part of 'patient_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$patientControllerHash() => r'70e91f11be0770cace06d1cc8dd63536333bc8bb';
+String _$patientControllerHash() => r'7d2fde407055fe99976ee5cf863c248189112ae1';
 
 /// See also [PatientController].
 @ProviderFor(PatientController)

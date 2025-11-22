@@ -45,7 +45,8 @@ class _MultiSelectDropdownState<T> extends State<MultiSelectDropdown<T>> {
   @override
   Widget build(BuildContext context) {
     final filteredOptions = widget.options.where((option) {
-      return widget
+      return !widget.selectedItems.contains(option) &&
+        widget
           .displayText(option)
           .toLowerCase()
           .contains(_searchText.toLowerCase());
@@ -133,23 +134,41 @@ class _MultiSelectDropdownState<T> extends State<MultiSelectDropdown<T>> {
         // Selected items display (below search)
         if (widget.selectedItems.isNotEmpty) ...[
           UIHelpers.verticalSpaceSM,
-          Wrap(
-            spacing: AppSpacing.xs,
-            runSpacing: AppSpacing.xs,
+          Column(
             children: widget.selectedItems.map((item) {
-              return Chip(
-                label: Text(
-                  widget.displayText(item),
-                  style: AppTypography.caption,
+              return Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(AppSpacing.paddingMD),
+                margin: EdgeInsets.only(bottom: AppSpacing.xs),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusMD),
                 ),
-                onDeleted: () {
-                  final newSelected = List<T>.from(widget.selectedItems)
-                    ..remove(item);
-                  widget.onChanged(newSelected);
-                },
-                deleteIcon: const Icon(Icons.close, size: 16),
-                backgroundColor: AppColors.primary.withOpacity(0.1),
-                deleteIconColor: AppColors.primary,
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: true,
+                      onChanged: (value) {
+                        if (value == false) {
+                          final newSelected = List<T>.from(widget.selectedItems)
+                            ..remove(item);
+                          widget.onChanged(newSelected);
+                        }
+                      },
+                      activeColor: AppColors.primary,
+                    ),
+                    SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        widget.displayText(item),
+                        style: AppTypography.bodyMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             }).toList(),
           ),

@@ -824,6 +824,30 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "syncfusion_flutter_calendar",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/syncfusion_flutter_calendar-31.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-31.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "syncfusion_flutter_datepicker",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/syncfusion_flutter_datepicker-31.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "syncfusion_localizations",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/syncfusion_localizations-31.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/term_glyph-1.2.2",
       "packageUri": "lib/",
@@ -834,6 +858,12 @@
       "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/test_api-0.7.4",
       "packageUri": "lib/",
       "languageVersion": "3.5"
+    },
+    {
+      "name": "timezone",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/timezone-0.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "timing",

@@ -6,5 +6,6 @@ import 'package:iatros_web/core/models/user_model.dart';
 abstract class PatientsInterface extends CenterApi {
   Future<UserModel> getUserById(String document);
   Future<List<DiagnosisModel>> searchDiagnoses(String query);
+  Future<void> saveDiagnosesMedicalConsultation(String diagnosisId, String consultationId);
   Future<MedicalConsultationModel> createMedicalConsultation(MedicalConsultationModel user);
 }

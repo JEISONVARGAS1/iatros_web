@@ -32,7 +32,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
         children: [
           UIHelpers.verticalSpaceXL,
           // Título
-          Text('paciente', style: AppTypography.h3),
+          Text('Paciente', style: AppTypography.h3),
           UIHelpers.verticalSpaceLG,
           // Buscador estilo Google
           Center(
@@ -46,7 +46,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
                   controller: _searchController,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: 'Buscar paciente por documento...',
+                    hintText: 'Buscar pasiente por documento...',
                     filled: true,
                     fillColor: AppColors.surface,
                     contentPadding: const EdgeInsets.symmetric(
@@ -117,14 +117,14 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
             onPressed: () async {
               await controller.showCreatePatients(
                 context,
-                title: "Crear paciente",
+                title: "Crear pasiente",
                 goToPatient: (user) {
                   if (user.id != null && context.mounted) {
                     controller.goToPatient(context, user);
                   }
                 },
                 description:
-                    "Ingresa los datos iniciales de un paciente para poder dar inicio con su historial medico",
+                    "Ingresa los datos iniciales de un pasiente para poder dar inicio con su historial medico",
               );
             },
           ),

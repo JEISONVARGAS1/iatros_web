@@ -20,7 +20,7 @@ class _PatientPageState extends ConsumerState<PatientPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) =>
-          ref.read(patientControllerProvider.notifier).initPage(widget.userId), 
+          ref.read(patientControllerProvider.notifier).initPage(widget.userId),
     );
     super.initState();
   }
@@ -107,24 +107,20 @@ class _PatientPageState extends ConsumerState<PatientPage> {
                                   UIHelpers.verticalSpaceLG,
                                 ] else ...[
                                   const Center(
-                                    child: Text('Seleccione un paciente'),
+                                    child: Text('Seleccione un pasiente'),
                                   ),
                                 ],
 
                                 UIHelpers.verticalSpaceLG,
 
                                 Text('Diagnósticos', style: AppTypography.h4),
-
                                 UIHelpers.verticalSpaceMD,
                                 MultiSelectDropdown<DiagnosisModel>(
                                   options: state.diagnosesFound,
                                   hint: 'Buscar y seleccionar diagnósticos...',
                                   selectedItems: state.selectedDiagnoses,
-                                  onChanged: (diagnoses) {
-                                    controller.updateSelectedDiagnoses(
-                                      diagnoses,
-                                    );
-                                  },
+                                  onChanged: (diagnoses) => controller
+                                      .updateSelectedDiagnoses(diagnoses),
                                   displayText: (diagnosis) =>
                                       '${diagnosis.name} (${diagnosis.code})',
                                   onSearch: (query) async =>

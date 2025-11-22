@@ -10,6 +10,7 @@ abstract class PatientsRepositoryInterface {
   Future<QueryResponseModel<UserModel>> getUserById(String id);
   Future<QueryResponseModel<List<DiagnosisModel>>> searchDiagnoses(String query);
   Future<QueryResponseModel<MedicalConsultationModel>> createMedicalConsultation(MedicalConsultationModel user);
+  Future<QueryResponseModel<MedicalConsultationModel>> saveDiagnosesMedicalConsultation(String diagnosisId, String consultationId);
 }
 
 class _PatientsRepository implements PatientsRepositoryInterface {
@@ -43,6 +44,16 @@ class _PatientsRepository implements PatientsRepositoryInterface {
     try {
       final res = await _globalApi.createMedicalConsultation(user);
       return QueryResponseModel(data: res);
+    } catch (e) {
+      return QueryResponseModel(isSuccessful: false, message: e.toString());
+    }
+  }
+
+    @override
+  Future<QueryResponseModel<MedicalConsultationModel>> saveDiagnosesMedicalConsultation(String diagnosisId, String consultationId) async {
+    try {
+      await _globalApi.saveDiagnosesMedicalConsultation(diagnosisId, consultationId);
+      return QueryResponseModel();
     } catch (e) {
       return QueryResponseModel(isSuccessful: false, message: e.toString());
     }

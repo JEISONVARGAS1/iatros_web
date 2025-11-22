@@ -41,6 +41,14 @@ Future<List<DiagnosisModel>> searchDiagnoses(String query) async {
   return diagnoses;
 }
 
+@override
+Future<void> saveDiagnosesMedicalConsultation(String diagnosisId, String consultationId) async {
+   await _supabase.from('diagnoses_medical_consultation_relational_table').insert({
+    'medical_consultation_id': consultationId,
+    'diagnoses_id': diagnosisId,
+  });
+}
+
   @override
   Future<MedicalConsultationModel> createMedicalConsultation(MedicalConsultationModel consultation) async {
     final res = await _supabase

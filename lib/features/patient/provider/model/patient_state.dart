@@ -31,6 +31,7 @@ sealed class PatientState with _$PatientState {
     required TextEditingController diastolicController,
     required TextEditingController backgroundController,
     required TextEditingController paraclinicalController,
+    required TextEditingController analysisAndPlanController,
     required TextEditingController diseaseAndReviewBySystemsController,
   }) = PatientStateData;
 
@@ -57,6 +58,7 @@ sealed class PatientState with _$PatientState {
     diastolicController: TextEditingController(),
     backgroundController: TextEditingController(),
     paraclinicalController: TextEditingController(),
+    analysisAndPlanController: TextEditingController(),
     diseaseAndReviewBySystemsController: TextEditingController(),
   );
 }

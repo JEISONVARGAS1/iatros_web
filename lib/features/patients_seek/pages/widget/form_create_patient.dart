@@ -264,7 +264,7 @@ class _FormCreatePatientState extends ConsumerState<FormCreatePatient> {
 
           Center(
             child: SecondaryButton(
-              label: "Crear paciente",
+              label: "Crear pasiente",
               onPressed: () {
                 setState(() => _hasTriedToValidate = true);
 

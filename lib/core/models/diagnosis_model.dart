@@ -21,13 +21,13 @@ class DiagnosisModel {
         );
 
     factory DiagnosisModel.fromJson(Map<String, dynamic> json) => DiagnosisModel(
-        id: json["id"] ?? "",
+        id: json["Uid"] ?? "",
         name: json["Nombre"] ?? "",
         code: json["Codigo"] ?? "",
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
+        "Uid": id,
         "Nombre": name,
         "Codigo": code,
     };

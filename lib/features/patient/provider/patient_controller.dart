@@ -1,14 +1,14 @@
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
+import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iatros_web/core/models/diagnosis_model.dart';
 import 'package:iatros_web/core/util/custom_alerts.dart';
+import 'package:iatros_web/core/models/diagnosis_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/core/models/medical_consultation_model.dart';
 import 'package:iatros_web/features/patient/provider/model/patient_state.dart';
 import 'package:iatros_web/features/patient/repository/patients_repository.dart';
-import 'package:iatros_web/router.dart';
 
 part 'patient_controller.g.dart';
 
@@ -23,6 +23,7 @@ class PatientController extends _$PatientController {
     _getMyUser();
     _getUserData(userId);
     _bloodPressureListener();
+    _bodyMassIndexListener();
   }
 
   _getMyUser() {
@@ -46,7 +47,9 @@ class PatientController extends _$PatientController {
         _setState(state.value!.copyWith(isLoading: true));
         final res = await _repository.searchDiagnoses(text);
         if (res.isSuccessful) {
-          _setState(state.value!.copyWith(diagnosesFound: res.data!, isLoading: false));
+          _setState(
+            state.value!.copyWith(diagnosesFound: res.data!, isLoading: false),
+          );
         }
       });
     } else {
@@ -59,12 +62,28 @@ class PatientController extends _$PatientController {
     state.value!.diastolicController.addListener(_applyTAMFromSystolic);
   }
 
+  _bodyMassIndexListener() {
+    state.value!.weightController.addListener(_applyIMCSystolic);
+    state.value!.heightController.addListener(_applyIMCSystolic);
+  }
+
   _applyTAMFromSystolic() {
     final systolic = double.parse(state.value!.systolicController.text);
     final diastolic = double.parse(state.value!.diastolicController.text);
 
     final value = (systolic + (2 * diastolic)) / 3;
     state.value!.tamController.text = value.toStringAsFixed(0);
+  }
+
+  _applyIMCSystolic() {
+    final height = double.parse(state.value!.heightController.text);
+    final weight = double.parse(state.value!.weightController.text);
+
+    final newHeight = height / 100;
+
+    final value = weight / (newHeight * newHeight);
+
+    state.value!.imcController.text = value.toStringAsFixed(0);
   }
 
   void updateSelectedDiagnoses(List<DiagnosisModel> diagnoses) {
@@ -81,14 +100,25 @@ class PatientController extends _$PatientController {
       medicalConsultation,
     );
 
-    if (res.isSuccessful && context.mounted) {
+    if (res.isSuccessful) {
       _setState(state.value!.copyWith(isLoading: false));
-      context.go(AppRoutes.lobby.path);
-      // Prevent back button from going to patient page
+      await _saveDiagnostic(res.data!.id ?? "");
+
+      if (context.mounted) context.go(AppRoutes.lobby.path);
       html.window.history.pushState(null, '', AppRoutes.lobby.path);
     } else {
       _setState(state.value!.copyWith(isLoading: false));
       CustomAlerts.showErrorAlert(context, description: res.message);
+    }
+  }
+
+  Future<void> _saveDiagnostic(String consultationId) async {
+    if (consultationId.isNotEmpty) {
+      final listIds = state.value!.selectedDiagnoses.map((d) => d.id).toList();
+
+      for (var id in listIds) {
+        _repository.saveDiagnosesMedicalConsultation(id, consultationId);
+      }
     }
   }
 
@@ -109,7 +139,7 @@ class PatientController extends _$PatientController {
       diastolic: state.value!.diastolicController.text,
       background: state.value!.backgroundController.text,
       paraclinical: state.value!.paraclinicalController.text,
-      diagnoses: state.value!.selectedDiagnoses.map((d) => d.name).toList(),
+      analysisAndPlan: state.value!.analysisAndPlanController.text,
       diseaseAndReviewBySystems:
           state.value!.diseaseAndReviewBySystemsController.text,
     );

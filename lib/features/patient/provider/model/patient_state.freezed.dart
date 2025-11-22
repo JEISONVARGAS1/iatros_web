@@ -47,6 +47,8 @@ mixin _$PatientState {
       throw _privateConstructorUsedError;
   TextEditingController get paraclinicalController =>
       throw _privateConstructorUsedError;
+  TextEditingController get analysisAndPlanController =>
+      throw _privateConstructorUsedError;
   TextEditingController get diseaseAndReviewBySystemsController =>
       throw _privateConstructorUsedError;
 
@@ -86,6 +88,7 @@ abstract class $PatientStateCopyWith<$Res> {
       TextEditingController diastolicController,
       TextEditingController backgroundController,
       TextEditingController paraclinicalController,
+      TextEditingController analysisAndPlanController,
       TextEditingController diseaseAndReviewBySystemsController});
 }
 
@@ -126,6 +129,7 @@ class _$PatientStateCopyWithImpl<$Res, $Val extends PatientState>
     Object? diastolicController = null,
     Object? backgroundController = null,
     Object? paraclinicalController = null,
+    Object? analysisAndPlanController = null,
     Object? diseaseAndReviewBySystemsController = null,
   }) {
     return _then(_value.copyWith(
@@ -217,6 +221,10 @@ class _$PatientStateCopyWithImpl<$Res, $Val extends PatientState>
           ? _value.paraclinicalController
           : paraclinicalController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      analysisAndPlanController: null == analysisAndPlanController
+          ? _value.analysisAndPlanController
+          : analysisAndPlanController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
       diseaseAndReviewBySystemsController: null ==
               diseaseAndReviewBySystemsController
           ? _value.diseaseAndReviewBySystemsController
@@ -257,6 +265,7 @@ abstract class _$$PatientStateDataImplCopyWith<$Res>
       TextEditingController diastolicController,
       TextEditingController backgroundController,
       TextEditingController paraclinicalController,
+      TextEditingController analysisAndPlanController,
       TextEditingController diseaseAndReviewBySystemsController});
 }
 
@@ -295,6 +304,7 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
     Object? diastolicController = null,
     Object? backgroundController = null,
     Object? paraclinicalController = null,
+    Object? analysisAndPlanController = null,
     Object? diseaseAndReviewBySystemsController = null,
   }) {
     return _then(_$PatientStateDataImpl(
@@ -386,6 +396,10 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
           ? _value.paraclinicalController
           : paraclinicalController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      analysisAndPlanController: null == analysisAndPlanController
+          ? _value.analysisAndPlanController
+          : analysisAndPlanController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
       diseaseAndReviewBySystemsController: null ==
               diseaseAndReviewBySystemsController
           ? _value.diseaseAndReviewBySystemsController
@@ -421,6 +435,7 @@ class _$PatientStateDataImpl implements PatientStateData {
       required this.diastolicController,
       required this.backgroundController,
       required this.paraclinicalController,
+      required this.analysisAndPlanController,
       required this.diseaseAndReviewBySystemsController})
       : _diagnosesFound = diagnosesFound,
         _selectedDiagnoses = selectedDiagnoses;
@@ -483,11 +498,13 @@ class _$PatientStateDataImpl implements PatientStateData {
   @override
   final TextEditingController paraclinicalController;
   @override
+  final TextEditingController analysisAndPlanController;
+  @override
   final TextEditingController diseaseAndReviewBySystemsController;
 
   @override
   String toString() {
-    return 'PatientState(isLoading: $isLoading, myUser: $myUser, debouncer: $debouncer, selectedPatient: $selectedPatient, tController: $tController, nController: $nController, fcController: $fcController, frController: $frController, anController: $anController, so2Controller: $so2Controller, tamController: $tamController, diagnosesFound: $diagnosesFound, imcController: $imcController, sizeController: $sizeController, reasonController: $reasonController, selectedDiagnoses: $selectedDiagnoses, weightController: $weightController, heightController: $heightController, systolicController: $systolicController, diastolicController: $diastolicController, backgroundController: $backgroundController, paraclinicalController: $paraclinicalController, diseaseAndReviewBySystemsController: $diseaseAndReviewBySystemsController)';
+    return 'PatientState(isLoading: $isLoading, myUser: $myUser, debouncer: $debouncer, selectedPatient: $selectedPatient, tController: $tController, nController: $nController, fcController: $fcController, frController: $frController, anController: $anController, so2Controller: $so2Controller, tamController: $tamController, diagnosesFound: $diagnosesFound, imcController: $imcController, sizeController: $sizeController, reasonController: $reasonController, selectedDiagnoses: $selectedDiagnoses, weightController: $weightController, heightController: $heightController, systolicController: $systolicController, diastolicController: $diastolicController, backgroundController: $backgroundController, paraclinicalController: $paraclinicalController, analysisAndPlanController: $analysisAndPlanController, diseaseAndReviewBySystemsController: $diseaseAndReviewBySystemsController)';
   }
 
   @override
@@ -538,6 +555,9 @@ class _$PatientStateDataImpl implements PatientStateData {
                 other.backgroundController == backgroundController) &&
             (identical(other.paraclinicalController, paraclinicalController) ||
                 other.paraclinicalController == paraclinicalController) &&
+            (identical(other.analysisAndPlanController,
+                    analysisAndPlanController) ||
+                other.analysisAndPlanController == analysisAndPlanController) &&
             (identical(other.diseaseAndReviewBySystemsController,
                     diseaseAndReviewBySystemsController) ||
                 other.diseaseAndReviewBySystemsController ==
@@ -569,6 +589,7 @@ class _$PatientStateDataImpl implements PatientStateData {
         diastolicController,
         backgroundController,
         paraclinicalController,
+        analysisAndPlanController,
         diseaseAndReviewBySystemsController
       ]);
 
@@ -606,6 +627,7 @@ abstract class PatientStateData implements PatientState {
       required final TextEditingController diastolicController,
       required final TextEditingController backgroundController,
       required final TextEditingController paraclinicalController,
+      required final TextEditingController analysisAndPlanController,
       required final TextEditingController
           diseaseAndReviewBySystemsController}) = _$PatientStateDataImpl;
 
@@ -653,6 +675,8 @@ abstract class PatientStateData implements PatientState {
   TextEditingController get backgroundController;
   @override
   TextEditingController get paraclinicalController;
+  @override
+  TextEditingController get analysisAndPlanController;
   @override
   TextEditingController get diseaseAndReviewBySystemsController;
 

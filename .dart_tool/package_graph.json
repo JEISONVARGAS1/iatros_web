@@ -25,6 +25,7 @@
         "json_annotation",
         "riverpod_annotation",
         "supabase_flutter",
+        "syncfusion_flutter_calendar",
         "universal_html"
       ],
       "devDependencies": [
@@ -173,6 +174,19 @@
         "intl",
         "path",
         "shared_preferences"
+      ]
+    },
+    {
+      "name": "syncfusion_flutter_calendar",
+      "version": "31.1.19",
+      "dependencies": [
+        "flutter",
+        "flutter_localizations",
+        "intl",
+        "syncfusion_flutter_core",
+        "syncfusion_flutter_datepicker",
+        "syncfusion_localizations",
+        "timezone"
       ]
     },
     {
@@ -909,6 +923,40 @@
         "shared_preferences_platform_interface",
         "shared_preferences_web",
         "shared_preferences_windows"
+      ]
+    },
+    {
+      "name": "syncfusion_localizations",
+      "version": "31.1.19",
+      "dependencies": [
+        "flutter",
+        "intl",
+        "syncfusion_flutter_core"
+      ]
+    },
+    {
+      "name": "syncfusion_flutter_datepicker",
+      "version": "31.1.19",
+      "dependencies": [
+        "flutter",
+        "intl",
+        "syncfusion_flutter_core"
+      ]
+    },
+    {
+      "name": "syncfusion_flutter_core",
+      "version": "31.1.19",
+      "dependencies": [
+        "flutter",
+        "vector_math"
+      ]
+    },
+    {
+      "name": "timezone",
+      "version": "0.10.1",
+      "dependencies": [
+        "http",
+        "path"
       ]
     },
     {

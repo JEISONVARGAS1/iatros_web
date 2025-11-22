@@ -938,6 +938,7 @@ file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/mod
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/models/user_hive_model.g.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/models/user_model.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/services/google_places_service.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/util/custom_alerts.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/util/debouncer_util.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/core/util/service/server.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/auth/data/auth_api.dart
@@ -949,6 +950,10 @@ file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/auth/provider/model/auth_state.freezed.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/auth/repository/auth_repository.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/home/pages/home_page.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/home/provider/home_controller.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/home/provider/home_controller.g.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/home/provider/model/home_state.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/home/provider/model/home_state.freezed.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/lobby/pages/lobby.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/lobby/provider/lobby_controller.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/features/lobby/provider/lobby_controller.g.dart
@@ -1005,6 +1010,7 @@ file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/th
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/theme/theme.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/theme/typography.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/utils/custom_show_dialog.dart
+file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/utils/loading_overlay.dart
 file:///Users/jeisonmanuelvargasvargas/Documents/propios/iatros_web/lib/uikit/utils/ui_helpers.dart
 file:///Users/jeisonmanuelvargasvargas/development/flutter/bin/cache/dart-sdk/lib/libraries.json
 file:///Users/jeisonmanuelvargasvargas/development/flutter/bin/cache/flutter_web_sdk/kernel/dart2js_platform.dill

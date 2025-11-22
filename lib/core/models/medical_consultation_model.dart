@@ -1,4 +1,5 @@
 class MedicalConsultationModel {
+    final String? id;
     final String fr;
     final String fc;
     final String so2;
@@ -14,10 +15,11 @@ class MedicalConsultationModel {
     final DateTime createdAt;
     final String temperature;
     final String paraclinical;
-    final List<String> diagnoses;
+    final String analysisAndPlan;
     final String diseaseAndReviewBySystems;
 
     MedicalConsultationModel({
+        this.id,
         required this.fr,
         required this.fc,
         required this.so2,
@@ -29,15 +31,16 @@ class MedicalConsultationModel {
         required this.doctorId,
         required this.systolic,
         required this.diastolic,
-        required this.diagnoses,
         required this.createdAt,
         required this.background,
         required this.temperature,
         required this.paraclinical,
+        required this.analysisAndPlan,
         required this.diseaseAndReviewBySystems,
     });
 
     MedicalConsultationModel copyWith({
+        String? id,
         String? fr,
         String? fc,
         String? so2,
@@ -53,10 +56,11 @@ class MedicalConsultationModel {
         String? background,
         String? temperature,
         String? paraclinical,
-        List<String>? diagnoses,
+        String? analysisAndPlan,
         String? diseaseAndReviewBySystems,
     }) => 
         MedicalConsultationModel(
+            id: id ?? this.id,
             fr: fr ?? this.fr,
             fc: fc ?? this.fc,
             so2: so2 ?? this.so2,
@@ -69,14 +73,15 @@ class MedicalConsultationModel {
             systolic: systolic ?? this.systolic,
             diastolic: diastolic ?? this.diastolic,
             createdAt: createdAt ?? this.createdAt,
-            diagnoses: diagnoses ?? this.diagnoses,
             background: background ?? this.background,
             temperature: temperature ?? this.temperature,
             paraclinical: paraclinical ?? this.paraclinical,
+            analysisAndPlan: analysisAndPlan ?? this.analysisAndPlan,
             diseaseAndReviewBySystems: diseaseAndReviewBySystems ?? this.diseaseAndReviewBySystems,
         );
 
     factory MedicalConsultationModel.fromJson(Map<String, dynamic> json) => MedicalConsultationModel(
+        id: json["id"],
         fr: json["fr"],
         fc: json["fc"],
         so2: json["so2"],
@@ -91,7 +96,7 @@ class MedicalConsultationModel {
         background: json["background"],
         temperature: json["temperature"],
         paraclinical: json["paraclinical"],
-        diagnoses: List<String>.from(json["diagnoses"].map((x) => x)),
+        analysisAndPlan: json["analysis_and_plan"],
         diseaseAndReviewBySystems: json["diseaseAnd_review_by_systems"],
         createdAt: json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now(),
     );
@@ -111,8 +116,8 @@ class MedicalConsultationModel {
         "background": background,
         "temperature": temperature,
         "paraclinical": paraclinical,
+        "analysis_and_plan": analysisAndPlan,
         "created_at": createdAt.toUtc().toIso8601String(),
-        "diagnoses": List<dynamic>.from(diagnoses.map((x) => x)),
         "diseaseAnd_review_by_systems": diseaseAndReviewBySystems,
     };
 }

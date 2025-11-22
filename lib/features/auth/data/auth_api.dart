@@ -6,9 +6,8 @@ import 'package:iatros_web/features/auth/data/auth_api_interface.dart';
 class AuthApi extends AuthApiInterface {
   final SupabaseClient _supabase;
 
-  AuthApi({String token = ""})
-    : _supabase = Supabase.instance.client,
-      super(token: token);
+  AuthApi({super.token})
+    : _supabase = Supabase.instance.client;
 
   @override
   Future<UserModel> login(String email, String password) async {

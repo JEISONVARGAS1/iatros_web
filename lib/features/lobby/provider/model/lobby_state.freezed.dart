@@ -16,8 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LobbyState {
+  double get width => throw _privateConstructorUsedError;
   UserModel get myUser => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
+  bool get isMenuVisible => throw _privateConstructorUsedError;
+  TabController? get tabController => throw _privateConstructorUsedError;
 
   /// Create a copy of LobbyState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +35,12 @@ abstract class $LobbyStateCopyWith<$Res> {
           LobbyState value, $Res Function(LobbyState) then) =
       _$LobbyStateCopyWithImpl<$Res, LobbyState>;
   @useResult
-  $Res call({UserModel myUser, int selectedIndex});
+  $Res call(
+      {double width,
+      UserModel myUser,
+      int selectedIndex,
+      bool isMenuVisible,
+      TabController? tabController});
 }
 
 /// @nodoc
@@ -50,10 +58,17 @@ class _$LobbyStateCopyWithImpl<$Res, $Val extends LobbyState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? width = null,
     Object? myUser = null,
     Object? selectedIndex = null,
+    Object? isMenuVisible = null,
+    Object? tabController = freezed,
   }) {
     return _then(_value.copyWith(
+      width: null == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as double,
       myUser: null == myUser
           ? _value.myUser
           : myUser // ignore: cast_nullable_to_non_nullable
@@ -62,6 +77,14 @@ class _$LobbyStateCopyWithImpl<$Res, $Val extends LobbyState>
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isMenuVisible: null == isMenuVisible
+          ? _value.isMenuVisible
+          : isMenuVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tabController: freezed == tabController
+          ? _value.tabController
+          : tabController // ignore: cast_nullable_to_non_nullable
+              as TabController?,
     ) as $Val);
   }
 }
@@ -74,7 +97,12 @@ abstract class _$$LobbyStateDataImplCopyWith<$Res>
       __$$LobbyStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserModel myUser, int selectedIndex});
+  $Res call(
+      {double width,
+      UserModel myUser,
+      int selectedIndex,
+      bool isMenuVisible,
+      TabController? tabController});
 }
 
 /// @nodoc
@@ -90,10 +118,17 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? width = null,
     Object? myUser = null,
     Object? selectedIndex = null,
+    Object? isMenuVisible = null,
+    Object? tabController = freezed,
   }) {
     return _then(_$LobbyStateDataImpl(
+      width: null == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as double,
       myUser: null == myUser
           ? _value.myUser
           : myUser // ignore: cast_nullable_to_non_nullable
@@ -102,6 +137,14 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isMenuVisible: null == isMenuVisible
+          ? _value.isMenuVisible
+          : isMenuVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tabController: freezed == tabController
+          ? _value.tabController
+          : tabController // ignore: cast_nullable_to_non_nullable
+              as TabController?,
     ));
   }
 }
@@ -110,16 +153,26 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
 
 class _$LobbyStateDataImpl implements LobbyStateData {
   const _$LobbyStateDataImpl(
-      {required this.myUser, required this.selectedIndex});
+      {required this.width,
+      required this.myUser,
+      required this.selectedIndex,
+      required this.isMenuVisible,
+      this.tabController});
 
+  @override
+  final double width;
   @override
   final UserModel myUser;
   @override
   final int selectedIndex;
+  @override
+  final bool isMenuVisible;
+  @override
+  final TabController? tabController;
 
   @override
   String toString() {
-    return 'LobbyState(myUser: $myUser, selectedIndex: $selectedIndex)';
+    return 'LobbyState(width: $width, myUser: $myUser, selectedIndex: $selectedIndex, isMenuVisible: $isMenuVisible, tabController: $tabController)';
   }
 
   @override
@@ -127,13 +180,19 @@ class _$LobbyStateDataImpl implements LobbyStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LobbyStateDataImpl &&
+            (identical(other.width, width) || other.width == width) &&
             (identical(other.myUser, myUser) || other.myUser == myUser) &&
             (identical(other.selectedIndex, selectedIndex) ||
-                other.selectedIndex == selectedIndex));
+                other.selectedIndex == selectedIndex) &&
+            (identical(other.isMenuVisible, isMenuVisible) ||
+                other.isMenuVisible == isMenuVisible) &&
+            (identical(other.tabController, tabController) ||
+                other.tabController == tabController));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, myUser, selectedIndex);
+  int get hashCode => Object.hash(
+      runtimeType, width, myUser, selectedIndex, isMenuVisible, tabController);
 
   /// Create a copy of LobbyState
   /// with the given fields replaced by the non-null parameter values.
@@ -147,13 +206,22 @@ class _$LobbyStateDataImpl implements LobbyStateData {
 
 abstract class LobbyStateData implements LobbyState {
   const factory LobbyStateData(
-      {required final UserModel myUser,
-      required final int selectedIndex}) = _$LobbyStateDataImpl;
+      {required final double width,
+      required final UserModel myUser,
+      required final int selectedIndex,
+      required final bool isMenuVisible,
+      final TabController? tabController}) = _$LobbyStateDataImpl;
 
+  @override
+  double get width;
   @override
   UserModel get myUser;
   @override
   int get selectedIndex;
+  @override
+  bool get isMenuVisible;
+  @override
+  TabController? get tabController;
 
   /// Create a copy of LobbyState
   /// with the given fields replaced by the non-null parameter values.
