@@ -12,23 +12,17 @@ sealed class ProfileState with _$ProfileState {
   const factory ProfileState({
     required UserModel myUser,
     StreamSubscription? userSub,
+    required DoctorSettingModel setting,
     required List<DaysWeekEnum> listDayWeek,
     required int consultationDurationMinutes,
     required List<WorkTimeModel> listTimeSlots,
   }) = ProfileStateData;
 
   factory ProfileState.initial() => ProfileState(
-    listTimeSlots: [
-      WorkTimeModel(dateKey: DaysWeekEnum.MONDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.TUESDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.WEDNESDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.THURSDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.FRIDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.SATURDAY, workDateList: []),
-      WorkTimeModel(dateKey: DaysWeekEnum.SUNDAY, workDateList: []),
-    ],
+    listTimeSlots: [],
     myUser: UserModel.init(),
-    listDayWeek: DaysWeekEnum.values,
     consultationDurationMinutes: 30,
+    listDayWeek: DaysWeekEnum.values,
+    setting: DoctorSettingModel.init(),
   );
 }

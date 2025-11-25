@@ -1,6 +1,8 @@
 import 'package:iatros_web/core/data/provider/global_controller.dart';
+import 'package:iatros_web/core/extension/date_extension.dart';
 import 'package:iatros_web/core/models/blood_type.dart';
 import 'package:iatros_web/core/models/gender.dart';
+import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/features/home/provider/model/home_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,7 +21,6 @@ class HomeController extends _$HomeController {
       state.value!.addressController.dispose();
       state.value!.lastNameController.dispose();
       state.value!.identificationNumberController.dispose();
-
     });
 
     return HomeState.initial();
@@ -30,11 +31,12 @@ class HomeController extends _$HomeController {
   _getMyUser() {
     ref.listen(globalControllerProvider, (previous, next) {
       final user = next.value!.myUser;
-
-      _setState(state.value!.copyWith(myUser: user));
+      final doctorSetting = next.value!.doctorSetting;
+      _setState(
+        state.value!.copyWith(myUser: user, doctorSetting: doctorSetting),
+      );
     }, fireImmediately: true);
   }
-
 
   selectedIdentificationTypeNotifier(String? item) {
     state.value!.selectedIdentificationTypeNotifier.value = item;
@@ -50,6 +52,35 @@ class HomeController extends _$HomeController {
 
   selectedAppointmentDate(DateTime? item) {
     state.value!.selectedAppointmentDate.value = item;
+  }
+
+  List<TimeSlotsModel> generateListTimeSlots() {
+    late List<TimeSlotsModel> listTimeZone = [];
+    final listTimeSlots = state.value!.doctorSetting.listTimeSlots;
+    final currentDate = state.value!.dateSelected;
+
+    final list = listTimeSlots
+        .where(
+          (e) =>
+              e.dateKey == currentDate.toDaysWeekEnum ||
+              (e.specificDay != null &&
+                  e.specificDay!.isAtSameMomentAs(currentDate)),
+        )
+        .toList();
+
+    for (var e in list) {
+      listTimeZone = [...listTimeZone, ...e.workDateList];
+    }
+
+    return listTimeZone;
+  }
+
+  selectedDateOfBirth(DateTime? item) {
+    state.value!.dateOfBirthNotifier.value = item;
+  }
+
+  selectedTimeSlot(TimeSlotsModel? item) {
+    state.value!.selectedTimeSlotNotifier.value = item;
   }
 
   _setState(HomeState newState) => state = AsyncValue.data(newState);

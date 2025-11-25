@@ -7,12 +7,21 @@ import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/features/home/provider/home_controller.dart';
 
 class FormScheduleAppointment extends ConsumerStatefulWidget {
-  const FormScheduleAppointment({super.key});
+   const FormScheduleAppointment({
+     super.key,
+     required this.timeSlots,
+     required this.selectedTimeSlot,
+     required this.onTimeSlotSelected,
+   });
 
-  @override
-  ConsumerState<FormScheduleAppointment> createState() =>
-      _FormScheduleAppointmentState();
-}
+   final List<TimeSlotsModel> timeSlots;
+   final TimeSlotsModel? selectedTimeSlot;
+   final Function(TimeSlotsModel) onTimeSlotSelected;
+
+   @override
+   ConsumerState<FormScheduleAppointment> createState() =>
+       _FormScheduleAppointmentState();
+ }
 
 class _FormScheduleAppointmentState
     extends ConsumerState<FormScheduleAppointment> {
@@ -287,13 +296,16 @@ class _FormScheduleAppointmentState
                   height: 250,
                   child: SfCalendar(
                     view: CalendarView.month,
+                    minDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                     onTap: (CalendarTapDetails details) {
                       final date = details.date;
                       if (date != null) {
                         controller.selectedAppointmentDate(date);
                       }
                     },
-                    todayHighlightColor: AppColors.primary,
+                    todayHighlightColor: Colors.transparent,
+                    todayTextStyle: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
+                    showNavigationArrow: true,
                     selectionDecoration: BoxDecoration(
                       color: AppColors.primary.withOpacity(0.2),
                       border: Border.all(color: AppColors.primary),
@@ -305,43 +317,38 @@ class _FormScheduleAppointmentState
                 // Time Slots
                 Text('Horarios disponibles:', style: AppTypography.label),
                 UIHelpers.verticalSpaceSM,
-                ValueListenableBuilder<TimeSlotsModel?>(
-                  valueListenable: state.selectedTimeSlot,
-                  builder: (context, selectedSlot, _) {
-                    return Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: state.listTimeSlots.map((slot) {
-                        bool isSelected = selectedSlot == slot;
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : AppColors.surface,
-                              border: Border.all(color: AppColors.gray300),
-                              borderRadius: BorderRadius.circular(
-                                AppSpacing.radiusSM,
-                              ),
-                            ),
-                            child: Text(
-                              "slot",
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: isSelected
-                                    ? Colors.white
-                                    : AppColors.textPrimary,
-                              ),
-                            ),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: widget.timeSlots.map((slot) {
+                    bool isSelected = widget.selectedTimeSlot == slot;
+                    return GestureDetector(
+                      onTap: () => widget.onTimeSlotSelected(slot),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.surface,
+                          border: Border.all(color: AppColors.gray300),
+                          borderRadius: BorderRadius.circular(
+                            AppSpacing.radiusSM,
                           ),
-                        );
-                      }).toList(),
+                        ),
+                        child: Text(
+                          "slot",
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: isSelected
+                                ? Colors.white
+                                : AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
                     );
-                  },
+                  }).toList(),
                 ),
               ],
             ),
@@ -371,7 +378,7 @@ class _FormScheduleAppointmentState
                   if (state.selectedGenderNotifier.value == null) return;
                   if (state.selectedBloodTypeNotifier.value == null) return;
                   if (state.selectedAppointmentDate.value == null) return;
-                  if (state.selectedTimeSlot.value == null) return;
+                  if (widget.selectedTimeSlot == null) return;
 
                   // Here you would handle the appointment scheduling
                   ScaffoldMessenger.of(context).showSnackBar(

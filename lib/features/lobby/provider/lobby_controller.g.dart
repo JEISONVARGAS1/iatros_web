@@ -6,7 +6,7 @@ part of 'lobby_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lobbyControllerHash() => r'269a9b8c5081558bdd800a0aca2de99972dfc193';
+String _$lobbyControllerHash() => r'8ae098cb3ab11c1049af08bd3762c24eb91f3476';
 
 /// See also [LobbyController].
 @ProviderFor(LobbyController)

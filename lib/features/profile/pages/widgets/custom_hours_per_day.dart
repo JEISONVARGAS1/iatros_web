@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iatros_web/core/enum/days_week_enum.dart';
-import 'package:iatros_web/features/profile/provider/model/profile_state.dart';
-import 'package:iatros_web/features/profile/provider/profile_controller.dart';
 import 'package:iatros_web/uikit/index.dart';
+import 'package:iatros_web/core/enum/days_week_enum.dart';
+import 'package:iatros_web/core/models/doctor_setting_model.dart';
+import 'package:iatros_web/features/profile/provider/profile_controller.dart';
+import 'package:iatros_web/features/profile/provider/model/profile_state.dart';
+import 'package:iatros_web/features/profile/pages/widgets/custom_hour_card.dart';
 
 class CustomHoursPerDay extends StatelessWidget {
   final ProfileState state;
@@ -25,9 +27,11 @@ class CustomHoursPerDay extends StatelessWidget {
           UIHelpers.verticalSpaceMD,
           ...List.generate(state.listDayWeek.length, (index) {
             final day = state.listDayWeek[index];
-            final daySchedules = state.listTimeSlots[index];
-
-            if (daySchedules.specificDay != null) Container();
+            final list = state.listTimeSlots;
+            final daySchedules = list.firstWhere(
+              (e) => e.dateKey == day && e.specificDay == null,
+              orElse: () => WorkTimeModel.init(day),
+            );
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,36 +54,17 @@ class CustomHoursPerDay extends StatelessWidget {
                   final index = entry.key;
                   final end = entry.value.endWorkHours;
                   final start = entry.value.startWorkHours;
-                  return BaseCard(
-                    margin: const EdgeInsets.only(
-                      left: 16,
-                      bottom: AppSpacing.paddingSM,
+                  return CustomHourCard(
+                    tap: () => controller.selectDate(
+                      context,
+                      weekday: day,
+                      callBack: (_, startParam, endParam) => controller
+                          .editScheduleForDay(day, index, startParam, endParam),
                     ),
-                    child: InkWell(
-                      onTap: () => controller.selectDate(
-                        context,
-                        weekday: day,
-                        callBack: (_, startParam, endParam) {
-                          controller.removeScheduleForDay(day, index);
-                          controller.addScheduleForDay(day, start, end);
-                        },
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${start.format(context)} - ${end.format(context)}',
-                              style: AppTypography.bodyMedium,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: AppColors.error),
-                            onPressed: () =>
-                                controller.removeScheduleForDay(day, index),
-                          ),
-                        ],
-                      ),
-                    ),
+                    endDate: end,
+                    deleteTap: () =>
+                        controller.removeScheduleForDay(day, index),
+                    startDate: start,
                   );
                 }),
                 if (daySchedules.workDateList.isEmpty) ...[

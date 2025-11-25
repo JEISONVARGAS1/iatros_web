@@ -20,7 +20,9 @@ mixin _$HomeState {
   UserModel get myUser => throw _privateConstructorUsedError;
   StreamSubscription<dynamic>? get userSub =>
       throw _privateConstructorUsedError;
+  DateTime get dateSelected => throw _privateConstructorUsedError;
   PageController get pageController => throw _privateConstructorUsedError;
+  DoctorSettingModel get doctorSetting => throw _privateConstructorUsedError;
   List<TimeSlotsModel> get listTimeSlots => throw _privateConstructorUsedError;
   TextEditingController get nameController =>
       throw _privateConstructorUsedError;
@@ -36,8 +38,6 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   ValueNotifier<Gender?> get selectedGenderNotifier =>
       throw _privateConstructorUsedError;
-  ValueNotifier<TimeSlotsModel?> get selectedTimeSlot =>
-      throw _privateConstructorUsedError;
   ValueNotifier<DateTime?> get selectedAppointmentDate =>
       throw _privateConstructorUsedError;
   ValueNotifier<BloodType?> get selectedBloodTypeNotifier =>
@@ -45,6 +45,8 @@ mixin _$HomeState {
   TextEditingController get identificationNumberController =>
       throw _privateConstructorUsedError;
   ValueNotifier<String?> get selectedIdentificationTypeNotifier =>
+      throw _privateConstructorUsedError;
+  ValueNotifier<TimeSlotsModel?> get selectedTimeSlotNotifier =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -63,7 +65,9 @@ abstract class $HomeStateCopyWith<$Res> {
       {int index,
       UserModel myUser,
       StreamSubscription<dynamic>? userSub,
+      DateTime dateSelected,
       PageController pageController,
+      DoctorSettingModel doctorSetting,
       List<TimeSlotsModel> listTimeSlots,
       TextEditingController nameController,
       TextEditingController emailController,
@@ -72,11 +76,11 @@ abstract class $HomeStateCopyWith<$Res> {
       TextEditingController lastNameController,
       ValueNotifier<DateTime?> dateOfBirthNotifier,
       ValueNotifier<Gender?> selectedGenderNotifier,
-      ValueNotifier<TimeSlotsModel?> selectedTimeSlot,
       ValueNotifier<DateTime?> selectedAppointmentDate,
       ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       TextEditingController identificationNumberController,
-      ValueNotifier<String?> selectedIdentificationTypeNotifier});
+      ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      ValueNotifier<TimeSlotsModel?> selectedTimeSlotNotifier});
 }
 
 /// @nodoc
@@ -97,7 +101,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? index = null,
     Object? myUser = null,
     Object? userSub = freezed,
+    Object? dateSelected = null,
     Object? pageController = null,
+    Object? doctorSetting = null,
     Object? listTimeSlots = null,
     Object? nameController = null,
     Object? emailController = null,
@@ -106,11 +112,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? lastNameController = null,
     Object? dateOfBirthNotifier = null,
     Object? selectedGenderNotifier = null,
-    Object? selectedTimeSlot = null,
     Object? selectedAppointmentDate = null,
     Object? selectedBloodTypeNotifier = null,
     Object? identificationNumberController = null,
     Object? selectedIdentificationTypeNotifier = null,
+    Object? selectedTimeSlotNotifier = null,
   }) {
     return _then(_value.copyWith(
       index: null == index
@@ -125,10 +131,18 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.userSub
           : userSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<dynamic>?,
+      dateSelected: null == dateSelected
+          ? _value.dateSelected
+          : dateSelected // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       pageController: null == pageController
           ? _value.pageController
           : pageController // ignore: cast_nullable_to_non_nullable
               as PageController,
+      doctorSetting: null == doctorSetting
+          ? _value.doctorSetting
+          : doctorSetting // ignore: cast_nullable_to_non_nullable
+              as DoctorSettingModel,
       listTimeSlots: null == listTimeSlots
           ? _value.listTimeSlots
           : listTimeSlots // ignore: cast_nullable_to_non_nullable
@@ -161,10 +175,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.selectedGenderNotifier
           : selectedGenderNotifier // ignore: cast_nullable_to_non_nullable
               as ValueNotifier<Gender?>,
-      selectedTimeSlot: null == selectedTimeSlot
-          ? _value.selectedTimeSlot
-          : selectedTimeSlot // ignore: cast_nullable_to_non_nullable
-              as ValueNotifier<TimeSlotsModel?>,
       selectedAppointmentDate: null == selectedAppointmentDate
           ? _value.selectedAppointmentDate
           : selectedAppointmentDate // ignore: cast_nullable_to_non_nullable
@@ -182,6 +192,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.selectedIdentificationTypeNotifier
           : selectedIdentificationTypeNotifier // ignore: cast_nullable_to_non_nullable
               as ValueNotifier<String?>,
+      selectedTimeSlotNotifier: null == selectedTimeSlotNotifier
+          ? _value.selectedTimeSlotNotifier
+          : selectedTimeSlotNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<TimeSlotsModel?>,
     ) as $Val);
   }
 }
@@ -198,7 +212,9 @@ abstract class _$$HomeStateDataImplCopyWith<$Res>
       {int index,
       UserModel myUser,
       StreamSubscription<dynamic>? userSub,
+      DateTime dateSelected,
       PageController pageController,
+      DoctorSettingModel doctorSetting,
       List<TimeSlotsModel> listTimeSlots,
       TextEditingController nameController,
       TextEditingController emailController,
@@ -207,11 +223,11 @@ abstract class _$$HomeStateDataImplCopyWith<$Res>
       TextEditingController lastNameController,
       ValueNotifier<DateTime?> dateOfBirthNotifier,
       ValueNotifier<Gender?> selectedGenderNotifier,
-      ValueNotifier<TimeSlotsModel?> selectedTimeSlot,
       ValueNotifier<DateTime?> selectedAppointmentDate,
       ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       TextEditingController identificationNumberController,
-      ValueNotifier<String?> selectedIdentificationTypeNotifier});
+      ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      ValueNotifier<TimeSlotsModel?> selectedTimeSlotNotifier});
 }
 
 /// @nodoc
@@ -230,7 +246,9 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
     Object? index = null,
     Object? myUser = null,
     Object? userSub = freezed,
+    Object? dateSelected = null,
     Object? pageController = null,
+    Object? doctorSetting = null,
     Object? listTimeSlots = null,
     Object? nameController = null,
     Object? emailController = null,
@@ -239,11 +257,11 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
     Object? lastNameController = null,
     Object? dateOfBirthNotifier = null,
     Object? selectedGenderNotifier = null,
-    Object? selectedTimeSlot = null,
     Object? selectedAppointmentDate = null,
     Object? selectedBloodTypeNotifier = null,
     Object? identificationNumberController = null,
     Object? selectedIdentificationTypeNotifier = null,
+    Object? selectedTimeSlotNotifier = null,
   }) {
     return _then(_$HomeStateDataImpl(
       index: null == index
@@ -258,10 +276,18 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
           ? _value.userSub
           : userSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<dynamic>?,
+      dateSelected: null == dateSelected
+          ? _value.dateSelected
+          : dateSelected // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       pageController: null == pageController
           ? _value.pageController
           : pageController // ignore: cast_nullable_to_non_nullable
               as PageController,
+      doctorSetting: null == doctorSetting
+          ? _value.doctorSetting
+          : doctorSetting // ignore: cast_nullable_to_non_nullable
+              as DoctorSettingModel,
       listTimeSlots: null == listTimeSlots
           ? _value._listTimeSlots
           : listTimeSlots // ignore: cast_nullable_to_non_nullable
@@ -294,10 +320,6 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
           ? _value.selectedGenderNotifier
           : selectedGenderNotifier // ignore: cast_nullable_to_non_nullable
               as ValueNotifier<Gender?>,
-      selectedTimeSlot: null == selectedTimeSlot
-          ? _value.selectedTimeSlot
-          : selectedTimeSlot // ignore: cast_nullable_to_non_nullable
-              as ValueNotifier<TimeSlotsModel?>,
       selectedAppointmentDate: null == selectedAppointmentDate
           ? _value.selectedAppointmentDate
           : selectedAppointmentDate // ignore: cast_nullable_to_non_nullable
@@ -315,6 +337,10 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
           ? _value.selectedIdentificationTypeNotifier
           : selectedIdentificationTypeNotifier // ignore: cast_nullable_to_non_nullable
               as ValueNotifier<String?>,
+      selectedTimeSlotNotifier: null == selectedTimeSlotNotifier
+          ? _value.selectedTimeSlotNotifier
+          : selectedTimeSlotNotifier // ignore: cast_nullable_to_non_nullable
+              as ValueNotifier<TimeSlotsModel?>,
     ));
   }
 }
@@ -326,7 +352,9 @@ class _$HomeStateDataImpl implements HomeStateData {
       {required this.index,
       required this.myUser,
       this.userSub,
+      required this.dateSelected,
       required this.pageController,
+      required this.doctorSetting,
       required final List<TimeSlotsModel> listTimeSlots,
       required this.nameController,
       required this.emailController,
@@ -335,11 +363,11 @@ class _$HomeStateDataImpl implements HomeStateData {
       required this.lastNameController,
       required this.dateOfBirthNotifier,
       required this.selectedGenderNotifier,
-      required this.selectedTimeSlot,
       required this.selectedAppointmentDate,
       required this.selectedBloodTypeNotifier,
       required this.identificationNumberController,
-      required this.selectedIdentificationTypeNotifier})
+      required this.selectedIdentificationTypeNotifier,
+      required this.selectedTimeSlotNotifier})
       : _listTimeSlots = listTimeSlots;
 
   @override
@@ -349,7 +377,11 @@ class _$HomeStateDataImpl implements HomeStateData {
   @override
   final StreamSubscription<dynamic>? userSub;
   @override
+  final DateTime dateSelected;
+  @override
   final PageController pageController;
+  @override
+  final DoctorSettingModel doctorSetting;
   final List<TimeSlotsModel> _listTimeSlots;
   @override
   List<TimeSlotsModel> get listTimeSlots {
@@ -373,8 +405,6 @@ class _$HomeStateDataImpl implements HomeStateData {
   @override
   final ValueNotifier<Gender?> selectedGenderNotifier;
   @override
-  final ValueNotifier<TimeSlotsModel?> selectedTimeSlot;
-  @override
   final ValueNotifier<DateTime?> selectedAppointmentDate;
   @override
   final ValueNotifier<BloodType?> selectedBloodTypeNotifier;
@@ -382,10 +412,12 @@ class _$HomeStateDataImpl implements HomeStateData {
   final TextEditingController identificationNumberController;
   @override
   final ValueNotifier<String?> selectedIdentificationTypeNotifier;
+  @override
+  final ValueNotifier<TimeSlotsModel?> selectedTimeSlotNotifier;
 
   @override
   String toString() {
-    return 'HomeState(index: $index, myUser: $myUser, userSub: $userSub, pageController: $pageController, listTimeSlots: $listTimeSlots, nameController: $nameController, emailController: $emailController, phoneController: $phoneController, addressController: $addressController, lastNameController: $lastNameController, dateOfBirthNotifier: $dateOfBirthNotifier, selectedGenderNotifier: $selectedGenderNotifier, selectedTimeSlot: $selectedTimeSlot, selectedAppointmentDate: $selectedAppointmentDate, selectedBloodTypeNotifier: $selectedBloodTypeNotifier, identificationNumberController: $identificationNumberController, selectedIdentificationTypeNotifier: $selectedIdentificationTypeNotifier)';
+    return 'HomeState(index: $index, myUser: $myUser, userSub: $userSub, dateSelected: $dateSelected, pageController: $pageController, doctorSetting: $doctorSetting, listTimeSlots: $listTimeSlots, nameController: $nameController, emailController: $emailController, phoneController: $phoneController, addressController: $addressController, lastNameController: $lastNameController, dateOfBirthNotifier: $dateOfBirthNotifier, selectedGenderNotifier: $selectedGenderNotifier, selectedAppointmentDate: $selectedAppointmentDate, selectedBloodTypeNotifier: $selectedBloodTypeNotifier, identificationNumberController: $identificationNumberController, selectedIdentificationTypeNotifier: $selectedIdentificationTypeNotifier, selectedTimeSlotNotifier: $selectedTimeSlotNotifier)';
   }
 
   @override
@@ -396,8 +428,12 @@ class _$HomeStateDataImpl implements HomeStateData {
             (identical(other.index, index) || other.index == index) &&
             (identical(other.myUser, myUser) || other.myUser == myUser) &&
             (identical(other.userSub, userSub) || other.userSub == userSub) &&
+            (identical(other.dateSelected, dateSelected) ||
+                other.dateSelected == dateSelected) &&
             (identical(other.pageController, pageController) ||
                 other.pageController == pageController) &&
+            (identical(other.doctorSetting, doctorSetting) ||
+                other.doctorSetting == doctorSetting) &&
             const DeepCollectionEquality()
                 .equals(other._listTimeSlots, _listTimeSlots) &&
             (identical(other.nameController, nameController) ||
@@ -414,8 +450,6 @@ class _$HomeStateDataImpl implements HomeStateData {
                 other.dateOfBirthNotifier == dateOfBirthNotifier) &&
             (identical(other.selectedGenderNotifier, selectedGenderNotifier) ||
                 other.selectedGenderNotifier == selectedGenderNotifier) &&
-            (identical(other.selectedTimeSlot, selectedTimeSlot) ||
-                other.selectedTimeSlot == selectedTimeSlot) &&
             (identical(
                     other.selectedAppointmentDate, selectedAppointmentDate) ||
                 other.selectedAppointmentDate == selectedAppointmentDate) &&
@@ -429,29 +463,35 @@ class _$HomeStateDataImpl implements HomeStateData {
             (identical(other.selectedIdentificationTypeNotifier,
                     selectedIdentificationTypeNotifier) ||
                 other.selectedIdentificationTypeNotifier ==
-                    selectedIdentificationTypeNotifier));
+                    selectedIdentificationTypeNotifier) &&
+            (identical(
+                    other.selectedTimeSlotNotifier, selectedTimeSlotNotifier) ||
+                other.selectedTimeSlotNotifier == selectedTimeSlotNotifier));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      index,
-      myUser,
-      userSub,
-      pageController,
-      const DeepCollectionEquality().hash(_listTimeSlots),
-      nameController,
-      emailController,
-      phoneController,
-      addressController,
-      lastNameController,
-      dateOfBirthNotifier,
-      selectedGenderNotifier,
-      selectedTimeSlot,
-      selectedAppointmentDate,
-      selectedBloodTypeNotifier,
-      identificationNumberController,
-      selectedIdentificationTypeNotifier);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        index,
+        myUser,
+        userSub,
+        dateSelected,
+        pageController,
+        doctorSetting,
+        const DeepCollectionEquality().hash(_listTimeSlots),
+        nameController,
+        emailController,
+        phoneController,
+        addressController,
+        lastNameController,
+        dateOfBirthNotifier,
+        selectedGenderNotifier,
+        selectedAppointmentDate,
+        selectedBloodTypeNotifier,
+        identificationNumberController,
+        selectedIdentificationTypeNotifier,
+        selectedTimeSlotNotifier
+      ]);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -467,7 +507,9 @@ abstract class HomeStateData implements HomeState {
       {required final int index,
       required final UserModel myUser,
       final StreamSubscription<dynamic>? userSub,
+      required final DateTime dateSelected,
       required final PageController pageController,
+      required final DoctorSettingModel doctorSetting,
       required final List<TimeSlotsModel> listTimeSlots,
       required final TextEditingController nameController,
       required final TextEditingController emailController,
@@ -476,12 +518,12 @@ abstract class HomeStateData implements HomeState {
       required final TextEditingController lastNameController,
       required final ValueNotifier<DateTime?> dateOfBirthNotifier,
       required final ValueNotifier<Gender?> selectedGenderNotifier,
-      required final ValueNotifier<TimeSlotsModel?> selectedTimeSlot,
       required final ValueNotifier<DateTime?> selectedAppointmentDate,
       required final ValueNotifier<BloodType?> selectedBloodTypeNotifier,
       required final TextEditingController identificationNumberController,
-      required final ValueNotifier<String?>
-          selectedIdentificationTypeNotifier}) = _$HomeStateDataImpl;
+      required final ValueNotifier<String?> selectedIdentificationTypeNotifier,
+      required final ValueNotifier<TimeSlotsModel?>
+          selectedTimeSlotNotifier}) = _$HomeStateDataImpl;
 
   @override
   int get index;
@@ -490,7 +532,11 @@ abstract class HomeStateData implements HomeState {
   @override
   StreamSubscription<dynamic>? get userSub;
   @override
+  DateTime get dateSelected;
+  @override
   PageController get pageController;
+  @override
+  DoctorSettingModel get doctorSetting;
   @override
   List<TimeSlotsModel> get listTimeSlots;
   @override
@@ -508,8 +554,6 @@ abstract class HomeStateData implements HomeState {
   @override
   ValueNotifier<Gender?> get selectedGenderNotifier;
   @override
-  ValueNotifier<TimeSlotsModel?> get selectedTimeSlot;
-  @override
   ValueNotifier<DateTime?> get selectedAppointmentDate;
   @override
   ValueNotifier<BloodType?> get selectedBloodTypeNotifier;
@@ -517,6 +561,8 @@ abstract class HomeStateData implements HomeState {
   TextEditingController get identificationNumberController;
   @override
   ValueNotifier<String?> get selectedIdentificationTypeNotifier;
+  @override
+  ValueNotifier<TimeSlotsModel?> get selectedTimeSlotNotifier;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

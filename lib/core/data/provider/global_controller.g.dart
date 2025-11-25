@@ -6,7 +6,7 @@ part of 'global_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$globalControllerHash() => r'114e053da3b1369e7818040e1612640b89d3c8d4';
+String _$globalControllerHash() => r'cbc095912c93d6b7932c467233e579799f978de6';
 
 /// See also [GlobalController].
 @ProviderFor(GlobalController)

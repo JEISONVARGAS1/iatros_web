@@ -58,9 +58,9 @@ class CustomSpecificDay extends StatelessWidget {
               style: AppTypography.bodyMedium,
             ),
             UIHelpers.verticalSpaceSM,
-            ...state.listTimeSlots.reversed.map((entry) {
+            ...state.listTimeSlots.where((e) => e.specificDay != null).toList().reversed.map((entry) {
 
-              if(entry.specificDay == null) return Container();
+              
 
               final date = entry.specificDay!;
               final schedules = entry.workDateList;
@@ -120,8 +120,8 @@ class CustomSpecificDay extends StatelessWidget {
                     ),
                   ),
                   ...schedules.asMap().entries.map((scheduleEntry) {
-                    final end = scheduleEntry.value.startWorkHours;
                     final start = scheduleEntry.value.startWorkHours;
+                    final end = scheduleEntry.value.endWorkHours;
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),

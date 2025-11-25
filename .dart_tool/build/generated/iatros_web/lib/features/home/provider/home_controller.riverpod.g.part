@@ -2,7 +2,7 @@
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeControllerHash() => r'ee9ac2b1541e752366db0b7aeab071c0bfbda0d0';
+String _$homeControllerHash() => r'4aae50fdfc0091822a39cb6bbbf4c22dd993f923';
 
 /// See also [HomeController].
 @ProviderFor(HomeController)

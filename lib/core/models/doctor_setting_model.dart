@@ -2,30 +2,68 @@ import 'package:iatros_web/core/enum/days_week_enum.dart';
 import 'package:iatros_web/core/models/time_slots_model.dart';
 
 class DoctorSettingModel {
-  final dynamic userId;
-  final List<WorkTimeModel> listWorkTime;
+  final String? id;
+  final String doctorId;
+  final DateTime updateAt;
+  final DateTime createAt;
+  final int consultationDuration;
+  final List<WorkTimeModel> listTimeSlots;
 
-  DoctorSettingModel({required this.userId, required this.listWorkTime});
+  DoctorSettingModel({
+    this.id,
+    required this.doctorId,
+    required this.createAt,
+    required this.updateAt,
+    required this.listTimeSlots,
+    required this.consultationDuration
+,
+  });
 
   DoctorSettingModel copyWith({
-    dynamic userId,
-    List<WorkTimeModel>? listWorkTime,
+    String? id,
+    String? doctorId,
+    int? consultationDuration,
+    List<WorkTimeModel>? listTimeSlots,
   }) => DoctorSettingModel(
-    userId: userId ?? this.userId,
-    listWorkTime: listWorkTime ?? this.listWorkTime,
+    id: id ?? this.id,
+    updateAt: updateAt,
+    createAt: createAt,
+    doctorId: doctorId ?? this.doctorId,
+    listTimeSlots: listTimeSlots ?? this.listTimeSlots,
+    consultationDuration: consultationDuration ?? this.consultationDuration,
   );
 
   factory DoctorSettingModel.fromJson(Map<String, dynamic> json) =>
       DoctorSettingModel(
-        userId: json["user_id"],
-        listWorkTime: List<WorkTimeModel>.from(
-          json["list_work_time"].map((x) => WorkTimeModel.fromJson(x)),
+        id: json["id"],
+        doctorId: json["doctor_id"],
+        consultationDuration: json["consultation_duration"] ?? 0,
+        createAt: json["created_at"] != null
+            ? DateTime.parse(json["created_at"])
+            : DateTime.now(),
+        updateAt: json["updated_at"] != null
+            ? DateTime.parse(json["updated_at"])
+            : DateTime.now(),
+        listTimeSlots: List<WorkTimeModel>.from(
+          json["list_time_slots"].map((x) => WorkTimeModel.fromJson(x)),
         ),
       );
 
+  factory DoctorSettingModel.init() => DoctorSettingModel(
+    doctorId: "",
+    listTimeSlots: [],
+    consultationDuration: 0,
+    createAt: DateTime.now(),
+    updateAt: DateTime.now(),
+  );
+
   Map<String, dynamic> toJson() => {
-    "user_id": userId,
-    "list_work_time": List<dynamic>.from(listWorkTime.map((x) => x.toJson())),
+    "id": id,
+    "doctor_id": doctorId,
+    "created_at": createAt.toIso8601String(),
+    "updated_at": updateAt.toIso8601String(),
+    "consultation_duration": consultationDuration,
+    "list_time_slots": List<dynamic>.from(listTimeSlots.map((x) => x.toJson())),
   };
 }
 
@@ -59,6 +97,9 @@ class WorkTimeModel {
       json["work_date_list"].map((x) => TimeSlotsModel.fromJson(json)),
     ),
   );
+
+  factory WorkTimeModel.init(DaysWeekEnum key) =>
+      WorkTimeModel(specificDay: null, dateKey: key, workDateList: []);
 
   Map<String, dynamic> toJson() => {
     "date_key": dateKey.name,

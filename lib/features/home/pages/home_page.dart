@@ -24,6 +24,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(homeControllerProvider).value!;
+    final controller = ref.read(homeControllerProvider.notifier);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,11 +78,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                   child: TabBarView(
-                    children: const [
-                      AppointmentCalendar(),
+                    children: [
+                      const AppointmentCalendar(),
                       SingleChildScrollView(
                         padding: EdgeInsets.all(AppSpacing.paddingMD),
-                        child: FormScheduleAppointment(),
+                        child: FormScheduleAppointment(
+                          timeSlots: controller.generateListTimeSlots(),
+                          selectedTimeSlot: state.selectedTimeSlotNotifier.value,
+                          onTimeSlotSelected: controller.selectedTimeSlot,
+                        ),
                       ),
                     ],
                   ),
