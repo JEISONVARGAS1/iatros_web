@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/features/home/pages/home_page.dart';
-import 'package:iatros_web/uikit/extensions/context_extension.dart';
 import 'package:iatros_web/features/profile/pages/profile_page.dart';
 import 'package:iatros_web/features/lobby/provider/lobby_controller.dart';
 import 'package:iatros_web/features/patients_seek/pages/patients_page.dart';
@@ -36,26 +35,58 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
     }
 
     return Scaffold(
-      body: SimpleMedicalBackground(
-        child: Scaffold(
-          backgroundColor: AppColors.gray50,
-          body: Row(
+      backgroundColor: AppColors.gray50,
+      body: Stack(
+        children: [
+          Row(
             children: [
               CustomDrawerMenu(state: state, controller: controller),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsetsGeometry.symmetric(
-                    vertical: context.sizeHeight(0.07),
+                child: TabBarView(
+                  controller: state.tabController,
+                  children: const [HomePage(), PatientsPage(), ProfilePage()],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                width: state.width,
+              ),
+              Padding(
+                padding: EdgeInsetsGeometry.symmetric(vertical: 10),
+                child: InkWell(
+                  onTap: () =>
+                      controller.changeMenuWidth(state.width != 0 ? 0 : 280),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
                   ),
-                  child: TabBarView(
-                    controller: state.tabController,
-                    children: const [HomePage(), PatientsPage(), ProfilePage()],
+                  child: Material(
+                    color: AppColors.primaryDark.withOpacity(0.6),
+                    borderRadius: BorderRadiusDirectional.only(
+                      topEnd: Radius.circular(10),
+                      bottomEnd: Radius.circular(10),
+                    ),
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: Icon(
+                        state.width != 0
+                            ? Icons.arrow_back
+                            : Icons.arrow_forward,
+                        color: AppColors.background,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }

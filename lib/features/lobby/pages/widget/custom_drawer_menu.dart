@@ -18,194 +18,235 @@ class CustomDrawerMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          width: state.width,
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.primaryLight.withOpacity(0.9),
-                      AppColors.primaryDark.withOpacity(0.7),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 200),
+      width: state.width,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  AppColors.medicalBlue,
+                  AppColors.background,
+                ],
+                stops: [0.0, 1.0],
               ),
-              Visibility(
-                visible: state.isMenuVisible,
-                child: ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.white.withOpacity(0.1),
-                            AppColors.white.withOpacity(0.05),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        border: Border(
-                          right: BorderSide(
-                            color: AppColors.white.withOpacity(0.2),
-                            width: 1.5,
-                          ),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 25,
-                            spreadRadius: 5,
-                          ),
-                        ],
+            ),
+          ),
+          Visibility(
+            visible: state.isMenuVisible,
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.medicalBlue.withOpacity(0.3),
+                        AppColors.medicalBlue.withOpacity(0.1),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    border: Border(
+                      right: BorderSide(
+                        color: AppColors.white.withOpacity(0.2),
+                        width: 1.5,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 32,
-                          horizontal: 20,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 25,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 32,
+                      horizontal: 20,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // --- LOGO / HEADER ---
+                        Row(
                           children: [
-                            // --- LOGO / HEADER ---
+                            Icon(
+                              Icons.local_hospital,
+                              color: AppColors.primary,
+                              size: 32,
+                            ),
+                            UIHelpers.horizontalSpaceMD,
                             Text(
                               "Iatros",
-                              style: TextStyle(
+                              style: AppTypography.h4.copyWith(
                                 color: AppColors.primaryDark,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            UIHelpers.verticalSpaceLG,
-                            BaseCard(
-                              backgroundColor: AppColors.medicalBlue,
-                              borderRadius: BorderRadius.circular(
-                                AppSpacing.radiusXL,
+                          ],
+                        ),
+                        UIHelpers.verticalSpaceLG,
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.surface.withOpacity(0.9),
+                                AppColors.surface.withOpacity(0.7),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(AppSpacing.radiusLG),
+                            border: Border.all(
+                              color: AppColors.primary.withOpacity(0.2),
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
                               ),
-                              padding: const EdgeInsets.all(
-                                AppSpacing.paddingLG,
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(AppSpacing.paddingLG),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 24,
+                                backgroundColor: AppColors.primary.withOpacity(0.1),
+                                child: Icon(
+                                  Icons.person,
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 20,
-                                            child: Icon(Icons.person, size: 15),
-                                          ),
-                                          UIHelpers.horizontalSpaceSM,
-                                          Text(
-                                            "Nombre",
-                                            style: AppTypography.h5,
-                                          ),
-                                        ],
+                              UIHelpers.horizontalSpaceMD,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Usuario",
+                                      style: AppTypography.label.copyWith(
+                                        color: AppColors.textSecondary,
+                                        fontSize: 12,
                                       ),
-
-                                      UIHelpers.verticalSpaceSM,
-                                      Text(
-                                        "${state.myUser.name} ${state.myUser.lastName}",
-                                        style: AppTypography.bodySmall,
+                                    ),
+                                    UIHelpers.verticalSpaceXS,
+                                    Text(
+                                      "${state.myUser.name} ${state.myUser.lastName}",
+                                      style: AppTypography.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.textPrimary,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // --- NAV ITEMS ---
-                            CustomNavTile(
-                              title: "Agendamiento",
-                              icon: Icons.dashboard_outlined,
-                              selected: state.selectedIndex == 0,
-                              onTap: () => controller.changeIndex(0),
-                            ),
-                            CustomNavTile(
-                              title: "Pacientes",
-                              icon: Icons.people_outline,
-                              selected: state.selectedIndex == 1,
-                              onTap: () => controller.changeIndex(1),
-                            ),
-                            CustomNavTile(
-                              title: "Perfil",
-                              icon: Icons.person_outline,
-                              selected: state.selectedIndex == 2,
-                              onTap: () => controller.changeIndex(2),
-                            ),
-
-                            const Spacer(),
-
-                            // Glassmorphism divider
-                            Container(
-                              height: 1,
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.transparent,
-                                    AppColors.gray300.withOpacity(0.3),
-                                    Colors.transparent,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
-
-                            CustomNavTile(
-                              isLogout: true,
-                              icon: Icons.logout,
-                              title: "Cerrar sesión",
-                              onTap: () =>
-                                  controller.showLogoutConfirmation(context),
-                            ),
-                            UIHelpers.verticalSpaceLG,
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+
+                        // --- NAV ITEMS ---
+                        CustomNavTile(
+                          title: "Agendamiento",
+                          icon: Icons.dashboard_outlined,
+                          selected: state.selectedIndex == 0,
+                          onTap: () => controller.changeIndex(0),
+                        ),
+                        CustomNavTile(
+                          title: "Pacientes",
+                          icon: Icons.people_outline,
+                          selected: state.selectedIndex == 1,
+                          onTap: () => controller.changeIndex(1),
+                        ),
+                        CustomNavTile(
+                          title: "Perfil",
+                          icon: Icons.person_outline,
+                          selected: state.selectedIndex == 2,
+                          onTap: () => controller.changeIndex(2),
+                        ),
+
+                        const Spacer(),
+
+                        // Modern divider
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 24),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.transparent,
+                                        AppColors.primary.withOpacity(0.3),
+                                        AppColors.primary.withOpacity(0.1),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  "Cuenta",
+                                  style: AppTypography.caption.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        AppColors.primary.withOpacity(0.1),
+                                        AppColors.primary.withOpacity(0.3),
+                                        Colors.transparent,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        CustomNavTile(
+                          isLogout: true,
+                          icon: Icons.logout,
+                          title: "Cerrar sesión",
+                          onTap: () =>
+                              controller.showLogoutConfirmation(context),
+                        ),
+                        UIHelpers.verticalSpaceLG,
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsetsGeometry.symmetric(vertical: 10),
-          child: InkWell(
-            onTap: () => controller.changeMenuWidth(state.width != 0 ? 0 : 280),
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-            child: Material(
-              color: AppColors.primaryDark.withOpacity(0.6),
-              borderRadius: BorderRadiusDirectional.only(
-                topEnd: Radius.circular(10),
-                bottomEnd: Radius.circular(10),
-              ),
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Icon(
-                  state.width != 0 ? Icons.arrow_back : Icons.arrow_forward,
-                  color: AppColors.background,
-                ),
-              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

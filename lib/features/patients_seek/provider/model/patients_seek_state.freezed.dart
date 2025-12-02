@@ -49,9 +49,7 @@ mixin _$PatientsSeekState {
   double? get addressLatitude => throw _privateConstructorUsedError;
   double? get addressLongitude => throw _privateConstructorUsedError;
 
-  /// Create a copy of PatientsSeekState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PatientsSeekStateCopyWith<PatientsSeekState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -97,8 +95,6 @@ class _$PatientsSeekStateCopyWithImpl<$Res, $Val extends PatientsSeekState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PatientsSeekState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -261,8 +257,6 @@ class __$$PatientsSeekStateDataImplCopyWithImpl<$Res>
       $Res Function(_$PatientsSeekStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PatientsSeekState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -547,9 +541,7 @@ class _$PatientsSeekStateDataImpl implements PatientsSeekStateData {
         addressLongitude
       ]);
 
-  /// Create a copy of PatientsSeekState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PatientsSeekStateDataImplCopyWith<_$PatientsSeekStateDataImpl>
@@ -626,11 +618,8 @@ abstract class PatientsSeekStateData implements PatientsSeekState {
   double? get addressLatitude;
   @override
   double? get addressLongitude;
-
-  /// Create a copy of PatientsSeekState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PatientsSeekStateDataImplCopyWith<_$PatientsSeekStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -74,7 +74,7 @@ class GooglePlacesService extends CenterApi {
 
       autocompleteService.callMethod('getPlacePredictions', [
         request,
-        js.allowInterop((predictions, status) {
+        (predictions, status) {
           if (status == 'OK' && predictions != null) {
             final List<AddressLocationModel> results = [];
             for (int i = 0; i < predictions['length']; i++) {
@@ -93,7 +93,7 @@ class GooglePlacesService extends CenterApi {
             print('Google Places API error: $status');
             completer.complete([]);
           }
-        })
+        }
       ]);
 
       return await completer.future;

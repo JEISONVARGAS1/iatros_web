@@ -6,6 +6,17 @@ class TimeSlotsModel {
 
   TimeSlotsModel({required this.startWorkHours, required this.endWorkHours});
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimeSlotsModel &&
+          runtimeType == other.runtimeType &&
+          startWorkHours == other.startWorkHours &&
+          endWorkHours == other.endWorkHours;
+
+  @override
+  int get hashCode => startWorkHours.hashCode ^ endWorkHours.hashCode;
+
   TimeSlotsModel copyWith({
     TimeOfDay? endWorkHours,
     DateTime? specificDate,
@@ -18,15 +29,26 @@ class TimeSlotsModel {
   // -------------------------------
   //   FROM JSON (Supabase → Dart)
   // -------------------------------
-  factory TimeSlotsModel.fromJson(Map<String, dynamic> json) => TimeSlotsModel(
-    startWorkHours: json["start_work_hours"] != null
-        ? _stringToTimeOfDay(json["start_work_hours"])
-        : const TimeOfDay(hour: 0, minute: 0),
+  factory TimeSlotsModel.fromJson(Map<String, dynamic> json) {
+    final isEnd = json["end_work_hours"] != null;
+    final isStart = json["start_work_hours"] != null;
 
-    endWorkHours: json["end_work_hours"] != null
+    final end = isEnd
         ? _stringToTimeOfDay(json["end_work_hours"])
-        : const TimeOfDay(hour: 0, minute: 0),
-  );
+        : TimeOfDay(hour: 0, minute: 0);
+    final start = isStart
+        ? _stringToTimeOfDay(json["start_work_hours"])
+        : TimeOfDay(hour: 0, minute: 0);
+
+    return TimeSlotsModel(endWorkHours: end, startWorkHours: start);
+  }
+
+  factory TimeSlotsModel.init() {
+    final end = TimeOfDay(hour: 0, minute: 0);
+    final start = TimeOfDay(hour: 0, minute: 0);
+
+    return TimeSlotsModel(endWorkHours: end, startWorkHours: start);
+  }
 
   // -------------------------------
   //   TO JSON (Dart → Supabase)

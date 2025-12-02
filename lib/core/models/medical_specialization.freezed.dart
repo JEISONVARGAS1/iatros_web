@@ -26,12 +26,8 @@ mixin _$MedicalSpecialization {
   String get description => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
 
-  /// Serializes this MedicalSpecialization to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MedicalSpecialization
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $MedicalSpecializationCopyWith<MedicalSpecialization> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,8 +52,6 @@ class _$MedicalSpecializationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of MedicalSpecialization
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -108,8 +102,6 @@ class __$$MedicalSpecializationImplCopyWithImpl<$Res>
       $Res Function(_$MedicalSpecializationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MedicalSpecialization
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,13 +169,11 @@ class _$MedicalSpecializationImpl implements _MedicalSpecialization {
             (identical(other.icon, icon) || other.icon == icon));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, icon);
 
-  /// Create a copy of MedicalSpecialization
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MedicalSpecializationImplCopyWith<_$MedicalSpecializationImpl>
@@ -216,11 +206,8 @@ abstract class _MedicalSpecialization implements MedicalSpecialization {
   String get description;
   @override
   String? get icon;
-
-  /// Create a copy of MedicalSpecialization
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MedicalSpecializationImplCopyWith<_$MedicalSpecializationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

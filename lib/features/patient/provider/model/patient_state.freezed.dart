@@ -52,9 +52,7 @@ mixin _$PatientState {
   TextEditingController get diseaseAndReviewBySystemsController =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of PatientState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PatientStateCopyWith<PatientState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -102,8 +100,6 @@ class _$PatientStateCopyWithImpl<$Res, $Val extends PatientState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PatientState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -277,8 +273,6 @@ class __$$PatientStateDataImplCopyWithImpl<$Res>
       $Res Function(_$PatientStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PatientState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -593,9 +587,7 @@ class _$PatientStateDataImpl implements PatientStateData {
         diseaseAndReviewBySystemsController
       ]);
 
-  /// Create a copy of PatientState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PatientStateDataImplCopyWith<_$PatientStateDataImpl> get copyWith =>
@@ -679,11 +671,8 @@ abstract class PatientStateData implements PatientState {
   TextEditingController get analysisAndPlanController;
   @override
   TextEditingController get diseaseAndReviewBySystemsController;
-
-  /// Create a copy of PatientState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PatientStateDataImplCopyWith<_$PatientStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

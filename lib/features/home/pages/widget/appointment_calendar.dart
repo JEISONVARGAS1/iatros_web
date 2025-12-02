@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iatros_web/features/home/provider/home_controller.dart';
+import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
 
-class AppointmentCalendar extends StatelessWidget {
+class AppointmentCalendar extends ConsumerWidget {
   const AppointmentCalendar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeControllerProvider).value!;
     return SfCalendar(
+      key: ValueKey(state.medicalAppointmentBooking.length),
       view: CalendarView.month,
-      dataSource: MeetingDataSource(_getDataSource()),
+      dataSource: MeetingDataSource(
+        _getDataSource(state.medicalAppointmentBooking),
+      ),
       monthViewSettings: const MonthViewSettings(
         appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
       ),
+      onTap: (CalendarTapDetails details) {
+        if (details.targetElement == CalendarElement.calendarCell ||
+            details.targetElement == CalendarElement.appointment) {
+          context.go('/appointment-day/${details.date!.toIso8601String()}');
+        }
+      },
     );
   }
 
-  List<Meeting> _getDataSource() {
+  List<Meeting> _getDataSource(
+    List<MedicalAppointmentBookingModel> appointments,
+  ) {
     final List<Meeting> meetings = <Meeting>[];
-    final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 9, 0, 0);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
-    meetings.add(Meeting('Consulta General', startTime, endTime, const Color(0xFF0F8644), false));
+    for (var appointment in appointments) {
+      final startTime = appointment.scheduleMedicalAppointment;
+      final endTime = startTime.add(const Duration(hours: 1));
+      meetings.add(
+        Meeting('Cita Médica', startTime, endTime, Colors.blueAccent, true),
+      );
+    }
     return meetings;
   }
 }

@@ -77,69 +77,63 @@ class UserHiveModel extends HiveObject {
 
   /// Convert to `UserModel`
   UserModel toUser() => UserModel(
-        id: id,
-        name: name,
-        email: email,
-        phone: phone,
-        updateAt: updateAt,
-        lastName: lastName,
-        createdAt: createdAt,
-        specialization: specialization,
-        medicalLicense: medicalLicense,
-        yearsOfExperience: yearsOfExperience,
-        typeUser: _generateTypeUser(typeUser),
-        professionalCardUrl: professionalCardUrl,
-        identityDocumentUrl: identityDocumentUrl,
-        professionalBiography: professionalBiography,
-        identificationType: identificationType,
-        identificationNumber: identificationNumber,
-      );
+    id: id,
+    name: name,
+    email: email,
+    phone: phone,
+    updateAt: updateAt,
+    lastName: lastName,
+    createdAt: createdAt,
+    specialization: specialization,
+    medicalLicense: medicalLicense,
+    yearsOfExperience: yearsOfExperience,
+    typeUser: _generateTypeUser(typeUser),
+    professionalCardUrl: professionalCardUrl,
+    identityDocumentUrl: identityDocumentUrl,
+    professionalBiography: professionalBiography,
+    identificationType: identificationType,
+    identificationNumber: identificationNumber,
+  );
 
   /// Convert from `UserModel`
   factory UserHiveModel.fromUser(UserModel user) => UserHiveModel(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        lastName: user.lastName,
-        typeUser: user.typeUser.name,
-        specialization: user.specialization,
-        medicalLicense: user.medicalLicense,
-        yearsOfExperience: user.yearsOfExperience,
-        professionalCardUrl: user.professionalCardUrl,
-        identityDocumentUrl: user.identityDocumentUrl,
-        professionalBiography: user.professionalBiography,
-        identificationType: user.identificationType,
-        identificationNumber: user.identificationNumber,
-        // ignore: unnecessary_type_check
-        createdAt: user.createdAt is DateTime
-            ? user.createdAt
-            : DateTime.parse(user.createdAt.toString()),
-        // ignore: unnecessary_type_check
-        updateAt: user.updateAt is DateTime
-            ? user.updateAt
-            : DateTime.parse(user.updateAt.toString()),
-      );
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    lastName: user.lastName,
+    typeUser: user.typeUser.name,
+    specialization: user.specialization,
+    medicalLicense: user.medicalLicense,
+    yearsOfExperience: user.yearsOfExperience,
+    professionalCardUrl: user.professionalCardUrl,
+    identityDocumentUrl: user.identityDocumentUrl,
+    professionalBiography: user.professionalBiography,
+    identificationType: user.identificationType,
+    identificationNumber: user.identificationNumber,
+    createdAt: user.createdAt,
+    updateAt: user.updateAt,
+  );
 
   /// Create an empty instance
   factory UserHiveModel.empty() => UserHiveModel(
-        id: null,
-        name: '',
-        email: '',
-        phone: '',
-        lastName: '',
-        typeUser: "",
-        medicalLicense: '',
-        specialization: '',
-        yearsOfExperience: 0,
-        professionalCardUrl: '',
-        identityDocumentUrl: '',
-        updateAt: DateTime.now(),
-        professionalBiography: '',
-        identificationType: '',
-        identificationNumber: '',
-        createdAt: DateTime.now(),
-      );
+    id: null,
+    name: '',
+    email: '',
+    phone: '',
+    lastName: '',
+    typeUser: "",
+    medicalLicense: '',
+    specialization: '',
+    yearsOfExperience: 0,
+    professionalCardUrl: '',
+    identityDocumentUrl: '',
+    updateAt: DateTime.now(),
+    professionalBiography: '',
+    identificationType: '',
+    identificationNumber: '',
+    createdAt: DateTime.now(),
+  );
 
   /// Copy with method
   UserHiveModel copyWith({
@@ -160,25 +154,24 @@ class UserHiveModel extends HiveObject {
     String? identificationType,
     String? identificationNumber,
   }) => UserHiveModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        email: email ?? this.email,
-        phone: phone ?? this.phone,
-        lastName: lastName ?? this.lastName,
-        typeUser: typeUser ?? this.typeUser,
-        updateAt: updateAt ?? this.updateAt,
-        createdAt: createdAt ?? this.createdAt,
-        specialization: specialization ?? this.specialization,
-        medicalLicense: medicalLicense ?? this.medicalLicense,
-        yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
-        professionalCardUrl: professionalCardUrl ?? this.professionalCardUrl,
-        identityDocumentUrl: identityDocumentUrl ?? this.identityDocumentUrl,
-        professionalBiography: professionalBiography ?? this.professionalBiography,
-        identificationType: identificationType ?? this.identificationType,
-        identificationNumber: identificationNumber ?? this.identificationNumber,
-      );
+    id: id ?? this.id,
+    name: name ?? this.name,
+    email: email ?? this.email,
+    phone: phone ?? this.phone,
+    lastName: lastName ?? this.lastName,
+    typeUser: typeUser ?? this.typeUser,
+    updateAt: updateAt ?? this.updateAt,
+    createdAt: createdAt ?? this.createdAt,
+    specialization: specialization ?? this.specialization,
+    medicalLicense: medicalLicense ?? this.medicalLicense,
+    yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
+    professionalCardUrl: professionalCardUrl ?? this.professionalCardUrl,
+    identityDocumentUrl: identityDocumentUrl ?? this.identityDocumentUrl,
+    professionalBiography: professionalBiography ?? this.professionalBiography,
+    identificationType: identificationType ?? this.identificationType,
+    identificationNumber: identificationNumber ?? this.identificationNumber,
+  );
 }
-
 
 TypeUser _generateTypeUser(String? text) {
   if (text == TypeUser.DOCTOR.name) {

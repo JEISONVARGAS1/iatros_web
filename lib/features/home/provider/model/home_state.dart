@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:iatros_web/core/models/gender.dart';
 import 'package:iatros_web/core/models/blood_type.dart';
+import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
+import 'package:iatros_web/core/models/notification_result_model.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/core/models/doctor_setting_model.dart';
+import 'package:iatros_web/core/util/debouncer_util.dart';
 
 part 'home_state.freezed.dart';
 
@@ -16,9 +19,17 @@ sealed class HomeState with _$HomeState {
     required int index,
     required UserModel myUser,
     StreamSubscription? userSub,
+    required String phoneNumber,
+    required UserModel userFount,
     required DateTime dateSelected,
+    required bool hasTriedToValidate,
+    required DebouncerUtil debouncer,
+    required String? phoneErrorMessage,
+    required GlobalKey<FormState> form,
     required PageController pageController,
     required DoctorSettingModel doctorSetting,
+    required TimeSlotsModel? timeSlotsSelected,
+    required DateTime? selectedAppointmentDate,
     required List<TimeSlotsModel> listTimeSlots,
     required TextEditingController nameController,
     required TextEditingController emailController,
@@ -27,19 +38,30 @@ sealed class HomeState with _$HomeState {
     required TextEditingController lastNameController,
     required ValueNotifier<DateTime?> dateOfBirthNotifier,
     required ValueNotifier<Gender?> selectedGenderNotifier,
-    required ValueNotifier<DateTime?> selectedAppointmentDate,
+    required List<NotificationResultModel> listNotification,
     required ValueNotifier<BloodType?> selectedBloodTypeNotifier,
     required TextEditingController identificationNumberController,
-    required ValueNotifier<String?> selectedIdentificationTypeNotifier,
     required ValueNotifier<TimeSlotsModel?> selectedTimeSlotNotifier,
+    required ValueNotifier<String?> selectedIdentificationTypeNotifier,
+    required List<MedicalAppointmentBookingModel> medicalAppointmentBooking,
   }) = HomeStateData;
 
   factory HomeState.initial() => HomeState(
     index: 0,
+    phoneNumber: "",
     listTimeSlots: [],
+    listNotification: [],
+    phoneErrorMessage: null,
+    timeSlotsSelected: null,
     myUser: UserModel.init(),
+    hasTriedToValidate: false,
+    userFount: UserModel.init(),
+    form: GlobalKey<FormState>(),
     dateSelected: DateTime.now(),
+    medicalAppointmentBooking: [],
+    selectedAppointmentDate: null,
     pageController: PageController(),
+    debouncer: DebouncerUtil(seconds: 3),
     nameController: TextEditingController(),
     phoneController: TextEditingController(),
     doctorSetting: DoctorSettingModel.init(),
@@ -49,7 +71,6 @@ sealed class HomeState with _$HomeState {
     dateOfBirthNotifier: ValueNotifier<DateTime?>(null),
     selectedGenderNotifier: ValueNotifier<Gender?>(null),
     identificationNumberController: TextEditingController(),
-    selectedAppointmentDate: ValueNotifier<DateTime?>(null),
     selectedBloodTypeNotifier: ValueNotifier<BloodType?>(null),
     selectedIdentificationTypeNotifier: ValueNotifier<String?>(null),
     selectedTimeSlotNotifier: ValueNotifier<TimeSlotsModel?>(null),

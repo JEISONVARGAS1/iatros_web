@@ -94,7 +94,7 @@ class WorkTimeModel {
         : null,
     dateKey: _generateDaysWeekEnum(json["date_key"] ?? ""),
     workDateList: List<TimeSlotsModel>.from(
-      json["work_date_list"].map((x) => TimeSlotsModel.fromJson(json)),
+      json["work_date_list"].map((x) => TimeSlotsModel.fromJson(x)),
     ),
   );
 

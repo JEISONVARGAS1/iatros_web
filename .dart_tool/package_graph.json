@@ -22,6 +22,7 @@
         "http",
         "image_picker",
         "intl_phone_field",
+        "js",
         "json_annotation",
         "riverpod_annotation",
         "supabase_flutter",
@@ -39,7 +40,7 @@
     },
     {
       "name": "riverpod_generator",
-      "version": "2.6.3",
+      "version": "2.4.0",
       "dependencies": [
         "analyzer",
         "build",
@@ -55,7 +56,7 @@
     },
     {
       "name": "json_serializable",
-      "version": "6.9.0",
+      "version": "6.8.0",
       "dependencies": [
         "analyzer",
         "async",
@@ -73,13 +74,12 @@
     },
     {
       "name": "freezed",
-      "version": "2.5.7",
+      "version": "2.5.2",
       "dependencies": [
         "analyzer",
         "build",
         "build_config",
         "collection",
-        "dart_style",
         "freezed_annotation",
         "json_annotation",
         "meta",
@@ -88,7 +88,7 @@
     },
     {
       "name": "build_runner",
-      "version": "2.5.4",
+      "version": "2.4.13",
       "dependencies": [
         "analyzer",
         "args",
@@ -105,7 +105,6 @@
         "frontend_server_client",
         "glob",
         "graphs",
-        "http",
         "http_multi_server",
         "io",
         "js",
@@ -123,7 +122,6 @@
         "stream_transform",
         "timing",
         "watcher",
-        "web",
         "web_socket_channel",
         "yaml"
       ]
@@ -139,28 +137,18 @@
       "name": "flutter_test",
       "version": "0.0.0",
       "dependencies": [
-        "async",
-        "boolean_selector",
-        "characters",
         "clock",
         "collection",
         "fake_async",
         "flutter",
-        "leak_tracker",
         "leak_tracker_flutter_testing",
-        "leak_tracker_testing",
         "matcher",
-        "material_color_utilities",
         "meta",
         "path",
-        "source_span",
         "stack_trace",
         "stream_channel",
-        "string_scanner",
-        "term_glyph",
         "test_api",
-        "vector_math",
-        "vm_service"
+        "vector_math"
       ]
     },
     {
@@ -362,6 +350,11 @@
       "dependencies": []
     },
     {
+      "name": "js",
+      "version": "0.7.2",
+      "dependencies": []
+    },
+    {
       "name": "flutter",
       "version": "0.0.0",
       "dependencies": [
@@ -389,7 +382,7 @@
     },
     {
       "name": "riverpod_analyzer_utils",
-      "version": "0.5.8",
+      "version": "0.5.1",
       "dependencies": [
         "analyzer",
         "collection",
@@ -408,7 +401,7 @@
     },
     {
       "name": "meta",
-      "version": "1.16.0",
+      "version": "1.17.0",
       "dependencies": []
     },
     {
@@ -436,34 +429,28 @@
     },
     {
       "name": "build",
-      "version": "2.5.4",
+      "version": "2.4.1",
       "dependencies": [
         "analyzer",
         "async",
-        "build_runner_core",
-        "built_collection",
-        "built_value",
         "convert",
         "crypto",
         "glob",
-        "graphs",
         "logging",
         "meta",
         "package_config",
-        "path",
-        "pool"
+        "path"
       ]
     },
     {
       "name": "analyzer",
-      "version": "6.11.0",
+      "version": "6.4.1",
       "dependencies": [
         "_fe_analyzer_shared",
         "collection",
         "convert",
         "crypto",
         "glob",
-        "macros",
         "meta",
         "package_config",
         "path",
@@ -509,19 +496,6 @@
       ]
     },
     {
-      "name": "dart_style",
-      "version": "2.3.8",
-      "dependencies": [
-        "analyzer",
-        "args",
-        "collection",
-        "package_config",
-        "path",
-        "pub_semver",
-        "source_span"
-      ]
-    },
-    {
       "name": "yaml",
       "version": "3.1.3",
       "dependencies": [
@@ -540,11 +514,6 @@
         "web",
         "web_socket"
       ]
-    },
-    {
-      "name": "web",
-      "version": "1.1.1",
-      "dependencies": []
     },
     {
       "name": "watcher",
@@ -575,7 +544,7 @@
     },
     {
       "name": "shelf_web_socket",
-      "version": "3.0.0",
+      "version": "2.0.1",
       "dependencies": [
         "shelf",
         "stream_channel",
@@ -617,11 +586,6 @@
     {
       "name": "logging",
       "version": "1.3.0",
-      "dependencies": []
-    },
-    {
-      "name": "js",
-      "version": "0.7.2",
       "dependencies": []
     },
     {
@@ -667,6 +631,18 @@
       ]
     },
     {
+      "name": "dart_style",
+      "version": "2.3.6",
+      "dependencies": [
+        "analyzer",
+        "args",
+        "collection",
+        "path",
+        "pub_semver",
+        "source_span"
+      ]
+    },
+    {
       "name": "code_builder",
       "version": "4.11.0",
       "dependencies": [
@@ -679,16 +655,12 @@
     },
     {
       "name": "build_runner_core",
-      "version": "9.1.2",
+      "version": "7.3.2",
       "dependencies": [
-        "analyzer",
         "async",
         "build",
         "build_config",
         "build_resolvers",
-        "build_runner",
-        "built_collection",
-        "built_value",
         "collection",
         "convert",
         "crypto",
@@ -707,12 +679,11 @@
     },
     {
       "name": "build_resolvers",
-      "version": "2.5.4",
+      "version": "2.4.2",
       "dependencies": [
         "analyzer",
         "async",
         "build",
-        "build_runner_core",
         "collection",
         "convert",
         "crypto",
@@ -722,7 +693,8 @@
         "path",
         "pool",
         "pub_semver",
-        "stream_transform"
+        "stream_transform",
+        "yaml"
       ]
     },
     {
@@ -754,23 +726,6 @@
       "dependencies": []
     },
     {
-      "name": "vm_service",
-      "version": "15.0.0",
-      "dependencies": []
-    },
-    {
-      "name": "term_glyph",
-      "version": "1.2.2",
-      "dependencies": []
-    },
-    {
-      "name": "string_scanner",
-      "version": "1.4.1",
-      "dependencies": [
-        "source_span"
-      ]
-    },
-    {
       "name": "stream_channel",
       "version": "2.1.4",
       "dependencies": [
@@ -778,57 +733,8 @@
       ]
     },
     {
-      "name": "source_span",
-      "version": "1.10.1",
-      "dependencies": [
-        "collection",
-        "path",
-        "term_glyph"
-      ]
-    },
-    {
-      "name": "material_color_utilities",
-      "version": "0.11.1",
-      "dependencies": [
-        "collection"
-      ]
-    },
-    {
-      "name": "leak_tracker_testing",
-      "version": "3.0.1",
-      "dependencies": [
-        "leak_tracker",
-        "matcher",
-        "meta"
-      ]
-    },
-    {
-      "name": "leak_tracker",
-      "version": "10.0.9",
-      "dependencies": [
-        "clock",
-        "collection",
-        "meta",
-        "path",
-        "vm_service"
-      ]
-    },
-    {
-      "name": "characters",
-      "version": "1.4.0",
-      "dependencies": []
-    },
-    {
-      "name": "boolean_selector",
-      "version": "2.1.2",
-      "dependencies": [
-        "source_span",
-        "string_scanner"
-      ]
-    },
-    {
       "name": "leak_tracker_flutter_testing",
-      "version": "3.0.9",
+      "version": "3.0.10",
       "dependencies": [
         "flutter",
         "leak_tracker",
@@ -839,7 +745,7 @@
     },
     {
       "name": "vector_math",
-      "version": "2.1.4",
+      "version": "2.2.0",
       "dependencies": []
     },
     {
@@ -868,7 +774,7 @@
     },
     {
       "name": "test_api",
-      "version": "0.7.4",
+      "version": "0.7.7",
       "dependencies": [
         "async",
         "boolean_selector",
@@ -885,15 +791,9 @@
       "name": "flutter_localizations",
       "version": "0.0.0",
       "dependencies": [
-        "characters",
-        "clock",
-        "collection",
         "flutter",
         "intl",
-        "material_color_utilities",
-        "meta",
-        "path",
-        "vector_math"
+        "path"
       ]
     },
     {
@@ -976,6 +876,15 @@
       ]
     },
     {
+      "name": "source_span",
+      "version": "1.10.1",
+      "dependencies": [
+        "collection",
+        "path",
+        "term_glyph"
+      ]
+    },
+    {
       "name": "html",
       "version": "0.15.6",
       "dependencies": [
@@ -1025,12 +934,7 @@
       "name": "flutter_web_plugins",
       "version": "0.0.0",
       "dependencies": [
-        "characters",
-        "collection",
-        "flutter",
-        "material_color_utilities",
-        "meta",
-        "vector_math"
+        "flutter"
       ]
     },
     {
@@ -1114,6 +1018,11 @@
       ]
     },
     {
+      "name": "web",
+      "version": "1.1.1",
+      "dependencies": []
+    },
+    {
       "name": "http_parser",
       "version": "4.1.2",
       "dependencies": [
@@ -1185,13 +1094,24 @@
       "dependencies": []
     },
     {
+      "name": "material_color_utilities",
+      "version": "0.11.1",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "characters",
+      "version": "1.4.0",
+      "dependencies": []
+    },
+    {
       "name": "custom_lint_core",
-      "version": "0.7.0",
+      "version": "0.6.3",
       "dependencies": [
         "analyzer",
         "analyzer_plugin",
         "collection",
-        "custom_lint_visitor",
         "glob",
         "matcher",
         "meta",
@@ -1199,7 +1119,6 @@
         "path",
         "pubspec_parse",
         "source_span",
-        "uuid",
         "yaml"
       ]
     },
@@ -1220,32 +1139,17 @@
       ]
     },
     {
-      "name": "built_value",
-      "version": "8.12.0",
-      "dependencies": [
-        "built_collection",
-        "collection",
-        "fixnum",
-        "meta"
-      ]
-    },
-    {
-      "name": "built_collection",
-      "version": "5.1.1",
-      "dependencies": []
-    },
-    {
-      "name": "macros",
-      "version": "0.1.3-main.0",
-      "dependencies": [
-        "_macros"
-      ]
-    },
-    {
       "name": "_fe_analyzer_shared",
-      "version": "76.0.0",
+      "version": "67.0.0",
       "dependencies": [
         "meta"
+      ]
+    },
+    {
+      "name": "string_scanner",
+      "version": "1.4.1",
+      "dependencies": [
+        "source_span"
       ]
     },
     {
@@ -1261,6 +1165,54 @@
       "dependencies": [
         "meta",
         "path"
+      ]
+    },
+    {
+      "name": "built_value",
+      "version": "8.12.0",
+      "dependencies": [
+        "built_collection",
+        "collection",
+        "fixnum",
+        "meta"
+      ]
+    },
+    {
+      "name": "built_collection",
+      "version": "5.1.1",
+      "dependencies": []
+    },
+    {
+      "name": "leak_tracker_testing",
+      "version": "3.0.2",
+      "dependencies": [
+        "leak_tracker",
+        "matcher",
+        "meta"
+      ]
+    },
+    {
+      "name": "leak_tracker",
+      "version": "11.0.2",
+      "dependencies": [
+        "clock",
+        "collection",
+        "meta",
+        "path",
+        "vm_service"
+      ]
+    },
+    {
+      "name": "term_glyph",
+      "version": "1.2.2",
+      "dependencies": []
+    },
+    {
+      "name": "boolean_selector",
+      "version": "2.1.2",
+      "dependencies": [
+        "source_span",
+        "string_scanner"
       ]
     },
     {
@@ -1567,23 +1519,6 @@
       ]
     },
     {
-      "name": "uuid",
-      "version": "4.5.1",
-      "dependencies": [
-        "crypto",
-        "fixnum",
-        "meta",
-        "sprintf"
-      ]
-    },
-    {
-      "name": "custom_lint_visitor",
-      "version": "1.0.0+6.11.0",
-      "dependencies": [
-        "analyzer"
-      ]
-    },
-    {
       "name": "analyzer_plugin",
       "version": "0.11.3",
       "dependencies": [
@@ -1600,8 +1535,8 @@
       "dependencies": []
     },
     {
-      "name": "_macros",
-      "version": "0.3.3",
+      "name": "vm_service",
+      "version": "15.0.0",
       "dependencies": []
     },
     {
@@ -1635,11 +1570,6 @@
         "flutter",
         "meta"
       ]
-    },
-    {
-      "name": "sprintf",
-      "version": "7.0.0",
-      "dependencies": []
     }
   ],
   "configVersion": 1

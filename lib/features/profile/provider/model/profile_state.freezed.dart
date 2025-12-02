@@ -24,9 +24,7 @@ mixin _$ProfileState {
   int get consultationDurationMinutes => throw _privateConstructorUsedError;
   List<WorkTimeModel> get listTimeSlots => throw _privateConstructorUsedError;
 
-  /// Create a copy of ProfileState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,8 +54,6 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ProfileState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,8 +118,6 @@ class __$$ProfileStateDataImplCopyWithImpl<$Res>
       $Res Function(_$ProfileStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ProfileState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -233,9 +227,7 @@ class _$ProfileStateDataImpl implements ProfileStateData {
       consultationDurationMinutes,
       const DeepCollectionEquality().hash(_listTimeSlots));
 
-  /// Create a copy of ProfileState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileStateDataImplCopyWith<_$ProfileStateDataImpl> get copyWith =>
@@ -265,11 +257,8 @@ abstract class ProfileStateData implements ProfileState {
   int get consultationDurationMinutes;
   @override
   List<WorkTimeModel> get listTimeSlots;
-
-  /// Create a copy of ProfileState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProfileStateDataImplCopyWith<_$ProfileStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -22,9 +22,7 @@ mixin _$LobbyState {
   bool get isMenuVisible => throw _privateConstructorUsedError;
   TabController? get tabController => throw _privateConstructorUsedError;
 
-  /// Create a copy of LobbyState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $LobbyStateCopyWith<LobbyState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +51,6 @@ class _$LobbyStateCopyWithImpl<$Res, $Val extends LobbyState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LobbyState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,8 +109,6 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
       _$LobbyStateDataImpl _value, $Res Function(_$LobbyStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LobbyState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,9 +188,7 @@ class _$LobbyStateDataImpl implements LobbyStateData {
   int get hashCode => Object.hash(
       runtimeType, width, myUser, selectedIndex, isMenuVisible, tabController);
 
-  /// Create a copy of LobbyState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LobbyStateDataImplCopyWith<_$LobbyStateDataImpl> get copyWith =>
@@ -222,11 +214,8 @@ abstract class LobbyStateData implements LobbyState {
   bool get isMenuVisible;
   @override
   TabController? get tabController;
-
-  /// Create a copy of LobbyState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$LobbyStateDataImplCopyWith<_$LobbyStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

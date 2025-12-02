@@ -23,9 +23,7 @@ mixin _$GlobalState {
       throw _privateConstructorUsedError;
   DoctorSettingModel get doctorSetting => throw _privateConstructorUsedError;
 
-  /// Create a copy of GlobalState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GlobalStateCopyWith<GlobalState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +51,6 @@ class _$GlobalStateCopyWithImpl<$Res, $Val extends GlobalState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GlobalState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,8 +103,6 @@ class __$$GlobalStateDataImplCopyWithImpl<$Res>
       _$GlobalStateDataImpl _value, $Res Function(_$GlobalStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GlobalState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,9 +172,7 @@ class _$GlobalStateDataImpl implements GlobalStateData {
   int get hashCode => Object.hash(
       runtimeType, myUser, userSub, doctorSettingSub, doctorSetting);
 
-  /// Create a copy of GlobalState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GlobalStateDataImplCopyWith<_$GlobalStateDataImpl> get copyWith =>
@@ -203,11 +195,8 @@ abstract class GlobalStateData implements GlobalState {
   StreamSubscription<dynamic>? get doctorSettingSub;
   @override
   DoctorSettingModel get doctorSetting;
-
-  /// Create a copy of GlobalState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GlobalStateDataImplCopyWith<_$GlobalStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

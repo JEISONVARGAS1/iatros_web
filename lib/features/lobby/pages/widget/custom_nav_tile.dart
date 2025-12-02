@@ -26,16 +26,16 @@ class CustomNavTile extends StatelessWidget {
         duration: const Duration(milliseconds: 220),
         margin: const EdgeInsets.symmetric(vertical: 6),
         child: GlassmorphismCard(
-          blur: selected ? 15.0 : 8.0,
-          opacity: selected ? 0.25 : 0.15,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          borderRadius: BorderRadius.circular(12),
+          blur: selected ? 15.0 : 12.0,
+          opacity: selected ? 0.25 : 0.2,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: selected
-                ? AppColors.primary.withOpacity(0.3)
+                ? AppColors.primary.withOpacity(0.4)
                 : isLogout
                 ? AppColors.error.withOpacity(0.9)
-                : AppColors.white.withOpacity(0.1),
+                : AppColors.primary.withOpacity(0.15),
             width: selected
                 ? 2.0
                 : isLogout
@@ -43,10 +43,10 @@ class CustomNavTile extends StatelessWidget {
                 : 1.5,
           ),
           backgroundColor: selected
-              ? AppColors.primary.withOpacity(0.1)
+              ? AppColors.primary.withOpacity(0.12)
               : isLogout
-              ? AppColors.error.withOpacity(0.05)
-              : AppColors.surface.withOpacity(0.05),
+              ? AppColors.error.withOpacity(0.08)
+              : AppColors.medicalBlue.withOpacity(0.08),
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             leading: Icon(
@@ -54,35 +54,30 @@ class CustomNavTile extends StatelessWidget {
               color: isLogout
                   ? AppColors.error
                   : selected
-                  ? AppColors.primaryDark
-                  : AppColors.gray500,
+                  ? AppColors.primary
+                  : AppColors.primary.withOpacity(0.7),
               size: isLogout ? 24 : 22,
             ),
             title: Text(
               title,
-              style: TextStyle(
+              style: AppTypography.bodyMedium.copyWith(
                 color: isLogout
                     ? AppColors.error
                     : selected
                     ? AppColors.primaryDark
-                    : AppColors.textSecondary,
+                    : AppColors.textPrimary.withOpacity(0.8),
                 fontWeight: selected
-                    ? FontWeight.w900
-                    : isLogout
                     ? FontWeight.w600
-                    : FontWeight.w300,
-                fontSize: selected
-                    ? 16
                     : isLogout
-                    ? 16
-                    : 15,
-                letterSpacing: 0.1,
+                    ? FontWeight.w500
+                    : FontWeight.w400,
+                letterSpacing: 0.2,
               ),
             ),
-            hoverColor: AppColors.primary.withOpacity(0.05),
+            hoverColor: AppColors.primary.withOpacity(0.08),
             onTap: onTap,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         ),

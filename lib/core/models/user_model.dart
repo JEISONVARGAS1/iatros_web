@@ -144,9 +144,9 @@ class UserModel {
     identityDocumentUrl: "",
     updateAt: DateTime.now(),
     identificationNumber: "",
-    typeUser: TypeUser.DOCTOR,
     createdAt: DateTime.now(),
     professionalBiography: "",
+    typeUser: TypeUser.PATIENT,
   );
 
   Map<String, dynamic> toJson() {
@@ -187,6 +187,31 @@ class UserModel {
     }
 
     return data;
+  }
+
+  bool compareWith(UserModel other) {
+    return id == other.id &&
+      name == other.name &&
+      phone == other.phone &&
+      email == other.email &&
+      gender == other.gender &&
+      address == other.address &&
+      lastName == other.lastName &&
+      typeUser == other.typeUser &&
+      latitude == other.latitude &&
+      longitude == other.longitude &&
+      bloodType == other.bloodType &&
+      specialization == other.specialization &&
+      medicalLicense == other.medicalLicense &&
+      yearsOfExperience == other.yearsOfExperience &&
+      (dateOfBirth == null && other.dateOfBirth == null ||
+        dateOfBirth != null && other.dateOfBirth != null &&
+        dateOfBirth!.isAtSameMomentAs(other.dateOfBirth!)) &&
+      identificationType == other.identificationType &&
+      professionalCardUrl == other.professionalCardUrl &&
+      identityDocumentUrl == other.identityDocumentUrl &&
+      identificationNumber == other.identificationNumber &&
+      professionalBiography == other.professionalBiography;
   }
 }
 

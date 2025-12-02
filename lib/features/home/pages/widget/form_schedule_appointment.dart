@@ -1,43 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:iatros_web/uikit/index.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/features/home/provider/home_controller.dart';
+import 'package:iatros_web/features/home/provider/model/home_state.dart';
+import 'package:iatros_web/features/home/pages/widget/selector_hour.dart';
+import 'package:iatros_web/features/home/pages/widget/date_selected_card.dart';
 
-class FormScheduleAppointment extends ConsumerStatefulWidget {
-   const FormScheduleAppointment({
-     super.key,
-     required this.timeSlots,
-     required this.selectedTimeSlot,
-     required this.onTimeSlotSelected,
-   });
+class FormScheduleAppointment extends StatelessWidget {
+  final HomeState state;
+  final HomeController controller;
 
-   final List<TimeSlotsModel> timeSlots;
-   final TimeSlotsModel? selectedTimeSlot;
-   final Function(TimeSlotsModel) onTimeSlotSelected;
+  const FormScheduleAppointment({
+    super.key,
+    required this.state,
+    required this.controller,
+  });
 
-   @override
-   ConsumerState<FormScheduleAppointment> createState() =>
-       _FormScheduleAppointmentState();
- }
+  Widget _buildMonthCell(BuildContext context, MonthCellDetails details) {
+    bool hasSlots = controller.hasAvailableSlots(details.date);
+    bool isPast = details.date.isBefore(DateTime.now());
+    bool isSelected = state.selectedAppointmentDate != null &&
+        details.date.isAtSameMomentAs(state.selectedAppointmentDate!);
+    bool isToday = details.date.year == DateTime.now().year &&
+        details.date.month == DateTime.now().month &&
+        details.date.day == DateTime.now().day;
 
-class _FormScheduleAppointmentState
-    extends ConsumerState<FormScheduleAppointment> {
-  final _formKey = GlobalKey<FormState>();
-  bool _hasTriedToValidate = false;
+    Color backgroundColor;
+    if (isSelected) {
+      backgroundColor = AppColors.primary.withOpacity(0.2);
+    } else {
+      backgroundColor = Colors.transparent;
+    }
 
-  String? phoneErrorMessage;
-  String phoneData = "";
+    TextStyle textStyle;
+    if (isToday) {
+      textStyle = TextStyle(
+        color: AppColors.primary,
+        fontWeight: FontWeight.bold,
+        fontSize: 15,
+      );
+    } else {
+      textStyle = TextStyle(color: Colors.black);
+    }
+
+    Border? border;
+    if (isSelected) {
+      border = Border.all(color: AppColors.primary);
+    } else {
+      border = Border.all(
+        color: (isPast || !hasSlots) ? Colors.grey.withOpacity(0.5) : Colors.green.withOpacity(0.5),
+        width: 1,
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(2),
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          border: border,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          details.date.day.toString(),
+          style: textStyle,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(homeControllerProvider).value!;
-    final controller = ref.read(homeControllerProvider.notifier);
-
     return Form(
-      key: _formKey,
+      key: state.form,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,36 +87,20 @@ class _FormScheduleAppointmentState
               Expanded(
                 child: TextInput(
                   label: 'Nombre',
+                  isRequired: true,
                   hint: 'Tu nombre',
                   controller: state.nameController,
-                  isRequired: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'El nombre es requerido';
-                    }
-                    if (value.length < 2) {
-                      return 'El nombre debe tener al menos 2 caracteres';
-                    }
-                    return null;
-                  },
+                  validator: controller.validateField,
                 ),
               ),
               UIHelpers.horizontalSpaceMD,
               Expanded(
                 child: TextInput(
+                  isRequired: true,
                   label: 'Apellido',
                   hint: 'Tu apellido',
+                  validator: controller.validateField,
                   controller: state.lastNameController,
-                  isRequired: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'El apellido es requerido';
-                    }
-                    if (value.length < 2) {
-                      return 'El apellido debe tener al menos 2 caracteres';
-                    }
-                    return null;
-                  },
                 ),
               ),
             ],
@@ -88,37 +109,22 @@ class _FormScheduleAppointmentState
 
           // Email
           TextInput(
-            label: 'Correo electrónico',
-            hint: 'tu@email.com',
-            controller: state.emailController,
-            keyboardType: TextInputType.emailAddress,
             isRequired: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'El correo es requerido';
-              }
-              if (!RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-              ).hasMatch(value)) {
-                return 'Ingresa un correo válido';
-              }
-              return null;
-            },
+            hint: 'tu@email.com',
+            label: 'Correo electrónico',
+            controller: state.emailController,
+            validator: controller.validateEmail,
+            keyboardType: TextInputType.emailAddress,
           ),
           UIHelpers.verticalSpaceMD,
 
           // Identification
           IdentificationSelector(
             isRequired: true,
-            onNumberChanged: (value) {},
+            errorText: controller.validateIdentification(),
             numberController: state.identificationNumberController,
             onTypeChanged: controller.selectedIdentificationTypeNotifier,
             selectedTypeNotifier: state.selectedIdentificationTypeNotifier,
-            errorText:
-                state.identificationNumberController.text.isEmpty &&
-                    _hasTriedToValidate
-                ? 'La identificación es requerida'
-                : null,
           ),
           UIHelpers.verticalSpaceMD,
 
@@ -178,28 +184,15 @@ class _FormScheduleAppointmentState
                 ),
                 initialCountryCode: 'CO',
                 onChanged: (phone) {
-                  phoneData = phone.completeNumber;
-                  setState(() {
-                    phoneErrorMessage = null;
-                  });
+                  controller.setPhoneMessageError(null);
+                  controller.setPhone(phone.completeNumber);
                 },
-                validator: (value) {
-                  if (value == null || value.number.isEmpty) {
-                    return 'El teléfono es requerido';
-                  }
-                  if (value.number.length < 10) {
-                    return 'El teléfono debe tener al menos 10 dígitos';
-                  }
-                  if (!RegExp(r'^\d+$').hasMatch(value.number)) {
-                    return 'El teléfono solo puede contener números';
-                  }
-                  return null;
-                },
+                validator: controller.validatePhone,
               ),
 
-              if (phoneErrorMessage != null)
+              if (state.phoneErrorMessage != null)
                 Text(
-                  phoneErrorMessage!,
+                  state.phoneErrorMessage!,
                   style: AppTypography.caption.copyWith(color: AppColors.error),
                 ),
             ],
@@ -209,36 +202,22 @@ class _FormScheduleAppointmentState
 
           // Address
           AddressAutocompleteInput(
-            label: 'Dirección de Residencia',
-            hint: 'Busca tu dirección',
-            controller: state.addressController,
             isRequired: true,
-            errorText:
-                (state.addressController.text.isEmpty && _hasTriedToValidate)
-                ? 'La dirección es requerida'
-                : null,
+            hint: 'Busca tu dirección',
             onAddressSelected: (address) {},
-            onPlaceDetailsSelected: (placeDetails) {
-              // Handle place details if needed
-            },
+            label: 'Dirección de Residencia',
+            controller: state.addressController,
+            errorText: controller.validateAddress(),
           ),
           UIHelpers.verticalSpaceMD,
 
           // Date of Birth
           DatePickerInput(
             isRequired: true,
+            lastDate: DateTime.now(),
             label: 'Fecha de Nacimiento',
+            errorText: controller.validateBirth(),
             selectedDateNotifier: state.dateOfBirthNotifier,
-            onDateSelected: (date) {},
-            lastDate: DateTime(
-              DateTime.now().year,
-              DateTime.now().month,
-              DateTime.now().day,
-            ),
-            errorText:
-                state.dateOfBirthNotifier.value == null && _hasTriedToValidate
-                ? 'La fecha de nacimiento es requerida'
-                : null,
           ),
           UIHelpers.verticalSpaceMD,
 
@@ -246,12 +225,8 @@ class _FormScheduleAppointmentState
           GenderSelector(
             isRequired: true,
             onChanged: controller.selectedGender,
+            errorText: controller.validateGender(),
             selectedGenderNotifier: state.selectedGenderNotifier,
-            errorText:
-                state.selectedGenderNotifier.value == null &&
-                    _hasTriedToValidate
-                ? 'El sexo es requerido'
-                : null,
           ),
           UIHelpers.verticalSpaceMD,
 
@@ -260,11 +235,7 @@ class _FormScheduleAppointmentState
             isRequired: true,
             onChanged: controller.selectedBloodType,
             selectedBloodTypeNotifier: state.selectedBloodTypeNotifier,
-            errorText:
-                state.selectedBloodTypeNotifier.value == null &&
-                    _hasTriedToValidate
-                ? 'El grupo sanguíneo es requerido'
-                : null,
+            errorText: controller.validateBlood(),
           ),
           UIHelpers.verticalSpaceMD,
 
@@ -278,33 +249,52 @@ class _FormScheduleAppointmentState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RichText(
-                  text: TextSpan(
-                    text: "Selecciona la fecha y hora de la cita",
-                    style: AppTypography.label,
-                    children: [
-                      const TextSpan(
-                        text: ' *',
-                        style: TextStyle(color: AppColors.error),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: "Selecciona la fecha y hora de la cita",
+                        style: AppTypography.label,
+                        children: [
+                          const TextSpan(
+                            text: ' *',
+                            style: TextStyle(color: AppColors.error),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (state.selectedAppointmentDate != null &&
+                        state.timeSlotsSelected != null) ...[
+                      UIHelpers.horizontalSpaceMD,
+                      DateSelectedCard(
+                        date: state.selectedAppointmentDate!,
+                        timeSlot: state.timeSlotsSelected!,
                       ),
                     ],
-                  ),
+                  ],
                 ),
                 UIHelpers.verticalSpaceMD,
                 // Calendar
                 SizedBox(
                   height: 250,
                   child: SfCalendar(
+                    minDate: DateTime.now(),
                     view: CalendarView.month,
-                    minDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                     onTap: (CalendarTapDetails details) {
                       final date = details.date;
                       if (date != null) {
                         controller.selectedAppointmentDate(date);
                       }
                     },
+                    monthCellBuilder: _buildMonthCell,
                     todayHighlightColor: Colors.transparent,
-                    todayTextStyle: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
+                    todayTextStyle: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                     showNavigationArrow: true,
                     selectionDecoration: BoxDecoration(
                       color: AppColors.primary.withOpacity(0.2),
@@ -313,42 +303,14 @@ class _FormScheduleAppointmentState
                     ),
                   ),
                 ),
-                UIHelpers.verticalSpaceMD,
+                UIHelpers.verticalSpaceXL,
                 // Time Slots
                 Text('Horarios disponibles:', style: AppTypography.label),
                 UIHelpers.verticalSpaceSM,
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: widget.timeSlots.map((slot) {
-                    bool isSelected = widget.selectedTimeSlot == slot;
-                    return GestureDetector(
-                      onTap: () => widget.onTimeSlotSelected(slot),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.surface,
-                          border: Border.all(color: AppColors.gray300),
-                          borderRadius: BorderRadius.circular(
-                            AppSpacing.radiusSM,
-                          ),
-                        ),
-                        child: Text(
-                          "slot",
-                          style: AppTypography.bodyMedium.copyWith(
-                            color: isSelected
-                                ? Colors.white
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                SelectorHour(
+                  selectedTimeSlot: state.timeSlotsSelected,
+                  listSlots: controller.generateListTimeSlots(),
+                  onTimeSlotSelect: controller.onTimeSlotSelected,
                 ),
               ],
             ),
@@ -361,29 +323,26 @@ class _FormScheduleAppointmentState
             child: SecondaryButton(
               label: "Agendar Cita",
               onPressed: () {
-                setState(() => _hasTriedToValidate = true);
+                controller.setHasTriedToValidate(true);
 
-                if (_formKey.currentState!.validate()) {
+                if (state.form.currentState!.validate()) {
                   if (state.selectedIdentificationTypeNotifier.value == null ||
                       state.identificationNumberController.text.isEmpty) {
                     return;
                   }
-                  if (phoneData.isEmpty) {
-                    setState(() {
-                      phoneErrorMessage = 'El número de teléfono es requerido';
-                    });
+                  if (state.phoneNumber.isEmpty) {
+                    controller.setPhoneMessageError(
+                      'El número de teléfono es requerido',
+                    );
                     return;
                   }
+                  if (state.timeSlotsSelected == null) return;
+                  if (state.selectedAppointmentDate == null) return;
                   if (state.dateOfBirthNotifier.value == null) return;
                   if (state.selectedGenderNotifier.value == null) return;
                   if (state.selectedBloodTypeNotifier.value == null) return;
-                  if (state.selectedAppointmentDate.value == null) return;
-                  if (widget.selectedTimeSlot == null) return;
 
-                  // Here you would handle the appointment scheduling
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Cita agendada exitosamente')),
-                  );
+                  controller.scheduleAppointment();
                 }
               },
             ),

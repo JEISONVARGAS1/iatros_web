@@ -26,9 +26,7 @@ mixin _$AuthState {
   double get addressLatitude => throw _privateConstructorUsedError;
   double get addressLongitude => throw _privateConstructorUsedError;
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,8 +58,6 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,8 +140,6 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
       _$AuthStateDataImpl _value, $Res Function(_$AuthStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -275,9 +269,7 @@ class _$AuthStateDataImpl implements AuthStateData {
       addressLatitude,
       addressLongitude);
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthStateDataImplCopyWith<_$AuthStateDataImpl> get copyWith =>
@@ -314,11 +306,8 @@ abstract class AuthStateData implements AuthState {
   double get addressLatitude;
   @override
   double get addressLongitude;
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AuthStateDataImplCopyWith<_$AuthStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
