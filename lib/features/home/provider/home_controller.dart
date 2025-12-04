@@ -19,7 +19,7 @@ class HomeController extends _$HomeController {
   @override
   FutureOr<HomeState> build() {
     ref.onDispose(() {
-      state.value!.userSub!.cancel();
+      state.value!.medicalSub!.cancel();
       state.value!.pageController.dispose();
       state.value!.nameController.dispose();
       state.value!.emailController.dispose();
@@ -28,6 +28,8 @@ class HomeController extends _$HomeController {
       state.value!.lastNameController.dispose();
       state.value!.identificationNumberController.dispose();
     });
+
+    ref.keepAlive();
 
     return HomeState.initial();
   }
@@ -107,8 +109,7 @@ class HomeController extends _$HomeController {
         .where(
           (e) =>
               e.dateKey == date.toDaysWeekEnum ||
-              (e.specificDay != null &&
-                  e.specificDay!.isAtSameMomentAs(date)),
+              (e.specificDay != null && e.specificDay!.isAtSameMomentAs(date)),
         )
         .toList();
 
@@ -279,9 +280,8 @@ class HomeController extends _$HomeController {
         setPhone(user.phone);
 
         _setState(state.value!.copyWith(userFount: user));
-      }
-      else{
-          addNotification("Usuario no encontrado", StatusNotification.ALERT);
+      } else {
+        addNotification("Usuario no encontrado", StatusNotification.ALERT);
       }
     });
   }
@@ -298,8 +298,7 @@ class HomeController extends _$HomeController {
         timeSlot.startWorkHours.hour,
         timeSlot.startWorkHours.minute,
       );
-      final appointment = MedicalAppointmentBookingModel(
-        createdAt: DateTime.now(),
+      final appointment = MedicalAppointmentBookingModel.init().copyWith(
         doctorId: state.value!.myUser.id!,
         userId: state.value!.userFount.id!,
         scheduleMedicalAppointment: scheduleDateTime,
@@ -414,10 +413,13 @@ class HomeController extends _$HomeController {
     _setState(state.value!.copyWith(listNotification: newList));
   }
 
-  Future<void> getMedicalAppointmentBooking(String doctorId) async {
-    final res = await repository.getMedicalAppointmentBooking(doctorId);
+  void getMedicalAppointmentBooking(String doctorId) {
+    final res = repository.getMedicalAppointmentBooking(doctorId);
     if (res.isSuccessful) {
-      _setState(state.value!.copyWith(medicalAppointmentBooking: res.data!));
+      final sub = res.data!.listen((event) {
+        _setState(state.value!.copyWith(medicalAppointmentBooking: event));
+      });
+        _setState(state.value!.copyWith(medicalSub: sub));
     }
   }
 

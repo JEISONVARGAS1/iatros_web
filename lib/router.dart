@@ -1,16 +1,17 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iatros_web/features/auth/presentation/login_page.dart';
-import 'package:iatros_web/features/auth/presentation/register_page.dart';
-import 'package:iatros_web/features/auth/provider/auth_controller.dart';
-import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
+import 'package:iatros_web/page_not_found.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/features/lobby/pages/lobby.dart';
 import 'package:iatros_web/features/profile/pages/profile_page.dart';
 import 'package:iatros_web/features/patient/pages/patient_page.dart';
+import 'package:iatros_web/features/auth/presentation/login_page.dart';
+import 'package:iatros_web/features/auth/provider/auth_controller.dart';
+import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
+import 'package:iatros_web/core/data/provider/global_controller.dart';
+import 'package:iatros_web/core/data/provider/model/global_state.dart';
+import 'package:iatros_web/features/auth/presentation/register_page.dart';
 import 'package:iatros_web/features/appointment_day/pages/appointment_day_page.dart';
-import 'package:iatros_web/page_not_found.dart';
 
 /// Enum que define todas las rutas de la aplicación
 enum AppRoutes {
@@ -32,23 +33,34 @@ enum AppRoutes {
 class AuthNotifier extends ChangeNotifier {
   AuthNotifier(this._ref) {
     // Escuchamos cambios en el authControllerProvider
-    _subscription = _ref.listen<AuthState>(
+    _authSubscription = _ref.listen<AuthState>(
       authControllerProvider,
       (previous, next) {
         notifyListeners(); // Notifica a GoRouter que refresque
       },
     );
+
+    // También escuchamos cambios en GlobalController para inicializar auth
+    _globalSubscription = _ref.listen<AsyncValue<GlobalState>>(
+      globalControllerProvider,
+      (previous, next) {
+        // Cuando GlobalController cambia, notificamos para que el redirect se refresque
+        notifyListeners();
+      },
+    );
   }
 
   final Ref _ref;
-  late final ProviderSubscription<AuthState> _subscription;
+  late final ProviderSubscription<AuthState> _authSubscription;
+  late final ProviderSubscription<AsyncValue<GlobalState>> _globalSubscription;
 
   /// Obtiene el estado actual de autenticación
   AuthState get authState => _ref.read(authControllerProvider);
 
   @override
   void dispose() {
-    _subscription.close();
+    _authSubscription.close();
+    _globalSubscription.close();
     super.dispose();
   }
 }
@@ -76,7 +88,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // Obtenemos el estado actual de autenticación
       final authState = authNotifier.authState;
       final isAuthenticated = authState.isAuthenticated;
-      final isLoading = authState.isLoading;
+      final isAuthChecked = authState.isAuthChecked;
       final currentPath = state.uri.path;
 
       // Rutas públicas (accesibles sin autenticación)
@@ -87,8 +99,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         AppRoutes.notFound.path,
       ];
 
-      // Si está cargando, no redirigimos para evitar flickering
-      if (isLoading) {
+      // Si aún no hemos verificado la autenticación, no redirigimos
+      // Esto evita redirigir prematuramente antes de cargar el estado desde storage
+      if (!isAuthChecked) {
         return null;
       }
 
@@ -97,9 +110,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // 1. Usuario NO autenticado
       if (!isAuthenticated) {
         // Solo puede acceder a rutas públicas
-        if (!publicRoutes.contains(currentPath) &&
-            !currentPath.startsWith('/patient/') &&
-            !currentPath.startsWith('/appointment-day/')) {
+        if (!publicRoutes.contains(currentPath)) {
           // Redirigir a login si intenta acceder a ruta protegida
           return AppRoutes.login.path;
         }

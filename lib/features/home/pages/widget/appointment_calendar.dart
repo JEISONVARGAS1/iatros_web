@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:go_router/go_router.dart';
 import 'package:iatros_web/features/home/provider/home_controller.dart';
 import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
 
@@ -37,7 +38,7 @@ class AppointmentCalendar extends ConsumerWidget {
       final startTime = appointment.scheduleMedicalAppointment;
       final endTime = startTime.add(const Duration(hours: 1));
       meetings.add(
-        Meeting('Cita Médica', startTime, endTime, Colors.blueAccent, true),
+        Meeting('Cita Médica', startTime, endTime, AppColors.primary.withOpacity(0.7), true),
       );
     }
     return meetings;

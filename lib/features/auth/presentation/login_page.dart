@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
@@ -45,8 +44,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Navigate to lobby on successful login
       if (previous?.isAuthenticated == false && next.isAuthenticated) {
         context.go(AppRoutes.lobby.path);
-        // Prevent back button from going to login page
-        html.window.history.pushState(null, '', AppRoutes.lobby.path);
       }
     });
 

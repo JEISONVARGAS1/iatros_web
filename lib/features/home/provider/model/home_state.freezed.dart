@@ -18,11 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   int get index => throw _privateConstructorUsedError;
   UserModel get myUser => throw _privateConstructorUsedError;
-  StreamSubscription<dynamic>? get userSub =>
-      throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   UserModel get userFount => throw _privateConstructorUsedError;
   DateTime get dateSelected => throw _privateConstructorUsedError;
+  StreamSubscription<dynamic>? get medicalSub =>
+      throw _privateConstructorUsedError;
   bool get hasTriedToValidate => throw _privateConstructorUsedError;
   DebouncerUtil get debouncer => throw _privateConstructorUsedError;
   String? get phoneErrorMessage => throw _privateConstructorUsedError;
@@ -72,10 +72,10 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call(
       {int index,
       UserModel myUser,
-      StreamSubscription<dynamic>? userSub,
       String phoneNumber,
       UserModel userFount,
       DateTime dateSelected,
+      StreamSubscription<dynamic>? medicalSub,
       bool hasTriedToValidate,
       DebouncerUtil debouncer,
       String? phoneErrorMessage,
@@ -115,10 +115,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? index = null,
     Object? myUser = null,
-    Object? userSub = freezed,
     Object? phoneNumber = null,
     Object? userFount = null,
     Object? dateSelected = null,
+    Object? medicalSub = freezed,
     Object? hasTriedToValidate = null,
     Object? debouncer = null,
     Object? phoneErrorMessage = freezed,
@@ -151,10 +151,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.myUser
           : myUser // ignore: cast_nullable_to_non_nullable
               as UserModel,
-      userSub: freezed == userSub
-          ? _value.userSub
-          : userSub // ignore: cast_nullable_to_non_nullable
-              as StreamSubscription<dynamic>?,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -167,6 +163,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.dateSelected
           : dateSelected // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      medicalSub: freezed == medicalSub
+          ? _value.medicalSub
+          : medicalSub // ignore: cast_nullable_to_non_nullable
+              as StreamSubscription<dynamic>?,
       hasTriedToValidate: null == hasTriedToValidate
           ? _value.hasTriedToValidate
           : hasTriedToValidate // ignore: cast_nullable_to_non_nullable
@@ -271,10 +271,10 @@ abstract class _$$HomeStateDataImplCopyWith<$Res>
   $Res call(
       {int index,
       UserModel myUser,
-      StreamSubscription<dynamic>? userSub,
       String phoneNumber,
       UserModel userFount,
       DateTime dateSelected,
+      StreamSubscription<dynamic>? medicalSub,
       bool hasTriedToValidate,
       DebouncerUtil debouncer,
       String? phoneErrorMessage,
@@ -312,10 +312,10 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
   $Res call({
     Object? index = null,
     Object? myUser = null,
-    Object? userSub = freezed,
     Object? phoneNumber = null,
     Object? userFount = null,
     Object? dateSelected = null,
+    Object? medicalSub = freezed,
     Object? hasTriedToValidate = null,
     Object? debouncer = null,
     Object? phoneErrorMessage = freezed,
@@ -348,10 +348,6 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
           ? _value.myUser
           : myUser // ignore: cast_nullable_to_non_nullable
               as UserModel,
-      userSub: freezed == userSub
-          ? _value.userSub
-          : userSub // ignore: cast_nullable_to_non_nullable
-              as StreamSubscription<dynamic>?,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -364,6 +360,10 @@ class __$$HomeStateDataImplCopyWithImpl<$Res>
           ? _value.dateSelected
           : dateSelected // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      medicalSub: freezed == medicalSub
+          ? _value.medicalSub
+          : medicalSub // ignore: cast_nullable_to_non_nullable
+              as StreamSubscription<dynamic>?,
       hasTriedToValidate: null == hasTriedToValidate
           ? _value.hasTriedToValidate
           : hasTriedToValidate // ignore: cast_nullable_to_non_nullable
@@ -463,10 +463,10 @@ class _$HomeStateDataImpl implements HomeStateData {
   const _$HomeStateDataImpl(
       {required this.index,
       required this.myUser,
-      this.userSub,
       required this.phoneNumber,
       required this.userFount,
       required this.dateSelected,
+      this.medicalSub,
       required this.hasTriedToValidate,
       required this.debouncer,
       required this.phoneErrorMessage,
@@ -499,13 +499,13 @@ class _$HomeStateDataImpl implements HomeStateData {
   @override
   final UserModel myUser;
   @override
-  final StreamSubscription<dynamic>? userSub;
-  @override
   final String phoneNumber;
   @override
   final UserModel userFount;
   @override
   final DateTime dateSelected;
+  @override
+  final StreamSubscription<dynamic>? medicalSub;
   @override
   final bool hasTriedToValidate;
   @override
@@ -572,7 +572,7 @@ class _$HomeStateDataImpl implements HomeStateData {
 
   @override
   String toString() {
-    return 'HomeState(index: $index, myUser: $myUser, userSub: $userSub, phoneNumber: $phoneNumber, userFount: $userFount, dateSelected: $dateSelected, hasTriedToValidate: $hasTriedToValidate, debouncer: $debouncer, phoneErrorMessage: $phoneErrorMessage, form: $form, pageController: $pageController, doctorSetting: $doctorSetting, timeSlotsSelected: $timeSlotsSelected, selectedAppointmentDate: $selectedAppointmentDate, listTimeSlots: $listTimeSlots, nameController: $nameController, emailController: $emailController, phoneController: $phoneController, addressController: $addressController, lastNameController: $lastNameController, dateOfBirthNotifier: $dateOfBirthNotifier, selectedGenderNotifier: $selectedGenderNotifier, listNotification: $listNotification, selectedBloodTypeNotifier: $selectedBloodTypeNotifier, identificationNumberController: $identificationNumberController, selectedTimeSlotNotifier: $selectedTimeSlotNotifier, selectedIdentificationTypeNotifier: $selectedIdentificationTypeNotifier, medicalAppointmentBooking: $medicalAppointmentBooking)';
+    return 'HomeState(index: $index, myUser: $myUser, phoneNumber: $phoneNumber, userFount: $userFount, dateSelected: $dateSelected, medicalSub: $medicalSub, hasTriedToValidate: $hasTriedToValidate, debouncer: $debouncer, phoneErrorMessage: $phoneErrorMessage, form: $form, pageController: $pageController, doctorSetting: $doctorSetting, timeSlotsSelected: $timeSlotsSelected, selectedAppointmentDate: $selectedAppointmentDate, listTimeSlots: $listTimeSlots, nameController: $nameController, emailController: $emailController, phoneController: $phoneController, addressController: $addressController, lastNameController: $lastNameController, dateOfBirthNotifier: $dateOfBirthNotifier, selectedGenderNotifier: $selectedGenderNotifier, listNotification: $listNotification, selectedBloodTypeNotifier: $selectedBloodTypeNotifier, identificationNumberController: $identificationNumberController, selectedTimeSlotNotifier: $selectedTimeSlotNotifier, selectedIdentificationTypeNotifier: $selectedIdentificationTypeNotifier, medicalAppointmentBooking: $medicalAppointmentBooking)';
   }
 
   @override
@@ -582,13 +582,14 @@ class _$HomeStateDataImpl implements HomeStateData {
             other is _$HomeStateDataImpl &&
             (identical(other.index, index) || other.index == index) &&
             (identical(other.myUser, myUser) || other.myUser == myUser) &&
-            (identical(other.userSub, userSub) || other.userSub == userSub) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.userFount, userFount) ||
                 other.userFount == userFount) &&
             (identical(other.dateSelected, dateSelected) ||
                 other.dateSelected == dateSelected) &&
+            (identical(other.medicalSub, medicalSub) ||
+                other.medicalSub == medicalSub) &&
             (identical(other.hasTriedToValidate, hasTriedToValidate) ||
                 other.hasTriedToValidate == hasTriedToValidate) &&
             (identical(other.debouncer, debouncer) ||
@@ -643,10 +644,10 @@ class _$HomeStateDataImpl implements HomeStateData {
         runtimeType,
         index,
         myUser,
-        userSub,
         phoneNumber,
         userFount,
         dateSelected,
+        medicalSub,
         hasTriedToValidate,
         debouncer,
         phoneErrorMessage,
@@ -682,10 +683,10 @@ abstract class HomeStateData implements HomeState {
   const factory HomeStateData(
       {required final int index,
       required final UserModel myUser,
-      final StreamSubscription<dynamic>? userSub,
       required final String phoneNumber,
       required final UserModel userFount,
       required final DateTime dateSelected,
+      final StreamSubscription<dynamic>? medicalSub,
       required final bool hasTriedToValidate,
       required final DebouncerUtil debouncer,
       required final String? phoneErrorMessage,
@@ -715,13 +716,13 @@ abstract class HomeStateData implements HomeState {
   @override
   UserModel get myUser;
   @override
-  StreamSubscription<dynamic>? get userSub;
-  @override
   String get phoneNumber;
   @override
   UserModel get userFount;
   @override
   DateTime get dateSelected;
+  @override
+  StreamSubscription<dynamic>? get medicalSub;
   @override
   bool get hasTriedToValidate;
   @override

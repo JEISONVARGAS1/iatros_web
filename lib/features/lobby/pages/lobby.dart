@@ -27,10 +27,24 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(lobbyControllerProvider).value!;
+    final lobbyState = ref.watch(lobbyControllerProvider);
+
+    // Handle loading state
+    if (lobbyState.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    // Handle error state
+    if (lobbyState.hasError) {
+      return Scaffold(body: Center(child: Text('Error: ${lobbyState.error}')));
+    }
+
+    final state = lobbyState.value!;
     final controller = ref.read(lobbyControllerProvider.notifier);
 
-    if (state.tabController!.index != state.selectedIndex) {
+    // Only animate if tabController is initialized
+    if (state.tabController != null &&
+        state.tabController!.index != state.selectedIndex) {
       state.tabController!.animateTo(state.selectedIndex);
     }
 
@@ -42,10 +56,16 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
             children: [
               CustomDrawerMenu(state: state, controller: controller),
               Expanded(
-                child: TabBarView(
-                  controller: state.tabController,
-                  children: const [HomePage(), PatientsPage(), ProfilePage()],
-                ),
+                child: state.tabController != null
+                    ? TabBarView(
+                        controller: state.tabController,
+                        children: const [
+                          HomePage(),
+                          PatientsPage(),
+                          ProfilePage(),
+                        ],
+                      )
+                    : const Center(child: CircularProgressIndicator()),
               ),
             ],
           ),
@@ -66,7 +86,8 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                     bottomRight: Radius.circular(10),
                   ),
                   child: Material(
-                    color: AppColors.primaryDark.withOpacity(0.6),
+                    elevation: 2,
+                    color: AppColors.primary,
                     borderRadius: BorderRadiusDirectional.only(
                       topEnd: Radius.circular(10),
                       bottomEnd: Radius.circular(10),
@@ -78,7 +99,7 @@ class _LobbyPageState extends ConsumerState<LobbyPage>
                         state.width != 0
                             ? Icons.arrow_back
                             : Icons.arrow_forward,
-                        color: AppColors.background,
+                        color: AppColors.white,
                       ),
                     ),
                   ),

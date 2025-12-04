@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:iatros_web/hive_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,6 +10,10 @@ import 'package:iatros_web/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Use path URL strategy to remove # from URLs in Flutter Web
+  usePathUrlStrategy();
+
   await EasyLocalization.ensureInitialized();
 
   await dotenv.load(fileName: ".env");

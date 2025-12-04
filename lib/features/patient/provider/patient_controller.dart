@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:iatros_web/router.dart';
 import 'package:go_router/go_router.dart';
@@ -105,7 +104,6 @@ class PatientController extends _$PatientController {
       await _saveDiagnostic(res.data!.id ?? "");
 
       if (context.mounted) context.go(AppRoutes.lobby.path);
-      html.window.history.pushState(null, '', AppRoutes.lobby.path);
     } else {
       _setState(state.value!.copyWith(isLoading: false));
       CustomAlerts.showErrorAlert(context, description: res.message);

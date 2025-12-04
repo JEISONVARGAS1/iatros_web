@@ -13,6 +13,7 @@ sealed class AuthState with _$AuthState {
     required bool isLogoutLoading,
     required String errorMessage,
     required bool isAuthenticated,
+    required bool isAuthChecked,
 
     required double addressLatitude,
     required double addressLongitude,
@@ -25,6 +26,7 @@ sealed class AuthState with _$AuthState {
     user: UserModel.init(),
     isLogoutLoading: false,
     isAuthenticated: false,
+    isAuthChecked: false,
     isRegisterLoading: false,
     addressLatitude: 0,
     addressLongitude: 0

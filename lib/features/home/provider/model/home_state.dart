@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:iatros_web/core/models/gender.dart';
 import 'package:iatros_web/core/models/blood_type.dart';
-import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
-import 'package:iatros_web/core/models/notification_result_model.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:iatros_web/core/util/debouncer_util.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/core/models/doctor_setting_model.dart';
-import 'package:iatros_web/core/util/debouncer_util.dart';
+import 'package:iatros_web/core/models/notification_result_model.dart';
+import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
 
 part 'home_state.freezed.dart';
 
@@ -18,10 +18,10 @@ sealed class HomeState with _$HomeState {
   const factory HomeState({
     required int index,
     required UserModel myUser,
-    StreamSubscription? userSub,
     required String phoneNumber,
     required UserModel userFount,
     required DateTime dateSelected,
+    StreamSubscription? medicalSub,
     required bool hasTriedToValidate,
     required DebouncerUtil debouncer,
     required String? phoneErrorMessage,

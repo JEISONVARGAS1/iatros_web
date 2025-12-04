@@ -23,6 +23,7 @@ mixin _$AuthState {
   bool get isLogoutLoading => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   bool get isAuthenticated => throw _privateConstructorUsedError;
+  bool get isAuthChecked => throw _privateConstructorUsedError;
   double get addressLatitude => throw _privateConstructorUsedError;
   double get addressLongitude => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $AuthStateCopyWith<$Res> {
       bool isLogoutLoading,
       String errorMessage,
       bool isAuthenticated,
+      bool isAuthChecked,
       double addressLatitude,
       double addressLongitude});
 }
@@ -68,6 +70,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isLogoutLoading = null,
     Object? errorMessage = null,
     Object? isAuthenticated = null,
+    Object? isAuthChecked = null,
     Object? addressLatitude = null,
     Object? addressLongitude = null,
   }) {
@@ -100,6 +103,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAuthChecked: null == isAuthChecked
+          ? _value.isAuthChecked
+          : isAuthChecked // ignore: cast_nullable_to_non_nullable
+              as bool,
       addressLatitude: null == addressLatitude
           ? _value.addressLatitude
           : addressLatitude // ignore: cast_nullable_to_non_nullable
@@ -128,6 +135,7 @@ abstract class _$$AuthStateDataImplCopyWith<$Res>
       bool isLogoutLoading,
       String errorMessage,
       bool isAuthenticated,
+      bool isAuthChecked,
       double addressLatitude,
       double addressLongitude});
 }
@@ -150,6 +158,7 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
     Object? isLogoutLoading = null,
     Object? errorMessage = null,
     Object? isAuthenticated = null,
+    Object? isAuthChecked = null,
     Object? addressLatitude = null,
     Object? addressLongitude = null,
   }) {
@@ -182,6 +191,10 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAuthChecked: null == isAuthChecked
+          ? _value.isAuthChecked
+          : isAuthChecked // ignore: cast_nullable_to_non_nullable
+              as bool,
       addressLatitude: null == addressLatitude
           ? _value.addressLatitude
           : addressLatitude // ignore: cast_nullable_to_non_nullable
@@ -205,6 +218,7 @@ class _$AuthStateDataImpl implements AuthStateData {
       required this.isLogoutLoading,
       required this.errorMessage,
       required this.isAuthenticated,
+      required this.isAuthChecked,
       required this.addressLatitude,
       required this.addressLongitude});
 
@@ -223,13 +237,15 @@ class _$AuthStateDataImpl implements AuthStateData {
   @override
   final bool isAuthenticated;
   @override
+  final bool isAuthChecked;
+  @override
   final double addressLatitude;
   @override
   final double addressLongitude;
 
   @override
   String toString() {
-    return 'AuthState(isLoading: $isLoading, user: $user, isLoginLoading: $isLoginLoading, isRegisterLoading: $isRegisterLoading, isLogoutLoading: $isLogoutLoading, errorMessage: $errorMessage, isAuthenticated: $isAuthenticated, addressLatitude: $addressLatitude, addressLongitude: $addressLongitude)';
+    return 'AuthState(isLoading: $isLoading, user: $user, isLoginLoading: $isLoginLoading, isRegisterLoading: $isRegisterLoading, isLogoutLoading: $isLogoutLoading, errorMessage: $errorMessage, isAuthenticated: $isAuthenticated, isAuthChecked: $isAuthChecked, addressLatitude: $addressLatitude, addressLongitude: $addressLongitude)';
   }
 
   @override
@@ -250,6 +266,8 @@ class _$AuthStateDataImpl implements AuthStateData {
                 other.errorMessage == errorMessage) &&
             (identical(other.isAuthenticated, isAuthenticated) ||
                 other.isAuthenticated == isAuthenticated) &&
+            (identical(other.isAuthChecked, isAuthChecked) ||
+                other.isAuthChecked == isAuthChecked) &&
             (identical(other.addressLatitude, addressLatitude) ||
                 other.addressLatitude == addressLatitude) &&
             (identical(other.addressLongitude, addressLongitude) ||
@@ -266,6 +284,7 @@ class _$AuthStateDataImpl implements AuthStateData {
       isLogoutLoading,
       errorMessage,
       isAuthenticated,
+      isAuthChecked,
       addressLatitude,
       addressLongitude);
 
@@ -285,6 +304,7 @@ abstract class AuthStateData implements AuthState {
       required final bool isLogoutLoading,
       required final String errorMessage,
       required final bool isAuthenticated,
+      required final bool isAuthChecked,
       required final double addressLatitude,
       required final double addressLongitude}) = _$AuthStateDataImpl;
 
@@ -302,6 +322,8 @@ abstract class AuthStateData implements AuthState {
   String get errorMessage;
   @override
   bool get isAuthenticated;
+  @override
+  bool get isAuthChecked;
   @override
   double get addressLatitude;
   @override
