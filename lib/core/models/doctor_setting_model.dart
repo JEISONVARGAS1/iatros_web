@@ -3,17 +3,17 @@ import 'package:iatros_web/core/models/time_slots_model.dart';
 
 class DoctorSettingModel {
   final String? id;
-  final String doctorId;
   final DateTime updateAt;
   final DateTime createAt;
+  final String userCompanyId;
   final int consultationDuration;
   final List<WorkTimeModel> listTimeSlots;
 
   DoctorSettingModel({
     this.id,
-    required this.doctorId,
     required this.createAt,
     required this.updateAt,
+    required this.userCompanyId,
     required this.listTimeSlots,
     required this.consultationDuration
 ,
@@ -21,14 +21,14 @@ class DoctorSettingModel {
 
   DoctorSettingModel copyWith({
     String? id,
-    String? doctorId,
+    String? userCompanyId,
     int? consultationDuration,
     List<WorkTimeModel>? listTimeSlots,
   }) => DoctorSettingModel(
     id: id ?? this.id,
     updateAt: updateAt,
     createAt: createAt,
-    doctorId: doctorId ?? this.doctorId,
+    userCompanyId: userCompanyId ?? this.userCompanyId,
     listTimeSlots: listTimeSlots ?? this.listTimeSlots,
     consultationDuration: consultationDuration ?? this.consultationDuration,
   );
@@ -36,7 +36,7 @@ class DoctorSettingModel {
   factory DoctorSettingModel.fromJson(Map<String, dynamic> json) =>
       DoctorSettingModel(
         id: json["id"],
-        doctorId: json["doctor_id"],
+        userCompanyId: json["user_company_id"],
         consultationDuration: json["consultation_duration"] ?? 0,
         createAt: json["created_at"] != null
             ? DateTime.parse(json["created_at"])
@@ -50,7 +50,7 @@ class DoctorSettingModel {
       );
 
   factory DoctorSettingModel.init() => DoctorSettingModel(
-    doctorId: "",
+    userCompanyId: "",
     listTimeSlots: [],
     consultationDuration: 0,
     createAt: DateTime.now(),
@@ -58,8 +58,7 @@ class DoctorSettingModel {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "doctor_id": doctorId,
+    "user_company_id": userCompanyId,
     "created_at": createAt.toIso8601String(),
     "updated_at": updateAt.toIso8601String(),
     "consultation_duration": consultationDuration,

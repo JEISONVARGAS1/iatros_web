@@ -25,6 +25,7 @@
         "js",
         "json_annotation",
         "riverpod_annotation",
+        "sliding_up_panel",
         "supabase_flutter",
         "syncfusion_flutter_calendar",
         "universal_html"
@@ -149,6 +150,13 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "sliding_up_panel",
+      "version": "2.0.0+1",
+      "dependencies": [
+        "flutter"
       ]
     },
     {

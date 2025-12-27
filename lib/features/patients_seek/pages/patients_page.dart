@@ -31,10 +31,8 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           UIHelpers.verticalSpaceXL,
-          // Título
           Text('Paciente', style: AppTypography.h3),
           UIHelpers.verticalSpaceLG,
-          // Buscador estilo Google
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
@@ -46,7 +44,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
                   controller: _searchController,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: 'Buscar pasiente por documento...',
+                    hintText: 'Buscar paciente por documento...',
                     filled: true,
                     fillColor: AppColors.surface,
                     contentPadding: const EdgeInsets.symmetric(

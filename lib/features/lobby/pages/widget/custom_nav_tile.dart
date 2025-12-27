@@ -32,10 +32,10 @@ class CustomNavTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: selected
-                ? AppColors.primary.withOpacity(0.4)
+                ? AppColors.gray100.withOpacity(0.9)
                 : isLogout
                 ? AppColors.error.withOpacity(0.9)
-                : AppColors.primary.withOpacity(0.15),
+                : AppColors.primary.withOpacity(0.4),
             width: selected
                 ? 2.0
                 : isLogout
@@ -43,10 +43,10 @@ class CustomNavTile extends StatelessWidget {
                 : 1.5,
           ),
           backgroundColor: selected
-              ? AppColors.primary.withOpacity(0.12)
+              ? AppColors.gray100.withOpacity(0.08)
               : isLogout
               ? AppColors.error.withOpacity(0.08)
-              : AppColors.medicalBlue.withOpacity(0.08),
+              : AppColors.primary.withOpacity(0.12),
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             leading: Icon(
@@ -54,8 +54,8 @@ class CustomNavTile extends StatelessWidget {
               color: isLogout
                   ? AppColors.error
                   : selected
-                  ? AppColors.primary
-                  : AppColors.primary.withOpacity(0.7),
+                  ? AppColors.gray100.withOpacity(0.9)
+                  : AppColors.primary,
               size: isLogout ? 24 : 22,
             ),
             title: Text(
@@ -64,8 +64,8 @@ class CustomNavTile extends StatelessWidget {
                 color: isLogout
                     ? AppColors.error
                     : selected
-                    ? AppColors.primaryDark
-                    : AppColors.textPrimary.withOpacity(0.8),
+                    ? AppColors.gray100.withOpacity(0.8)
+                    : AppColors.primary,
                 fontWeight: selected
                     ? FontWeight.w600
                     : isLogout
@@ -85,4 +85,3 @@ class CustomNavTile extends StatelessWidget {
     );
   }
 }
-

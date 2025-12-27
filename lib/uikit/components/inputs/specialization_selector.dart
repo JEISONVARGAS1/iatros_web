@@ -1,8 +1,8 @@
+import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:iatros_web/core/models/medical_specialization.dart';
-import '../../theme/colors.dart';
-import '../../theme/typography.dart';
-import '../../theme/spacing.dart';
 
 class SpecializationSelector extends StatefulWidget {
   final String? selectedSpecialization;
@@ -24,13 +24,17 @@ class SpecializationSelector extends StatefulWidget {
 
 class _SpecializationSelectorState extends State<SpecializationSelector> {
   final TextEditingController _searchController = TextEditingController();
-  List<MedicalSpecialization> _filteredSpecializations = MedicalSpecializations.list;
+  List<MedicalSpecialization> _filteredSpecializations =
+      MedicalSpecializations.list;
   bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_filterSpecializations);
+    MedicalSpecializations.init().then((_) {
+      setState(() => _filterSpecializations());
+    });
   }
 
   @override
@@ -41,7 +45,9 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
 
   void _filterSpecializations() {
     setState(() {
-      _filteredSpecializations = MedicalSpecializations.search(_searchController.text);
+      _filteredSpecializations = MedicalSpecializations.search(
+        _searchController.text,
+      );
     });
   }
 
@@ -74,7 +80,9 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: widget.errorText != null ? AppColors.error : AppColors.gray300,
+              color: widget.errorText != null
+                  ? AppColors.error
+                  : AppColors.gray300,
             ),
             borderRadius: BorderRadius.circular(AppSpacing.radiusMD),
           ),
@@ -132,7 +140,9 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
                         ),
                       ],
                       Icon(
-                        _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                        _isExpanded
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
                         color: AppColors.textSecondary,
                       ),
                     ],
@@ -156,7 +166,9 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
                             hintText: 'Buscar especialización...',
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusSM),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusSM,
+                              ),
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.paddingSM,
@@ -173,7 +185,8 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
                           itemCount: _filteredSpecializations.length,
                           itemBuilder: (context, index) {
                             final spec = _filteredSpecializations[index];
-                            final isSelected = spec.id == widget.selectedSpecialization;
+                            final isSelected =
+                                spec.id == widget.selectedSpecialization;
 
                             return InkWell(
                               onTap: () {
@@ -184,9 +197,13 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
                                 });
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(AppSpacing.paddingMD),
+                                padding: const EdgeInsets.all(
+                                  AppSpacing.paddingMD,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: isSelected ? AppColors.primary.withOpacity(0.1) : null,
+                                  color: isSelected
+                                      ? AppColors.primary.withOpacity(0.1)
+                                      : null,
                                 ),
                                 child: Row(
                                   children: [
@@ -197,14 +214,20 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             spec.name,
-                                            style: AppTypography.bodyMedium.copyWith(
-                                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                              color: isSelected ? AppColors.primary : AppColors.textPrimary,
-                                            ),
+                                            style: AppTypography.bodyMedium
+                                                .copyWith(
+                                                  fontWeight: isSelected
+                                                      ? FontWeight.w600
+                                                      : FontWeight.normal,
+                                                  color: isSelected
+                                                      ? AppColors.primary
+                                                      : AppColors.textPrimary,
+                                                ),
                                           ),
                                           Text(
                                             spec.description,
@@ -241,13 +264,10 @@ class _SpecializationSelectorState extends State<SpecializationSelector> {
           const SizedBox(height: AppSpacing.xs),
           Text(
             widget.errorText!,
-            style: AppTypography.caption.copyWith(
-              color: AppColors.error,
-            ),
+            style: AppTypography.caption.copyWith(color: AppColors.error),
           ),
         ],
       ],
     );
   }
 }
-

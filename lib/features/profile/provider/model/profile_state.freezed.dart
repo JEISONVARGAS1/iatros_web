@@ -20,6 +20,7 @@ mixin _$ProfileState {
   StreamSubscription<dynamic>? get userSub =>
       throw _privateConstructorUsedError;
   DoctorSettingModel get setting => throw _privateConstructorUsedError;
+  UserCompanyModel get userCompany => throw _privateConstructorUsedError;
   List<DaysWeekEnum> get listDayWeek => throw _privateConstructorUsedError;
   int get consultationDurationMinutes => throw _privateConstructorUsedError;
   List<WorkTimeModel> get listTimeSlots => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $ProfileStateCopyWith<$Res> {
       {UserModel myUser,
       StreamSubscription<dynamic>? userSub,
       DoctorSettingModel setting,
+      UserCompanyModel userCompany,
       List<DaysWeekEnum> listDayWeek,
       int consultationDurationMinutes,
       List<WorkTimeModel> listTimeSlots});
@@ -60,6 +62,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? myUser = null,
     Object? userSub = freezed,
     Object? setting = null,
+    Object? userCompany = null,
     Object? listDayWeek = null,
     Object? consultationDurationMinutes = null,
     Object? listTimeSlots = null,
@@ -77,6 +80,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.setting
           : setting // ignore: cast_nullable_to_non_nullable
               as DoctorSettingModel,
+      userCompany: null == userCompany
+          ? _value.userCompany
+          : userCompany // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
       listDayWeek: null == listDayWeek
           ? _value.listDayWeek
           : listDayWeek // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$ProfileStateDataImplCopyWith<$Res>
       {UserModel myUser,
       StreamSubscription<dynamic>? userSub,
       DoctorSettingModel setting,
+      UserCompanyModel userCompany,
       List<DaysWeekEnum> listDayWeek,
       int consultationDurationMinutes,
       List<WorkTimeModel> listTimeSlots});
@@ -124,6 +132,7 @@ class __$$ProfileStateDataImplCopyWithImpl<$Res>
     Object? myUser = null,
     Object? userSub = freezed,
     Object? setting = null,
+    Object? userCompany = null,
     Object? listDayWeek = null,
     Object? consultationDurationMinutes = null,
     Object? listTimeSlots = null,
@@ -141,6 +150,10 @@ class __$$ProfileStateDataImplCopyWithImpl<$Res>
           ? _value.setting
           : setting // ignore: cast_nullable_to_non_nullable
               as DoctorSettingModel,
+      userCompany: null == userCompany
+          ? _value.userCompany
+          : userCompany // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
       listDayWeek: null == listDayWeek
           ? _value._listDayWeek
           : listDayWeek // ignore: cast_nullable_to_non_nullable
@@ -164,6 +177,7 @@ class _$ProfileStateDataImpl implements ProfileStateData {
       {required this.myUser,
       this.userSub,
       required this.setting,
+      required this.userCompany,
       required final List<DaysWeekEnum> listDayWeek,
       required this.consultationDurationMinutes,
       required final List<WorkTimeModel> listTimeSlots})
@@ -176,6 +190,8 @@ class _$ProfileStateDataImpl implements ProfileStateData {
   final StreamSubscription<dynamic>? userSub;
   @override
   final DoctorSettingModel setting;
+  @override
+  final UserCompanyModel userCompany;
   final List<DaysWeekEnum> _listDayWeek;
   @override
   List<DaysWeekEnum> get listDayWeek {
@@ -196,7 +212,7 @@ class _$ProfileStateDataImpl implements ProfileStateData {
 
   @override
   String toString() {
-    return 'ProfileState(myUser: $myUser, userSub: $userSub, setting: $setting, listDayWeek: $listDayWeek, consultationDurationMinutes: $consultationDurationMinutes, listTimeSlots: $listTimeSlots)';
+    return 'ProfileState(myUser: $myUser, userSub: $userSub, setting: $setting, userCompany: $userCompany, listDayWeek: $listDayWeek, consultationDurationMinutes: $consultationDurationMinutes, listTimeSlots: $listTimeSlots)';
   }
 
   @override
@@ -207,6 +223,8 @@ class _$ProfileStateDataImpl implements ProfileStateData {
             (identical(other.myUser, myUser) || other.myUser == myUser) &&
             (identical(other.userSub, userSub) || other.userSub == userSub) &&
             (identical(other.setting, setting) || other.setting == setting) &&
+            (identical(other.userCompany, userCompany) ||
+                other.userCompany == userCompany) &&
             const DeepCollectionEquality()
                 .equals(other._listDayWeek, _listDayWeek) &&
             (identical(other.consultationDurationMinutes,
@@ -223,6 +241,7 @@ class _$ProfileStateDataImpl implements ProfileStateData {
       myUser,
       userSub,
       setting,
+      userCompany,
       const DeepCollectionEquality().hash(_listDayWeek),
       consultationDurationMinutes,
       const DeepCollectionEquality().hash(_listTimeSlots));
@@ -240,6 +259,7 @@ abstract class ProfileStateData implements ProfileState {
           {required final UserModel myUser,
           final StreamSubscription<dynamic>? userSub,
           required final DoctorSettingModel setting,
+          required final UserCompanyModel userCompany,
           required final List<DaysWeekEnum> listDayWeek,
           required final int consultationDurationMinutes,
           required final List<WorkTimeModel> listTimeSlots}) =
@@ -251,6 +271,8 @@ abstract class ProfileStateData implements ProfileState {
   StreamSubscription<dynamic>? get userSub;
   @override
   DoctorSettingModel get setting;
+  @override
+  UserCompanyModel get userCompany;
   @override
   List<DaysWeekEnum> get listDayWeek;
   @override

@@ -21,6 +21,11 @@ mixin _$LobbyState {
   int get selectedIndex => throw _privateConstructorUsedError;
   bool get isMenuVisible => throw _privateConstructorUsedError;
   TabController? get tabController => throw _privateConstructorUsedError;
+  PanelController get panelController => throw _privateConstructorUsedError;
+  List<UserCompanyModel> get userCompanies =>
+      throw _privateConstructorUsedError;
+  UserCompanyModel get userCompaniesSelected =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LobbyStateCopyWith<LobbyState> get copyWith =>
@@ -38,7 +43,10 @@ abstract class $LobbyStateCopyWith<$Res> {
       UserModel myUser,
       int selectedIndex,
       bool isMenuVisible,
-      TabController? tabController});
+      TabController? tabController,
+      PanelController panelController,
+      List<UserCompanyModel> userCompanies,
+      UserCompanyModel userCompaniesSelected});
 }
 
 /// @nodoc
@@ -59,6 +67,9 @@ class _$LobbyStateCopyWithImpl<$Res, $Val extends LobbyState>
     Object? selectedIndex = null,
     Object? isMenuVisible = null,
     Object? tabController = freezed,
+    Object? panelController = null,
+    Object? userCompanies = null,
+    Object? userCompaniesSelected = null,
   }) {
     return _then(_value.copyWith(
       width: null == width
@@ -81,6 +92,18 @@ class _$LobbyStateCopyWithImpl<$Res, $Val extends LobbyState>
           ? _value.tabController
           : tabController // ignore: cast_nullable_to_non_nullable
               as TabController?,
+      panelController: null == panelController
+          ? _value.panelController
+          : panelController // ignore: cast_nullable_to_non_nullable
+              as PanelController,
+      userCompanies: null == userCompanies
+          ? _value.userCompanies
+          : userCompanies // ignore: cast_nullable_to_non_nullable
+              as List<UserCompanyModel>,
+      userCompaniesSelected: null == userCompaniesSelected
+          ? _value.userCompaniesSelected
+          : userCompaniesSelected // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
     ) as $Val);
   }
 }
@@ -98,7 +121,10 @@ abstract class _$$LobbyStateDataImplCopyWith<$Res>
       UserModel myUser,
       int selectedIndex,
       bool isMenuVisible,
-      TabController? tabController});
+      TabController? tabController,
+      PanelController panelController,
+      List<UserCompanyModel> userCompanies,
+      UserCompanyModel userCompaniesSelected});
 }
 
 /// @nodoc
@@ -117,6 +143,9 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
     Object? selectedIndex = null,
     Object? isMenuVisible = null,
     Object? tabController = freezed,
+    Object? panelController = null,
+    Object? userCompanies = null,
+    Object? userCompaniesSelected = null,
   }) {
     return _then(_$LobbyStateDataImpl(
       width: null == width
@@ -139,6 +168,18 @@ class __$$LobbyStateDataImplCopyWithImpl<$Res>
           ? _value.tabController
           : tabController // ignore: cast_nullable_to_non_nullable
               as TabController?,
+      panelController: null == panelController
+          ? _value.panelController
+          : panelController // ignore: cast_nullable_to_non_nullable
+              as PanelController,
+      userCompanies: null == userCompanies
+          ? _value._userCompanies
+          : userCompanies // ignore: cast_nullable_to_non_nullable
+              as List<UserCompanyModel>,
+      userCompaniesSelected: null == userCompaniesSelected
+          ? _value.userCompaniesSelected
+          : userCompaniesSelected // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
     ));
   }
 }
@@ -151,7 +192,11 @@ class _$LobbyStateDataImpl implements LobbyStateData {
       required this.myUser,
       required this.selectedIndex,
       required this.isMenuVisible,
-      this.tabController});
+      this.tabController,
+      required this.panelController,
+      required final List<UserCompanyModel> userCompanies,
+      required this.userCompaniesSelected})
+      : _userCompanies = userCompanies;
 
   @override
   final double width;
@@ -163,10 +208,22 @@ class _$LobbyStateDataImpl implements LobbyStateData {
   final bool isMenuVisible;
   @override
   final TabController? tabController;
+  @override
+  final PanelController panelController;
+  final List<UserCompanyModel> _userCompanies;
+  @override
+  List<UserCompanyModel> get userCompanies {
+    if (_userCompanies is EqualUnmodifiableListView) return _userCompanies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_userCompanies);
+  }
+
+  @override
+  final UserCompanyModel userCompaniesSelected;
 
   @override
   String toString() {
-    return 'LobbyState(width: $width, myUser: $myUser, selectedIndex: $selectedIndex, isMenuVisible: $isMenuVisible, tabController: $tabController)';
+    return 'LobbyState(width: $width, myUser: $myUser, selectedIndex: $selectedIndex, isMenuVisible: $isMenuVisible, tabController: $tabController, panelController: $panelController, userCompanies: $userCompanies, userCompaniesSelected: $userCompaniesSelected)';
   }
 
   @override
@@ -181,12 +238,26 @@ class _$LobbyStateDataImpl implements LobbyStateData {
             (identical(other.isMenuVisible, isMenuVisible) ||
                 other.isMenuVisible == isMenuVisible) &&
             (identical(other.tabController, tabController) ||
-                other.tabController == tabController));
+                other.tabController == tabController) &&
+            (identical(other.panelController, panelController) ||
+                other.panelController == panelController) &&
+            const DeepCollectionEquality()
+                .equals(other._userCompanies, _userCompanies) &&
+            (identical(other.userCompaniesSelected, userCompaniesSelected) ||
+                other.userCompaniesSelected == userCompaniesSelected));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, width, myUser, selectedIndex, isMenuVisible, tabController);
+      runtimeType,
+      width,
+      myUser,
+      selectedIndex,
+      isMenuVisible,
+      tabController,
+      panelController,
+      const DeepCollectionEquality().hash(_userCompanies),
+      userCompaniesSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -198,11 +269,15 @@ class _$LobbyStateDataImpl implements LobbyStateData {
 
 abstract class LobbyStateData implements LobbyState {
   const factory LobbyStateData(
-      {required final double width,
-      required final UserModel myUser,
-      required final int selectedIndex,
-      required final bool isMenuVisible,
-      final TabController? tabController}) = _$LobbyStateDataImpl;
+          {required final double width,
+          required final UserModel myUser,
+          required final int selectedIndex,
+          required final bool isMenuVisible,
+          final TabController? tabController,
+          required final PanelController panelController,
+          required final List<UserCompanyModel> userCompanies,
+          required final UserCompanyModel userCompaniesSelected}) =
+      _$LobbyStateDataImpl;
 
   @override
   double get width;
@@ -214,6 +289,12 @@ abstract class LobbyStateData implements LobbyState {
   bool get isMenuVisible;
   @override
   TabController? get tabController;
+  @override
+  PanelController get panelController;
+  @override
+  List<UserCompanyModel> get userCompanies;
+  @override
+  UserCompanyModel get userCompaniesSelected;
   @override
   @JsonKey(ignore: true)
   _$$LobbyStateDataImplCopyWith<_$LobbyStateDataImpl> get copyWith =>

@@ -24,7 +24,7 @@ class _UserEditWidgetState extends ConsumerState<UserEditWidget> {
   @override
   void initState() {
     super.initState();
-    final user = ref.read(authControllerProvider).user;
+    final user = ref.read(authControllerProvider).value!.user;
     _nameController = TextEditingController(text: user?.name ?? '');
     _lastNameController = TextEditingController(text: user?.lastName ?? '');
     _emailController = TextEditingController(text: user?.email ?? '');

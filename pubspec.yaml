@@ -32,6 +32,7 @@ dependencies:
   syncfusion_flutter_calendar: ^31.1.19
 
   easy_localization: ^3.0.7
+  sliding_up_panel: ^2.0.0+1
 
 
 dev_dependencies:
@@ -52,7 +53,10 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/image/
     - assets/image/logo.png
+    - assets/image/jdm.png
+    - assets/image/iatros.png
     - .env
 
   fonts:

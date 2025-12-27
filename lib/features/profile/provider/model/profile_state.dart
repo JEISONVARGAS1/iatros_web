@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:iatros_web/core/enum/days_week_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,6 +14,7 @@ sealed class ProfileState with _$ProfileState {
     required UserModel myUser,
     StreamSubscription? userSub,
     required DoctorSettingModel setting,
+    required UserCompanyModel userCompany,
     required List<DaysWeekEnum> listDayWeek,
     required int consultationDurationMinutes,
     required List<WorkTimeModel> listTimeSlots,
@@ -24,5 +26,6 @@ sealed class ProfileState with _$ProfileState {
     consultationDurationMinutes: 30,
     listDayWeek: DaysWeekEnum.values,
     setting: DoctorSettingModel.init(),
+    userCompany: UserCompanyModel.init(),
   );
 }

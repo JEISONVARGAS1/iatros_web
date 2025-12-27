@@ -1,72 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:iatros_web/uikit/index.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iatros_web/core/models/user_model.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/core/data/provider/model/global_state.dart';
 import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
 import 'package:iatros_web/features/auth/repository/auth_repository.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository();
-});
+part 'auth_controller.g.dart';
 
-final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
-  (ref) {
-    final repository = ref.watch(authRepositoryProvider);
-    final globalController = ref.read(globalControllerProvider.notifier);
-    return AuthController(repository, globalController, ref);
-  },
-);
+@riverpod
+class AuthController extends _$AuthController {
+  AuthRepository get repository => ref.read(authRepositoryProvider);
+  GlobalController get globalController =>
+      ref.read(globalControllerProvider.notifier);
 
-class AuthController extends StateNotifier<AuthState> {
-  final Ref _ref;
-  final AuthRepository _repository;
-  final GlobalController _globalController;
+  @override
+  FutureOr<AuthState> build() {
+    ref.onDispose(() {
+      // No controllers to dispose in auth state anymore
+    });
 
-  AuthController(this._repository, this._globalController, this._ref)
-     : super(AuthState.initial()) {
-    // Check for existing authentication from GlobalController
-    _checkExistingAuth();
-  }
-
-  void _checkExistingAuth() {
     // Listen to GlobalController for existing user
-    _ref.listen<AsyncValue<GlobalState>>(globalControllerProvider, (previous, next) {
+    ref.listen<AsyncValue<GlobalState>>(globalControllerProvider, (
+      previous,
+      next,
+    ) {
       if (next.hasValue) {
         final globalState = next.value!;
-        final hasUser = globalState.myUser.id != null && globalState.myUser.id!.isNotEmpty;
+        final hasUser =
+            globalState.myUser.id != null && globalState.myUser.id!.isNotEmpty;
 
         // If we have a user but auth state shows not authenticated, update it
-        if (hasUser && !state.isAuthenticated) {
-          _setState(state.copyWith(
-            isAuthenticated: true,
-            user: globalState.myUser,
-            isAuthChecked: true,
-          ));
-        } else if (!hasUser && state.isAuthenticated) {
+        if (hasUser && !state.value!.isAuthenticated) {
+          _setState(
+            state.value!.copyWith(
+              isAuthenticated: true,
+              user: globalState.myUser,
+              isAuthChecked: true,
+            ),
+          );
+        } else if (!hasUser && state.value!.isAuthenticated) {
           // If no user but auth state shows authenticated, update it
-          _setState(state.copyWith(
-            isAuthenticated: false,
-            user: null,
-            isAuthChecked: true,
-          ));
+          _setState(
+            state.value!.copyWith(
+              isAuthenticated: false,
+              user: null,
+              isAuthChecked: true,
+            ),
+          );
         } else {
           // Mark as checked even if no change
-          _setState(state.copyWith(isAuthChecked: true));
+          _setState(state.value!.copyWith(isAuthChecked: true));
         }
       }
     }, fireImmediately: true);
+
+    return AuthState.initial();
   }
 
   Future<void> login(String email, String password) async {
-    _setState(state.copyWith(isLoginLoading: true, errorMessage: ""));
+    _setState(state.value!.copyWith(isLoginLoading: true, errorMessage: ""));
 
-    final response = await _repository.login(email, password);
+    final response = await repository.login(email, password);
 
     if (response.isSuccessful) {
       _setState(
-        state.copyWith(
+        state.value!.copyWith(
           errorMessage: "",
           isLoginLoading: false,
           isAuthenticated: true,
@@ -75,10 +75,10 @@ class AuthController extends StateNotifier<AuthState> {
 
       // Start streaming user data after successful login
 
-      _globalController.getStreamUser(response.data!.id!);
+      globalController.getStreamUser(response.data!.id!);
     } else {
       _setState(
-        state.copyWith(
+        state.value!.copyWith(
           isLoginLoading: false,
           isAuthenticated: false,
           user: null,
@@ -88,26 +88,26 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> register(UserModel user, String password) async {
-    _setState(state.copyWith(errorMessage: "", isRegisterLoading: false));
 
-    final response = await _repository.register(user, password);
+  Future<void> register(UserCompanyModel userCompanyModel, String password) async {
+    final response = await repository.register(userCompanyModel, password);
 
     if (response.isSuccessful) {
       _setState(
-        state.copyWith(
-          user: user,
+        state.value!.copyWith(
           errorMessage: "",
           isAuthenticated: true,
-          isRegisterLoading: false,
+          user: userCompanyModel.user,
         ),
       );
+
+      // Start streaming user data after successful registration
+      globalController.getStreamUser(response.data!.id!);
     } else {
       _setState(
-        state.copyWith(
+        state.value!.copyWith(
           user: null,
           isAuthenticated: false,
-          isRegisterLoading: false,
           errorMessage: response.message,
         ),
       );
@@ -116,23 +116,21 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<void> logout() async {
     // Cancel user stream subscription before logout
-    final globalController = _ref.read(globalControllerProvider.notifier);
     globalController.cancelUserSub();
     globalController.deleteStoredData(); // Clear stored user data
 
     _setState(
-      state.copyWith(
+      state.value!.copyWith(
         user: null,
         errorMessage: "",
         isAuthenticated: false,
-        isRegisterLoading: false,
       ),
     );
 
-    final response = await _repository.logout();
+    final response = await repository.logout();
 
     _setState(
-      state.copyWith(
+      state.value!.copyWith(
         user: null,
         isLogoutLoading: false,
         isAuthenticated: false,
@@ -142,12 +140,12 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> resetPassword(String email) async {
-    _setState(state.copyWith(isLoading: false, errorMessage: ""));
+    _setState(state.value!.copyWith(isLoading: false, errorMessage: ""));
 
-    final response = await _repository.resetPassword(email);
+    final response = await repository.resetPassword(email);
 
     _setState(
-      state.copyWith(
+      state.value!.copyWith(
         isLoading: false,
         errorMessage: response.isSuccessful ? "" : response.message,
       ),
@@ -174,7 +172,7 @@ class AuthController extends StateNotifier<AuthState> {
     return null;
   }
 
-  void clearError() => _setState(state.copyWith(errorMessage: ""));
+  void clearError() => _setState(state.value!.copyWith(errorMessage: ""));
 
   activeError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -182,5 +180,6 @@ class AuthController extends StateNotifier<AuthState> {
     );
   }
 
-  _setState(AuthState newState) => state = newState;
+
+  _setState(AuthState newState) => state = AsyncValue.data(newState);
 }

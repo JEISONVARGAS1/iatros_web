@@ -8,33 +8,40 @@ import 'package:iatros_web/core/models/doctor_setting_model.dart';
 import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/features/profile/provider/model/profile_state.dart';
 import 'package:iatros_web/features/profile/repository/profile_repository.dart';
+import 'package:iatros_web/features/lobby/provider/lobby_controller.dart';
 
 part 'profile_controller.g.dart';
 
 @riverpod
 class ProfileController extends _$ProfileController {
   @override
-  FutureOr<ProfileState> build() {
-    ref.onDispose(() {});
-    return ProfileState.initial();
-  }
+  FutureOr<ProfileState> build() => ProfileState.initial();
 
   ProfileRepositoryInterface get repository =>
       ref.read(profileRepositoryProvider);
 
+  LobbyController get lobbyController =>
+      ref.read(lobbyControllerProvider.notifier);
+
   init() => _getMyUser();
+
+  void openCompanySelectionPanel() => lobbyController.openCompanyPanel();
 
   _getMyUser() {
     ref.listen(globalControllerProvider, (previous, next) {
       final user = next.value!.myUser;
       final doctorSetting = next.value!.doctorSetting;
+      final userCompanySelected = next.value!.userCompanySelected;
 
       _setState(
         state.value!.copyWith(
           myUser: user,
           setting: doctorSetting,
+          userCompany: userCompanySelected,
           listTimeSlots: doctorSetting.listTimeSlots,
-          consultationDurationMinutes: doctorSetting.consultationDuration
+          consultationDurationMinutes: doctorSetting.consultationDuration == 0
+              ? 30
+              : doctorSetting.consultationDuration,
         ),
       );
     }, fireImmediately: true);
@@ -216,13 +223,28 @@ class ProfileController extends _$ProfileController {
   }
 
   saveWorkTimeList(BuildContext context) async {
+
+    if (state.value!.listTimeSlots.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Debe agregar al menos un horario')),
+      );
+      return;
+    }
+    if (state.value!.userCompany.id == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Debe primero seleccionar una empresa')),
+      );
+      return;
+    }
+
+
     final data = state.value!.setting.copyWith(
-      doctorId: state.value!.myUser.id,
+      userCompanyId: state.value!.userCompany.id,
       listTimeSlots: state.value!.listTimeSlots,
-      consultationDuration: state.value!.consultationDurationMinutes
+      consultationDuration: state.value!.consultationDurationMinutes,
     );
 
-    QueryResponseModel res;
+    QueryResponseModel res; 
     if (state.value!.setting.id != null) {
       res = await repository.updateWorkTimeList(data);
     } else {
@@ -232,7 +254,7 @@ class ProfileController extends _$ProfileController {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Configuración guardada')));
-    }else{
+    } else {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(res.message)));

@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iatros_web/core/models/user_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_state.freezed.dart';
 
@@ -9,14 +9,10 @@ sealed class AuthState with _$AuthState {
     required bool isLoading,
     UserModel? user,
     required bool isLoginLoading,
-    required bool isRegisterLoading,
     required bool isLogoutLoading,
     required String errorMessage,
     required bool isAuthenticated,
     required bool isAuthChecked,
-
-    required double addressLatitude,
-    required double addressLongitude,
   }) = AuthStateData;
 
   factory AuthState.initial() => AuthState(
@@ -27,8 +23,5 @@ sealed class AuthState with _$AuthState {
     isLogoutLoading: false,
     isAuthenticated: false,
     isAuthChecked: false,
-    isRegisterLoading: false,
-    addressLatitude: 0,
-    addressLongitude: 0
   );
 }

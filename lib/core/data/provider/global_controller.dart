@@ -3,14 +3,18 @@ import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/core/models/doctor_setting_model.dart';
 import 'package:iatros_web/core/data/provider/model/global_state.dart';
 import 'package:iatros_web/core/data/repository/global_repository.dart';
+import 'package:iatros_web/features/lobby/provider/lobby_controller.dart';
 
 part 'global_controller.g.dart';
 
 @riverpod
 class GlobalController extends _$GlobalController {
+  LobbyController get lobbyController =>
+      ref.read(lobbyControllerProvider.notifier);
   @override
   Future<GlobalState> build() async {
     ref.keepAlive();
@@ -44,35 +48,19 @@ class GlobalController extends _$GlobalController {
       }
     }
 
-    return GlobalState(
-      myUser: myUser,
-      doctorSetting: doctorSettingModel,
-      userSub: null,
-      doctorSettingSub: null,
-    );
+    return GlobalState.initial().copyWith(doctorSetting: doctorSettingModel);
   }
 
   _getSettings() async {
-    final box = await Hive.openBox('userBox');
-    final settingJson = box.get('doctorSetting') as String?;
     DoctorSettingModel doctorSettingModel = DoctorSettingModel.init();
-    bool loadedFromStorage = false;
-    if (settingJson != null) {
-      try {
-        final settingMap = jsonDecode(settingJson) as Map<String, dynamic>;
-        doctorSettingModel = DoctorSettingModel.fromJson(settingMap);
-        loadedFromStorage = true;
-      } catch (e) {
-        // If parsing fails, will fetch
-      }
+
+    final data = await repository.getSettingDoctor(
+      state.value!.userCompanySelected.id!,
+    );
+    if (data.isSuccessful) {
+      doctorSettingModel = data.data!;
     }
-    if (!loadedFromStorage) {
-      final data = await repository.getSettingDoctor(state.value!.myUser.id!);
-      if (data.isSuccessful) {
-        doctorSettingModel = data.data!;
-        await box.put('doctorSetting', jsonEncode(doctorSettingModel.toJson()));
-      }
-    }
+
     _setState(state.value!.copyWith(doctorSetting: doctorSettingModel));
   }
 
@@ -80,11 +68,10 @@ class GlobalController extends _$GlobalController {
       ref.read(globalRepositoryProvider);
 
   Future<void> getStreamUser(String id) async {
-    // Fetch initial user
     final userRes = await repository.getUserById(id);
     if (userRes.isSuccessful) {
+      getUserCompaniesStream(userRes.data!.id!);
       _setState(state.value!.copyWith(myUser: userRes.data!));
-      await _getSettings();
     }
 
     // Set up stream for user changes
@@ -102,7 +89,7 @@ class GlobalController extends _$GlobalController {
       final settingStream = settingRes.data!;
       final settingSubscription = settingStream.listen((
         DoctorSettingModel setting,
-      ) { 
+      ) {
         _setState(state.value!.copyWith(doctorSetting: setting));
         // Save to Hive
         final box = Hive.box('userBox');
@@ -111,6 +98,38 @@ class GlobalController extends _$GlobalController {
       });
       _setState(state.value!.copyWith(doctorSettingSub: settingSubscription));
     }
+  }
+
+  void getUserCompaniesStream(String id) async {
+    final res = repository.getUserCompaniesWithCompanyStream(id);
+    if (res.isSuccessful) {
+      final stream = res.data!;
+      final subscription = stream.listen((
+        List<UserCompanyModel> userCompanies,
+      ) {
+        if (userCompanies.length == 1) {
+          _setState(
+            state.value!.copyWith(
+              userCompanies: userCompanies,
+              userCompanySelected: userCompanies.first,
+            ),
+          );
+          _getSettings();
+        } else {
+          _setState(state.value!.copyWith(userCompanies: userCompanies));
+          Future.delayed(
+            Duration(seconds: 1),
+            () => lobbyController.openCompanyPanel(),
+          );
+        }
+      });
+      _setState(state.value!.copyWith(userCompanySub: subscription));
+    }
+  }
+
+  void selectUserCompany(UserCompanyModel userCompany) {
+    _setState(state.value!.copyWith(userCompanySelected: userCompany));
+    _getSettings();
   }
 
   void cancelUserSub() {

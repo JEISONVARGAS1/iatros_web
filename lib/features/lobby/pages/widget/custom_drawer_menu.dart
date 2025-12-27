@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:iatros_web/uikit/index.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/features/lobby/provider/lobby_controller.dart';
 import 'package:iatros_web/features/lobby/provider/model/lobby_state.dart';
 import 'package:iatros_web/features/lobby/pages/widget/custom_nav_tile.dart';
@@ -28,8 +29,12 @@ class CustomDrawerMenu extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [AppColors.medicalBlue, AppColors.primary],
-                stops: [0.0, 1.0],
+                colors: [
+                  AppColors.black,
+                  AppColors.primary,
+                  AppColors.primaryDark.withOpacity(0.8),
+                ],
+                stops: [0.0, 0.6, 1.0],
               ),
             ),
           ),
@@ -40,34 +45,34 @@ class CustomDrawerMenu extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.local_hospital,
-                        color: AppColors.primary,
-                        size: 32,
-                      ),
-                      UIHelpers.horizontalSpaceMD,
-                      Text(
-                        "Iatros",
-                        style: AppTypography.h4.copyWith(
-                          color: AppColors.primaryDark,
-                          fontWeight: FontWeight.w700,
+                  InkWell(
+                    onTap: () => controller.changeIndex(0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.fitWidth,
+                              image: AssetImage("assets/image/ia2.png"),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          "tros",
+                          style: AppTypography.h4.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   UIHelpers.verticalSpaceLG,
                   Container(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.surface.withOpacity(0.9),
-                          AppColors.surface.withOpacity(0.7),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+                      color: AppColors.surface.withOpacity(0.97),
                       borderRadius: BorderRadius.circular(AppSpacing.radiusLG),
                       border: Border.all(
                         color: AppColors.primary.withOpacity(0.2),
@@ -127,84 +132,46 @@ class CustomDrawerMenu extends StatelessWidget {
                   CustomNavTile(
                     title: "Agendamiento",
                     icon: Icons.dashboard_outlined,
-                    selected: state.selectedIndex == 0,
-                    onTap: () => controller.changeIndex(0),
-                  ),
-                  CustomNavTile(
-                    title: "Pacientes",
-                    icon: Icons.people_outline,
                     selected: state.selectedIndex == 1,
                     onTap: () => controller.changeIndex(1),
+                  ),
+                  Visibility(
+                    visible:
+                        state.userCompaniesSelected.rolUser == RolUser.DOCTOR,
+                    child: CustomNavTile(
+                      title: "Pacientes",
+                      icon: Icons.people_outline,
+                      selected: state.selectedIndex == 2,
+                      onTap: () => controller.changeIndex(2),
+                    ),
                   ),
                   CustomNavTile(
                     title: "Perfil",
                     icon: Icons.person_outline,
-                    selected: state.selectedIndex == 2,
-                    onTap: () => controller.changeIndex(2),
+                    selected: state.selectedIndex == 3,
+                    onTap: () => controller.changeIndex(3),
                   ),
 
                   const Spacer(),
-
-                  // Modern divider
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 24),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  AppColors.white.withOpacity(0.3),
-                                  AppColors.white.withOpacity(0.1),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "Cuenta",
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.white.withOpacity(0.1),
-                                  AppColors.white.withOpacity(0.3),
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
 
                   CustomNavTile(
                     isLogout: true,
                     icon: Icons.logout,
                     title: "Cerrar sesión",
                     onTap: () => controller.showLogoutConfirmation(context),
+                  ),
+                  _divide("Producto"),
+                  Center(
+                    child: Container(
+                      width: 130,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          image: AssetImage('assets/image/jdm.png'),
+                        ),
+                      ),
+                    ),
                   ),
                   UIHelpers.verticalSpaceLG,
                 ],
@@ -215,4 +182,57 @@ class CustomDrawerMenu extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _divide(String label) {
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 24),
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  AppColors.white.withOpacity(0.3),
+                  AppColors.white.withOpacity(0.1),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: AppColors.primary.withOpacity(0.1),
+          ),
+          child: Text(
+            label,
+            style: AppTypography.caption.copyWith(
+              color: AppColors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.white.withOpacity(0.1),
+                  AppColors.white.withOpacity(0.3),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

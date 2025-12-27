@@ -71,28 +71,34 @@ class PatientsSeekController extends _$PatientsSeekController {
 
   setPhoneNumber(String? value) =>
       _setState(state.value!.copyWith(phoneNumber: value));
+      
   setIdentificationNumber(String? value) {
     final newValue = value ?? "";
     _setState(state.value!.copyWith(identificationNumber: newValue));
   }
+
   setSelectedIdentificationType(String? value) {
     _setState(state.value!.copyWith(selectedIdentificationType: value));
     state.value!.selectedIdentificationTypeNotifier.value = value;
   }
+
   setIdentificationError(String? value) =>
       _setState(state.value!.copyWith(identificationError: value));
   setDateOfBirth(DateTime? value) {
     _setState(state.value!.copyWith(dateOfBirth: value));
     state.value!.dateOfBirthNotifier.value = value;
   }
+
   setSelectedGender(Gender? value) {
     _setState(state.value!.copyWith(selectedGender: value));
     state.value!.selectedGenderNotifier.value = value;
   }
+
   setSelectedBloodType(BloodType? value) {
     _setState(state.value!.copyWith(selectedBloodType: value));
     state.value!.selectedBloodTypeNotifier.value = value;
   }
+
   setAddressLatitude(double? value) =>
       _setState(state.value!.copyWith(addressLatitude: value));
   setAddressLongitude(double? value) =>
@@ -107,14 +113,15 @@ class PatientsSeekController extends _$PatientsSeekController {
     context,
     title: title,
     description: description,
-    body: FormCreatePatient(
-      goToPatient: goToPatient,
-    ),
+    body: FormCreatePatient(goToPatient: goToPatient),
   );
 
   void goToPatient(BuildContext context, UserModel user) {
     if (context.mounted) {
-      final path = AppRoutes.patient.path.replaceFirst(':userId', user.id ?? '');
+      final path = AppRoutes.patient.path.replaceFirst(
+        ':userId',
+        user.id ?? '',
+      );
       context.go(path);
     }
   }

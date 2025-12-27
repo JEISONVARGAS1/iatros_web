@@ -4,7 +4,8 @@ import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/uikit/extensions/context_extension.dart';
 import 'package:iatros_web/features/home/provider/home_controller.dart';
-import 'package:iatros_web/features/home/pages/widget/notification_card.dart';
+import 'package:iatros_web/features/home/pages/widget/notification_panel.dart';
+import 'package:iatros_web/features/home/pages/widget/doctor_filter_card.dart';
 import 'package:iatros_web/features/home/pages/widget/appointment_calendar.dart';
 import 'package:iatros_web/features/home/pages/widget/form_schedule_appointment.dart';
 
@@ -16,6 +17,8 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  double _opacity = 1.0;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback(
@@ -29,81 +32,85 @@ class _HomePageState extends ConsumerState<HomePage> {
     final state = ref.watch(homeControllerProvider).value!;
     final controller = ref.read(homeControllerProvider.notifier);
 
-    return Scaffold(
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          UIHelpers.horizontalSpaceLG,
-          Padding(
-            padding: EdgeInsetsGeometry.only(top: context.sizeHeight(0.04)),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
-              child: BaseCard(
-                backgroundColor: AppColors.surface,
+    return LoadingOverlay(
+      isLoading: state.loading,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UIHelpers.horizontalSpaceLG,
+            AnimatedOpacity(
+              opacity: _opacity,
+              duration: const Duration(milliseconds: 500),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Visibility(
+                    visible: controller.handledShowPanelDoctors(),
+                    child: DoctorFilterCard(
+                      doctors: state.doctorsFilter,
+                      doctorSelected: state.doctorSelected,
+                      cleanFilter: controller.cleanFilterDoctor,
+                      onDoctorSelected: controller.changeDoctorSelected,
+                      searchDoctorController: state.searchDoctorController,
+                      selectedSpecialization: state.selectedSpecialization,
+                      selectSpecialization: controller.selectSpecialization,
+                    ),
+                  ),
+                  Visibility(
+                    visible: !controller.handledShowPanelDoctors(),
+                    child: SizedBox(height: context.sizeHeight(0.04)),
+                  ),
+
+                  NotificationPanel(controller: controller, state: state),
+                ],
+              ),
+            ),
+            UIHelpers.horizontalSpaceLG,
+            Expanded(
+              child: DefaultTabController(
+                initialIndex: state.index,
+                length: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Notificaciones', style: AppTypography.h5),
-                    UIHelpers.verticalSpaceSM,
-                    if (state.listNotification.isEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(top: context.sizeHeight(0.4)),
-                        child: Column(children:[
-                          Icon(Icons.notification_add_outlined, size: 45),
-                          SizedBox(height: 10,),
-                          Text('No hay notificaciones')
-                        ]),
-                      )
-                    else
-                      ...state.listNotification.map(
-                        (notification) => NotificationCard(
-                          notification: notification,
-                          onRemove: () =>
-                              controller.removeNotification(notification),
-                        ),
+                    TabBar(
+                      onTap: (index) async {
+                        setState(() => _opacity = 0.0);
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        controller.changeIndex(index);
+                        setState(() => _opacity = 1.0);
+                      },
+                      tabs: const [
+                        Tab(text: 'Agenda'),
+                        Tab(text: 'Agendamiento'),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          const AppointmentCalendar(),
+                          SingleChildScrollView(
+                            padding: EdgeInsets.all(AppSpacing.paddingMD),
+                            child: FormScheduleAppointment(
+                              state: state,
+                              controller: controller,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               ),
             ),
-          ),
-          UIHelpers.horizontalSpaceLG,
-          // Panel principal
-          Expanded(
-            child: DefaultTabController(
-              length: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TabBar(
-                    tabs: const [
-                      Tab(text: 'Agenda'),
-                      Tab(text: 'Agendamiento'),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        const AppointmentCalendar(),
-                        SingleChildScrollView(
-                          padding: EdgeInsets.all(AppSpacing.paddingMD),
-                          child: FormScheduleAppointment(
-                            state: state,
-                            controller: controller,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.clearForm(),
-        child: Icon(Icons.clear),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => controller.clearForm(),
+          child: Icon(Icons.clear),
+        ),
       ),
     );
   }

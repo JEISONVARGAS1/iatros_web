@@ -10,7 +10,7 @@ import 'package:iatros_web/features/auth/provider/auth_controller.dart';
 import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
 import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/core/data/provider/model/global_state.dart';
-import 'package:iatros_web/features/auth/presentation/register_page.dart';
+import 'package:iatros_web/features/register/presentation/register_page.dart';
 import 'package:iatros_web/features/appointment_day/pages/appointment_day_page.dart';
 
 /// Enum que define todas las rutas de la aplicación
@@ -33,7 +33,7 @@ enum AppRoutes {
 class AuthNotifier extends ChangeNotifier {
   AuthNotifier(this._ref) {
     // Escuchamos cambios en el authControllerProvider
-    _authSubscription = _ref.listen<AuthState>(
+    _authSubscription = _ref.listen<AsyncValue<AuthState>>(
       authControllerProvider,
       (previous, next) {
         notifyListeners(); // Notifica a GoRouter que refresque
@@ -51,11 +51,11 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   final Ref _ref;
-  late final ProviderSubscription<AuthState> _authSubscription;
+  late final ProviderSubscription<AsyncValue<AuthState>> _authSubscription;
   late final ProviderSubscription<AsyncValue<GlobalState>> _globalSubscription;
 
   /// Obtiene el estado actual de autenticación
-  AuthState get authState => _ref.read(authControllerProvider);
+  AuthState get authState => _ref.read(authControllerProvider).value!;
 
   @override
   void dispose() {

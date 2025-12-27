@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../theme/colors.dart';
 import '../../theme/typography.dart';
 import '../../theme/spacing.dart';
 
-class IdentificationSelector extends StatefulWidget {
+class IdentificationSelector extends StatelessWidget {
   final ValueNotifier<String?>? selectedTypeNotifier;
   final TextEditingController? numberController;
   final ValueChanged<String?>? onTypeChanged;
@@ -21,37 +22,7 @@ class IdentificationSelector extends StatefulWidget {
     this.isRequired = false,
   });
 
-  @override
-  State<IdentificationSelector> createState() => _IdentificationSelectorState();
-}
-
-class _IdentificationSelectorState extends State<IdentificationSelector> {
-  late TextEditingController _numberController;
-  late ValueNotifier<String?> _typeNotifier;
-
-  final List<String> _identificationTypes = ['CC', 'NIT', 'CE'];
-
-  @override
-  void initState() {
-    super.initState();
-    _numberController = widget.numberController ?? TextEditingController();
-    _typeNotifier = widget.selectedTypeNotifier ?? ValueNotifier<String?>(null);
-
-    _typeNotifier.addListener(() {
-      widget.onTypeChanged?.call(_typeNotifier.value);
-    });
-  }
-
-  @override
-  void dispose() {
-    if (widget.numberController == null) {
-      _numberController.dispose();
-    }
-    if (widget.selectedTypeNotifier == null) {
-      _typeNotifier.dispose();
-    }
-    super.dispose();
-  }
+  static final List<String> _identificationTypes = ['CC', 'NIT', 'CE'];
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +35,7 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
             text: 'Identificación',
             style: AppTypography.label,
             children: [
-              if (widget.isRequired)
+              if (isRequired)
                 const TextSpan(
                   text: ' *',
                   style: TextStyle(color: AppColors.error),
@@ -83,13 +54,13 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
               height: 45, // Match TextField height
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: widget.errorText != null ? AppColors.error : AppColors.gray300,
+                  color: errorText != null ? AppColors.error : AppColors.gray300,
                 ),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusMD),
                 color: AppColors.surface,
               ),
               child: ValueListenableBuilder<String?>(
-                valueListenable: _typeNotifier,
+                valueListenable: selectedTypeNotifier!,
                 builder: (context, selectedType, child) {
                   return DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
@@ -105,7 +76,8 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
                         );
                       }).toList(),
                       onChanged: (value) {
-                        _typeNotifier.value = value;
+                        selectedTypeNotifier!.value = value;
+                        onTypeChanged?.call(value);
                       },
                       style: AppTypography.bodyMedium,
                       icon: const Icon(Icons.keyboard_arrow_down),
@@ -122,9 +94,12 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
             // Number input
             Expanded(
               child: TextFormField(
-                controller: _numberController,
+                controller: numberController,
                 style: AppTypography.bodyMedium,
+                maxLength: 12,
+                
                 decoration: InputDecoration(
+                  counter: Container(),
                   hintText: 'Número de identificación',
                   filled: true,
                   fillColor: AppColors.surface,
@@ -154,10 +129,10 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                enableInteractiveSelection: true,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 showCursor: true,
                 onChanged: (value) {
-                  widget.onNumberChanged?.call(value);
+                  onNumberChanged?.call(value);
                 },
               ),
             ),
@@ -165,10 +140,10 @@ class _IdentificationSelectorState extends State<IdentificationSelector> {
         ),
 
         // Error text
-        if (widget.errorText != null) ...[
+        if (errorText != null) ...[
           const SizedBox(height: AppSpacing.xs),
           Text(
-            widget.errorText!,
+            errorText!,
             style: AppTypography.caption.copyWith(
               color: AppColors.error,
             ),

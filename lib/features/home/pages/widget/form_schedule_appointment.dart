@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iatros_web/core/models/notification_result_model.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -20,15 +22,19 @@ class FormScheduleAppointment extends StatelessWidget {
   Widget _buildMonthCell(BuildContext context, MonthCellDetails details) {
     bool hasSlots = controller.hasAvailableSlots(details.date);
     bool isPast = details.date.isBefore(DateTime.now());
-    bool isSelected = state.selectedAppointmentDate != null &&
+    bool isSelected =
+        state.selectedAppointmentDate != null &&
         details.date.isAtSameMomentAs(state.selectedAppointmentDate!);
-    bool isToday = details.date.year == DateTime.now().year &&
+    bool isToday =
+        details.date.year == DateTime.now().year &&
         details.date.month == DateTime.now().month &&
         details.date.day == DateTime.now().day;
 
     Color backgroundColor;
     if (isSelected) {
-      backgroundColor = AppColors.primary.withOpacity(0.2);
+      backgroundColor = AppColors.success.withOpacity(0.2);
+    } else if (!isPast && hasSlots) {
+      backgroundColor = AppColors.primary.withOpacity(0.1);
     } else {
       backgroundColor = Colors.transparent;
     }
@@ -46,11 +52,13 @@ class FormScheduleAppointment extends StatelessWidget {
 
     Border? border;
     if (isSelected) {
-      border = Border.all(color: AppColors.primary);
+      border = Border.all(color: AppColors.success);
     } else {
       border = Border.all(
-        color: (isPast || !hasSlots) ? Colors.grey.withOpacity(0.5) : Colors.green.withOpacity(0.5),
-        width: 1,
+        color: (isPast || !hasSlots)
+            ? Colors.grey.withOpacity(0.5)
+            : AppColors.primary,
+        width: (isPast || !hasSlots) ? 1 : 2,
       );
     }
 
@@ -63,10 +71,7 @@ class FormScheduleAppointment extends StatelessWidget {
           border: border,
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(
-          details.date.day.toString(),
-          style: textStyle,
-        ),
+        child: Text(details.date.day.toString(), style: textStyle),
       ),
     );
   }
@@ -146,6 +151,7 @@ class FormScheduleAppointment extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               IntlPhoneField(
+                controller: state.phoneController,
                 decoration: InputDecoration(
                   labelText: 'Teléfono',
                   hintText: '+57 300 123 4567',
@@ -185,7 +191,7 @@ class FormScheduleAppointment extends StatelessWidget {
                 initialCountryCode: 'CO',
                 onChanged: (phone) {
                   controller.setPhoneMessageError(null);
-                  controller.setPhone(phone.completeNumber);
+                  controller.setPhone(phone);
                 },
                 validator: controller.validatePhone,
               ),
@@ -304,7 +310,6 @@ class FormScheduleAppointment extends StatelessWidget {
                   ),
                 ),
                 UIHelpers.verticalSpaceXL,
-                // Time Slots
                 Text('Horarios disponibles:', style: AppTypography.label),
                 UIHelpers.verticalSpaceSM,
                 SelectorHour(
@@ -315,10 +320,7 @@ class FormScheduleAppointment extends StatelessWidget {
               ],
             ),
           ),
-
           UIHelpers.verticalSpaceMD,
-
-          // Submit Button
           Center(
             child: SecondaryButton(
               label: "Agendar Cita",
@@ -336,11 +338,50 @@ class FormScheduleAppointment extends StatelessWidget {
                     );
                     return;
                   }
-                  if (state.timeSlotsSelected == null) return;
-                  if (state.selectedAppointmentDate == null) return;
-                  if (state.dateOfBirthNotifier.value == null) return;
-                  if (state.selectedGenderNotifier.value == null) return;
-                  if (state.selectedBloodTypeNotifier.value == null) return;
+
+                  if (state.dateOfBirthNotifier.value == null) {
+                    controller.addNotification(
+                      "Escoger el día de nacimiento es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
+                  if (state.selectedGenderNotifier.value == null) {
+                    controller.addNotification(
+                      "Escoger el género es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
+                  if (state.selectedBloodTypeNotifier.value == null) {
+                    controller.addNotification(
+                      "Escoger el tipo de sangre es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
+                  if (state.userCompany.rolUser != RolUser.DOCTOR &&
+                      state.doctorSelected == null) {
+                    controller.addNotification(
+                      "Escoger el médico es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
+                  if (state.selectedAppointmentDate == null) {
+                    controller.addNotification(
+                      "Escoger el día de la cita es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
+                  if (state.timeSlotsSelected == null) {
+                    controller.addNotification(
+                      "Escoger el horario de la cita es obligatorio.",
+                      StatusNotification.ERROR,
+                    );
+                    return;
+                  }
 
                   controller.scheduleAppointment();
                 }

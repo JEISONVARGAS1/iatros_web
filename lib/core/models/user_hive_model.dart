@@ -53,6 +53,9 @@ class UserHiveModel extends HiveObject {
   @HiveField(16)
   final String typeUser;
 
+  @HiveField(17)
+  final String countryCode;
+
   UserHiveModel({
     this.id,
     required this.name,
@@ -62,6 +65,7 @@ class UserHiveModel extends HiveObject {
     required this.updateAt,
     required this.typeUser,
     required this.createdAt,
+    required this.countryCode,
     required this.specialization,
     required this.medicalLicense,
     required this.yearsOfExperience,
@@ -84,6 +88,7 @@ class UserHiveModel extends HiveObject {
     updateAt: updateAt,
     lastName: lastName,
     createdAt: createdAt,
+    countryCode: countryCode,
     specialization: specialization,
     medicalLicense: medicalLicense,
     yearsOfExperience: yearsOfExperience,
@@ -103,6 +108,7 @@ class UserHiveModel extends HiveObject {
     phone: user.phone,
     lastName: user.lastName,
     typeUser: user.typeUser.name,
+    countryCode: user.countryCode,
     specialization: user.specialization,
     medicalLicense: user.medicalLicense,
     yearsOfExperience: user.yearsOfExperience,
@@ -123,6 +129,7 @@ class UserHiveModel extends HiveObject {
     phone: '',
     lastName: '',
     typeUser: "",
+    countryCode: '',
     medicalLicense: '',
     specialization: '',
     yearsOfExperience: 0,
@@ -147,6 +154,7 @@ class UserHiveModel extends HiveObject {
     DateTime? createdAt,
     String? specialization,
     String? medicalLicense,
+    String? countryCode,
     int? yearsOfExperience,
     String? professionalCardUrl,
     String? identityDocumentUrl,
@@ -162,6 +170,7 @@ class UserHiveModel extends HiveObject {
     typeUser: typeUser ?? this.typeUser,
     updateAt: updateAt ?? this.updateAt,
     createdAt: createdAt ?? this.createdAt,
+    countryCode: countryCode ?? this.countryCode,
     specialization: specialization ?? this.specialization,
     medicalLicense: medicalLicense ?? this.medicalLicense,
     yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
@@ -174,12 +183,12 @@ class UserHiveModel extends HiveObject {
 }
 
 TypeUser _generateTypeUser(String? text) {
-  if (text == TypeUser.DOCTOR.name) {
-    return TypeUser.DOCTOR;
+  if (text == TypeUser.MEDICAL_STAFF.name) {
+    return TypeUser.MEDICAL_STAFF;
   }
   if (text == TypeUser.PATIENT.name) {
     return TypeUser.PATIENT;
   } else {
-    return TypeUser.DOCTOR;
+    return TypeUser.MEDICAL_STAFF;
   }
 }

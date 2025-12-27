@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:iatros_web/uikit/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/features/auth/provider/auth_controller.dart';
-import 'package:iatros_web/features/auth/provider/model/auth_state.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -27,22 +26,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(authControllerProvider);
+    final state = ref.watch(authControllerProvider).value!;
     final controller = ref.read(authControllerProvider.notifier);
 
-    ref.listen<AuthState>(authControllerProvider, (previous, next) {
-      if (next.errorMessage.isNotEmpty) {
+    ref.listen(authControllerProvider, (previous, next) {
+      if (next.value!.errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage),
+            content: Text(next.value!.errorMessage),
             backgroundColor: AppColors.error,
           ),
         );
         controller.clearError();
       }
-      
+
       // Navigate to lobby on successful login
-      if (previous?.isAuthenticated == false && next.isAuthenticated) {
+      if (previous?.value?.isAuthenticated == false && next.value!.isAuthenticated) {
         context.go(AppRoutes.lobby.path);
       }
     });

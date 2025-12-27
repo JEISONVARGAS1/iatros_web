@@ -2,7 +2,7 @@
 // RiverpodGenerator
 // **************************************************************************
 
-String _$profileControllerHash() => r'2a989325c8866229e6d07b19172c3d2aa2327b94';
+String _$profileControllerHash() => r'd5dfeaf4f2aa1ff9b9de16259be6ebaffecbcfc7';
 
 /// See also [ProfileController].
 @ProviderFor(ProfileController)

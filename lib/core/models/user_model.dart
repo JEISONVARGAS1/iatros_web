@@ -1,7 +1,7 @@
 import 'gender.dart';
 import 'blood_type.dart';
 
-enum TypeUser { DOCTOR, PATIENT }
+enum TypeUser { MEDICAL_STAFF, PATIENT }
 
 class UserModel {
   final String? id;
@@ -15,6 +15,7 @@ class UserModel {
   final double? longitude;
   final TypeUser typeUser;
   final DateTime updateAt;
+  final String countryCode;
   final DateTime createdAt;
   final BloodType? bloodType;
   final String specialization;
@@ -36,6 +37,7 @@ class UserModel {
     required this.lastName,
     required this.updateAt,
     required this.createdAt,
+    required this.countryCode,
     required this.medicalLicense,
     required this.specialization,
     required this.yearsOfExperience,
@@ -60,6 +62,7 @@ class UserModel {
     String? lastName,
     DateTime? updateAt,
     TypeUser? typeUser,
+    String? countryCode,
     DateTime? createdAt,
     String? specialization,
     String? medicalLicense,
@@ -83,12 +86,13 @@ class UserModel {
     gender: gender ?? this.gender,
     address: address ?? this.address,
     latitude: latitude ?? this.latitude,
-    longitude: longitude ?? this.longitude,
     updateAt: updateAt ?? this.updateAt,
     typeUser: typeUser ?? this.typeUser,
     lastName: lastName ?? this.lastName,
+    longitude: longitude ?? this.longitude,
     bloodType: bloodType ?? this.bloodType,
     createdAt: createdAt ?? this.createdAt,
+    countryCode: countryCode ?? this.countryCode,
     dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     medicalLicense: medicalLicense ?? this.medicalLicense,
     specialization: specialization ?? this.specialization,
@@ -106,9 +110,10 @@ class UserModel {
     phone: json["phone"] ?? "",
     email: json["email"] ?? "",
     address: json["address"] ?? "",
-    latitude: json["latitude"]?.toDouble(),
-    longitude: json["longitude"]?.toDouble(),
     lastName: json["last_name"] ?? "",
+    latitude: json["latitude"]?.toDouble(),
+    countryCode: json["country_code"] ?? "",
+    longitude: json["longitude"]?.toDouble(),
     specialization: json["specialization"] ?? "",
     medicalLicense: json["medical_license"] ?? "",
     typeUser: _generateTypeUser(json["type_user"]),
@@ -130,11 +135,12 @@ class UserModel {
     email: "",
     phone: "",
     address: "",
-    latitude: null,
-    longitude: null,
     lastName: "",
     gender: null,
+    latitude: null,
+    longitude: null,
     bloodType: null,
+    countryCode: "",
     dateOfBirth: null,
     specialization: "",
     medicalLicense: "",
@@ -156,6 +162,7 @@ class UserModel {
       "phone": phone,
       "last_name": lastName,
       "type_user": typeUser.name,
+      "country_code": countryCode,
       "specialization": specialization,
       "medical_license": medicalLicense,
       "years_experience": yearsOfExperience,
@@ -201,8 +208,9 @@ class UserModel {
       latitude == other.latitude &&
       longitude == other.longitude &&
       bloodType == other.bloodType &&
+      countryCode == other.countryCode &&
       specialization == other.specialization &&
-      medicalLicense == other.medicalLicense &&
+      medicalLicense == other.medicalLicense && 
       yearsOfExperience == other.yearsOfExperience &&
       (dateOfBirth == null && other.dateOfBirth == null ||
         dateOfBirth != null && other.dateOfBirth != null &&
@@ -216,13 +224,13 @@ class UserModel {
 }
 
 TypeUser _generateTypeUser(String? text) {
-  if (text == TypeUser.DOCTOR.name) {
-    return TypeUser.DOCTOR;
+  if (text == TypeUser.MEDICAL_STAFF.name) {
+    return TypeUser.MEDICAL_STAFF;
   }
   if (text == TypeUser.PATIENT.name) {
     return TypeUser.PATIENT;
   } else {
-    return TypeUser.DOCTOR;
+    return TypeUser.MEDICAL_STAFF;
   }
 }
 

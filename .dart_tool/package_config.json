@@ -734,6 +734,12 @@
       "languageVersion": "3.8"
     },
     {
+      "name": "sliding_up_panel",
+      "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/sliding_up_panel-2.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_gen",
       "rootUri": "file:///Users/jeisonmanuelvargasvargas/.pub-cache/hosted/pub.dev/source_gen-1.5.0",
       "packageUri": "lib/",

@@ -21,6 +21,7 @@ export 'components/inputs/date_picker_input.dart';
 export 'components/inputs/gender_selector.dart';
 export 'components/inputs/blood_type_selector.dart';
 export 'components/inputs/address_autocomplete_input.dart';
+export 'components/inputs/file_picker_input.dart';
 
 // Components - Cards
 export 'components/cards/base_card.dart';

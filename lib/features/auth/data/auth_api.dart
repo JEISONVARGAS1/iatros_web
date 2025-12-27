@@ -1,3 +1,4 @@
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:iatros_web/core/models/query_response_model.dart';
@@ -6,27 +7,48 @@ import 'package:iatros_web/features/auth/data/auth_api_interface.dart';
 class AuthApi extends AuthApiInterface {
   final SupabaseClient _supabase;
 
-  AuthApi({super.token})
-    : _supabase = Supabase.instance.client;
+  AuthApi({super.token}) : _supabase = Supabase.instance.client;
 
   @override
   Future<UserModel> login(String email, String password) async {
-    final item = await _supabase.auth.signInWithPassword(email: email, password: password);
+    final item = await _supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
     final user = UserModel.init().copyWith(email: email, id: item.user!.id);
     return user;
   }
 
   @override
-  Future<QueryResponseModel> register(UserModel user, String password) async {
+  Future<QueryResponseModel> register(
+    UserCompanyModel userCompany,
+    String password,
+  ) async {
     final response = await _supabase.auth.signUp(
-      email: user.email,
       password: password,
-      data: user.toJson(),
+      email: userCompany.user!.email,
+      data: userCompany.user!.toJson(),
     );
 
     await _supabase
         .from('users')
-        .insert(user.copyWith(id: response.user!.id).toJson());
+        .insert(userCompany.user!.copyWith(id: response.user!.id).toJson());
+
+    final res = await _supabase
+        .from('companies')
+        .insert(
+          userCompany.company!
+              .copyWith(userOwnerId: response.user!.id)
+              .toJson(),
+        )
+        .select()
+        .single();
+
+    await _supabase
+        .from('users_companies')
+        .insert(
+          userCompany.copyWith(userId: response.user!.id, companyId: res['id']).toJson(),
+        );
 
     if (response.user != null) {
       return QueryResponseModel(
@@ -58,52 +80,6 @@ class AuthApi extends AuthApiInterface {
       );
     }
   }
-  /* 
-  @override
-  Future<QueryResponseModel<UserModel>> getCurrentUser() async {
-    try {
-      final user = _supabase.auth.currentUser;
-      if (user != null) {
-        final userModel = UserModel(
-          id: user.id,
-          email: user.email ?? '',
-          name: user.userMetadata?['name'] as String?,
-          lastName: user.userMetadata?['last_name'] as String?,
-          avatar: user.userMetadata?['avatar_url'] as String?,
-          medicalLicense: user.userMetadata?['medical_license'] as String?,
-          specialization: user.userMetadata?['specialization'] as String?,
-          phone: user.userMetadata?['phone'] as String?,
-          bio: user.userMetadata?['bio'] as String?,
-          yearsOfExperience: user.userMetadata?['years_of_experience'] as int?,
-          professionalCardImage:
-              user.userMetadata?['professional_card_image'] as String?,
-          isVerified: user.userMetadata?['is_verified'] as bool?,
-          createdAt: user.createdAt.isNotEmpty
-              ? DateTime.tryParse(user.createdAt)
-              : null,
-          updatedAt: user.updatedAt?.isNotEmpty == true
-              ? DateTime.tryParse(user.updatedAt!)
-              : null,
-        );
-        return QueryResponseModel(
-          data: userModel,
-          message: 'Usuario obtenido exitosamente',
-        );
-      } else {
-        return QueryResponseModel(
-          data: null,
-          message: 'No hay usuario autenticado',
-          isSuccessful: false,
-        );
-      }
-    } catch (e) {
-      return QueryResponseModel(
-        data: null,
-        message: e.toString(),
-        isSuccessful: false,
-      );
-    }
-  } */
 
   @override
   Future<QueryResponseModel> resetPassword(String email) async {

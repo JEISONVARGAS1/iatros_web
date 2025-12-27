@@ -2,7 +2,7 @@
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lobbyControllerHash() => r'8ae098cb3ab11c1049af08bd3762c24eb91f3476';
+String _$lobbyControllerHash() => r'99832a8586de48713e6c1b673fbd5ca05d99f15c';
 
 /// See also [LobbyController].
 @ProviderFor(LobbyController)

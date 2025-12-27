@@ -1,15 +1,16 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/core/models/query_response_model.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/features/auth/data/auth_api.dart';
 import 'package:iatros_web/features/auth/data/auth_api_interface.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 
 abstract class AuthRepositoryInterface {
-  Future<QueryResponseModel<UserModel>> login(String email, String password);
-  Future<QueryResponseModel> register(UserModel user, String password);
-  Future<QueryResponseModel> logout();/* 
-  Future<QueryResponseModel<UserModel>> getCurrentUser(); */
+  Future<QueryResponseModel> logout();
   Future<QueryResponseModel> resetPassword(String email);
   Future<QueryResponseModel> updatePassword(String newPassword);
+  Future<QueryResponseModel<UserModel>> login(String email, String password);
+  Future<QueryResponseModel> register(UserCompanyModel userCompanyModel, String password);
 }
 
 class AuthRepository implements AuthRepositoryInterface {
@@ -32,9 +33,9 @@ class AuthRepository implements AuthRepositoryInterface {
   }
 
   @override
-  Future<QueryResponseModel> register(UserModel user, String password) async {
+  Future<QueryResponseModel> register(UserCompanyModel userCompanyModel, String password) async {
     try {
-      final res = await _authApi.register(user, password);
+      final res = await _authApi.register(userCompanyModel, password);
       return res;
     } catch (e) {
       return QueryResponseModel(
@@ -83,3 +84,7 @@ class AuthRepository implements AuthRepositoryInterface {
     }
   }
 }
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository();
+});

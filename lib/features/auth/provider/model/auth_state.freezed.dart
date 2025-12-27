@@ -19,13 +19,10 @@ mixin _$AuthState {
   bool get isLoading => throw _privateConstructorUsedError;
   UserModel? get user => throw _privateConstructorUsedError;
   bool get isLoginLoading => throw _privateConstructorUsedError;
-  bool get isRegisterLoading => throw _privateConstructorUsedError;
   bool get isLogoutLoading => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   bool get isAuthenticated => throw _privateConstructorUsedError;
   bool get isAuthChecked => throw _privateConstructorUsedError;
-  double get addressLatitude => throw _privateConstructorUsedError;
-  double get addressLongitude => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -41,13 +38,10 @@ abstract class $AuthStateCopyWith<$Res> {
       {bool isLoading,
       UserModel? user,
       bool isLoginLoading,
-      bool isRegisterLoading,
       bool isLogoutLoading,
       String errorMessage,
       bool isAuthenticated,
-      bool isAuthChecked,
-      double addressLatitude,
-      double addressLongitude});
+      bool isAuthChecked});
 }
 
 /// @nodoc
@@ -66,13 +60,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isLoading = null,
     Object? user = freezed,
     Object? isLoginLoading = null,
-    Object? isRegisterLoading = null,
     Object? isLogoutLoading = null,
     Object? errorMessage = null,
     Object? isAuthenticated = null,
     Object? isAuthChecked = null,
-    Object? addressLatitude = null,
-    Object? addressLongitude = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -86,10 +77,6 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       isLoginLoading: null == isLoginLoading
           ? _value.isLoginLoading
           : isLoginLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRegisterLoading: null == isRegisterLoading
-          ? _value.isRegisterLoading
-          : isRegisterLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isLogoutLoading: null == isLogoutLoading
           ? _value.isLogoutLoading
@@ -107,14 +94,6 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isAuthChecked
           : isAuthChecked // ignore: cast_nullable_to_non_nullable
               as bool,
-      addressLatitude: null == addressLatitude
-          ? _value.addressLatitude
-          : addressLatitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      addressLongitude: null == addressLongitude
-          ? _value.addressLongitude
-          : addressLongitude // ignore: cast_nullable_to_non_nullable
-              as double,
     ) as $Val);
   }
 }
@@ -131,13 +110,10 @@ abstract class _$$AuthStateDataImplCopyWith<$Res>
       {bool isLoading,
       UserModel? user,
       bool isLoginLoading,
-      bool isRegisterLoading,
       bool isLogoutLoading,
       String errorMessage,
       bool isAuthenticated,
-      bool isAuthChecked,
-      double addressLatitude,
-      double addressLongitude});
+      bool isAuthChecked});
 }
 
 /// @nodoc
@@ -154,13 +130,10 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? user = freezed,
     Object? isLoginLoading = null,
-    Object? isRegisterLoading = null,
     Object? isLogoutLoading = null,
     Object? errorMessage = null,
     Object? isAuthenticated = null,
     Object? isAuthChecked = null,
-    Object? addressLatitude = null,
-    Object? addressLongitude = null,
   }) {
     return _then(_$AuthStateDataImpl(
       isLoading: null == isLoading
@@ -174,10 +147,6 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
       isLoginLoading: null == isLoginLoading
           ? _value.isLoginLoading
           : isLoginLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRegisterLoading: null == isRegisterLoading
-          ? _value.isRegisterLoading
-          : isRegisterLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isLogoutLoading: null == isLogoutLoading
           ? _value.isLogoutLoading
@@ -195,14 +164,6 @@ class __$$AuthStateDataImplCopyWithImpl<$Res>
           ? _value.isAuthChecked
           : isAuthChecked // ignore: cast_nullable_to_non_nullable
               as bool,
-      addressLatitude: null == addressLatitude
-          ? _value.addressLatitude
-          : addressLatitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      addressLongitude: null == addressLongitude
-          ? _value.addressLongitude
-          : addressLongitude // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
@@ -214,13 +175,10 @@ class _$AuthStateDataImpl implements AuthStateData {
       {required this.isLoading,
       this.user,
       required this.isLoginLoading,
-      required this.isRegisterLoading,
       required this.isLogoutLoading,
       required this.errorMessage,
       required this.isAuthenticated,
-      required this.isAuthChecked,
-      required this.addressLatitude,
-      required this.addressLongitude});
+      required this.isAuthChecked});
 
   @override
   final bool isLoading;
@@ -229,8 +187,6 @@ class _$AuthStateDataImpl implements AuthStateData {
   @override
   final bool isLoginLoading;
   @override
-  final bool isRegisterLoading;
-  @override
   final bool isLogoutLoading;
   @override
   final String errorMessage;
@@ -238,14 +194,10 @@ class _$AuthStateDataImpl implements AuthStateData {
   final bool isAuthenticated;
   @override
   final bool isAuthChecked;
-  @override
-  final double addressLatitude;
-  @override
-  final double addressLongitude;
 
   @override
   String toString() {
-    return 'AuthState(isLoading: $isLoading, user: $user, isLoginLoading: $isLoginLoading, isRegisterLoading: $isRegisterLoading, isLogoutLoading: $isLogoutLoading, errorMessage: $errorMessage, isAuthenticated: $isAuthenticated, isAuthChecked: $isAuthChecked, addressLatitude: $addressLatitude, addressLongitude: $addressLongitude)';
+    return 'AuthState(isLoading: $isLoading, user: $user, isLoginLoading: $isLoginLoading, isLogoutLoading: $isLogoutLoading, errorMessage: $errorMessage, isAuthenticated: $isAuthenticated, isAuthChecked: $isAuthChecked)';
   }
 
   @override
@@ -258,8 +210,6 @@ class _$AuthStateDataImpl implements AuthStateData {
             (identical(other.user, user) || other.user == user) &&
             (identical(other.isLoginLoading, isLoginLoading) ||
                 other.isLoginLoading == isLoginLoading) &&
-            (identical(other.isRegisterLoading, isRegisterLoading) ||
-                other.isRegisterLoading == isRegisterLoading) &&
             (identical(other.isLogoutLoading, isLogoutLoading) ||
                 other.isLogoutLoading == isLogoutLoading) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -267,26 +217,12 @@ class _$AuthStateDataImpl implements AuthStateData {
             (identical(other.isAuthenticated, isAuthenticated) ||
                 other.isAuthenticated == isAuthenticated) &&
             (identical(other.isAuthChecked, isAuthChecked) ||
-                other.isAuthChecked == isAuthChecked) &&
-            (identical(other.addressLatitude, addressLatitude) ||
-                other.addressLatitude == addressLatitude) &&
-            (identical(other.addressLongitude, addressLongitude) ||
-                other.addressLongitude == addressLongitude));
+                other.isAuthChecked == isAuthChecked));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      user,
-      isLoginLoading,
-      isRegisterLoading,
-      isLogoutLoading,
-      errorMessage,
-      isAuthenticated,
-      isAuthChecked,
-      addressLatitude,
-      addressLongitude);
+  int get hashCode => Object.hash(runtimeType, isLoading, user, isLoginLoading,
+      isLogoutLoading, errorMessage, isAuthenticated, isAuthChecked);
 
   @JsonKey(ignore: true)
   @override
@@ -300,13 +236,10 @@ abstract class AuthStateData implements AuthState {
       {required final bool isLoading,
       final UserModel? user,
       required final bool isLoginLoading,
-      required final bool isRegisterLoading,
       required final bool isLogoutLoading,
       required final String errorMessage,
       required final bool isAuthenticated,
-      required final bool isAuthChecked,
-      required final double addressLatitude,
-      required final double addressLongitude}) = _$AuthStateDataImpl;
+      required final bool isAuthChecked}) = _$AuthStateDataImpl;
 
   @override
   bool get isLoading;
@@ -315,8 +248,6 @@ abstract class AuthStateData implements AuthState {
   @override
   bool get isLoginLoading;
   @override
-  bool get isRegisterLoading;
-  @override
   bool get isLogoutLoading;
   @override
   String get errorMessage;
@@ -324,10 +255,6 @@ abstract class AuthStateData implements AuthState {
   bool get isAuthenticated;
   @override
   bool get isAuthChecked;
-  @override
-  double get addressLatitude;
-  @override
-  double get addressLongitude;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateDataImplCopyWith<_$AuthStateDataImpl> get copyWith =>

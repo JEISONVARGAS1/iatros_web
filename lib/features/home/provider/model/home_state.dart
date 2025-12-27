@@ -7,6 +7,7 @@ import 'package:iatros_web/core/models/user_model.dart';
 import 'package:iatros_web/core/util/debouncer_util.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iatros_web/core/models/time_slots_model.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/core/models/doctor_setting_model.dart';
 import 'package:iatros_web/core/models/notification_result_model.dart';
 import 'package:iatros_web/core/models/medical_appointment_booking_model.dart';
@@ -17,25 +18,33 @@ part 'home_state.freezed.dart';
 sealed class HomeState with _$HomeState {
   const factory HomeState({
     required int index,
+    required bool loading,
     required UserModel myUser,
+    required String countryCode,
     required String phoneNumber,
     required UserModel userFount,
     required DateTime dateSelected,
     StreamSubscription? medicalSub,
     required bool hasTriedToValidate,
     required DebouncerUtil debouncer,
+    required UserModel? doctorSelected,
     required String? phoneErrorMessage,
     required GlobalKey<FormState> form,
+    required UserCompanyModel userCompany,
+    required String selectedSpecialization,
     required PageController pageController,
+    required List<UserCompanyModel> doctors,
     required DoctorSettingModel doctorSetting,
     required TimeSlotsModel? timeSlotsSelected,
     required DateTime? selectedAppointmentDate,
     required List<TimeSlotsModel> listTimeSlots,
+    required List<UserCompanyModel> doctorsFilter,
     required TextEditingController nameController,
     required TextEditingController emailController,
     required TextEditingController phoneController,
     required TextEditingController addressController,
     required TextEditingController lastNameController,
+    required TextEditingController searchDoctorController,
     required ValueNotifier<DateTime?> dateOfBirthNotifier,
     required ValueNotifier<Gender?> selectedGenderNotifier,
     required List<NotificationResultModel> listNotification,
@@ -48,19 +57,26 @@ sealed class HomeState with _$HomeState {
 
   factory HomeState.initial() => HomeState(
     index: 0,
+    doctors: [],
+    loading: false,
     phoneNumber: "",
-    listTimeSlots: [],
+    countryCode: "",
+    listTimeSlots: [], 
+    doctorsFilter: [],
+    doctorSelected: null,
     listNotification: [],
     phoneErrorMessage: null,
     timeSlotsSelected: null,
     myUser: UserModel.init(),
     hasTriedToValidate: false,
+    selectedSpecialization: "",
     userFount: UserModel.init(),
     form: GlobalKey<FormState>(),
     dateSelected: DateTime.now(),
     medicalAppointmentBooking: [],
     selectedAppointmentDate: null,
     pageController: PageController(),
+    userCompany: UserCompanyModel.init(),
     debouncer: DebouncerUtil(seconds: 3),
     nameController: TextEditingController(),
     phoneController: TextEditingController(),
@@ -68,6 +84,7 @@ sealed class HomeState with _$HomeState {
     emailController: TextEditingController(),
     addressController: TextEditingController(),
     lastNameController: TextEditingController(),
+    searchDoctorController: TextEditingController(),
     dateOfBirthNotifier: ValueNotifier<DateTime?>(null),
     selectedGenderNotifier: ValueNotifier<Gender?>(null),
     identificationNumberController: TextEditingController(),

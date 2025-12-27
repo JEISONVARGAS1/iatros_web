@@ -19,9 +19,15 @@ mixin _$GlobalState {
   UserModel get myUser => throw _privateConstructorUsedError;
   StreamSubscription<dynamic>? get userSub =>
       throw _privateConstructorUsedError;
+  StreamSubscription<dynamic>? get userCompanySub =>
+      throw _privateConstructorUsedError;
   StreamSubscription<dynamic>? get doctorSettingSub =>
       throw _privateConstructorUsedError;
   DoctorSettingModel get doctorSetting => throw _privateConstructorUsedError;
+  List<UserCompanyModel> get userCompanies =>
+      throw _privateConstructorUsedError;
+  UserCompanyModel get userCompanySelected =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GlobalStateCopyWith<GlobalState> get copyWith =>
@@ -37,8 +43,11 @@ abstract class $GlobalStateCopyWith<$Res> {
   $Res call(
       {UserModel myUser,
       StreamSubscription<dynamic>? userSub,
+      StreamSubscription<dynamic>? userCompanySub,
       StreamSubscription<dynamic>? doctorSettingSub,
-      DoctorSettingModel doctorSetting});
+      DoctorSettingModel doctorSetting,
+      List<UserCompanyModel> userCompanies,
+      UserCompanyModel userCompanySelected});
 }
 
 /// @nodoc
@@ -56,8 +65,11 @@ class _$GlobalStateCopyWithImpl<$Res, $Val extends GlobalState>
   $Res call({
     Object? myUser = null,
     Object? userSub = freezed,
+    Object? userCompanySub = freezed,
     Object? doctorSettingSub = freezed,
     Object? doctorSetting = null,
+    Object? userCompanies = null,
+    Object? userCompanySelected = null,
   }) {
     return _then(_value.copyWith(
       myUser: null == myUser
@@ -68,6 +80,10 @@ class _$GlobalStateCopyWithImpl<$Res, $Val extends GlobalState>
           ? _value.userSub
           : userSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<dynamic>?,
+      userCompanySub: freezed == userCompanySub
+          ? _value.userCompanySub
+          : userCompanySub // ignore: cast_nullable_to_non_nullable
+              as StreamSubscription<dynamic>?,
       doctorSettingSub: freezed == doctorSettingSub
           ? _value.doctorSettingSub
           : doctorSettingSub // ignore: cast_nullable_to_non_nullable
@@ -76,6 +92,14 @@ class _$GlobalStateCopyWithImpl<$Res, $Val extends GlobalState>
           ? _value.doctorSetting
           : doctorSetting // ignore: cast_nullable_to_non_nullable
               as DoctorSettingModel,
+      userCompanies: null == userCompanies
+          ? _value.userCompanies
+          : userCompanies // ignore: cast_nullable_to_non_nullable
+              as List<UserCompanyModel>,
+      userCompanySelected: null == userCompanySelected
+          ? _value.userCompanySelected
+          : userCompanySelected // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
     ) as $Val);
   }
 }
@@ -91,8 +115,11 @@ abstract class _$$GlobalStateDataImplCopyWith<$Res>
   $Res call(
       {UserModel myUser,
       StreamSubscription<dynamic>? userSub,
+      StreamSubscription<dynamic>? userCompanySub,
       StreamSubscription<dynamic>? doctorSettingSub,
-      DoctorSettingModel doctorSetting});
+      DoctorSettingModel doctorSetting,
+      List<UserCompanyModel> userCompanies,
+      UserCompanyModel userCompanySelected});
 }
 
 /// @nodoc
@@ -108,8 +135,11 @@ class __$$GlobalStateDataImplCopyWithImpl<$Res>
   $Res call({
     Object? myUser = null,
     Object? userSub = freezed,
+    Object? userCompanySub = freezed,
     Object? doctorSettingSub = freezed,
     Object? doctorSetting = null,
+    Object? userCompanies = null,
+    Object? userCompanySelected = null,
   }) {
     return _then(_$GlobalStateDataImpl(
       myUser: null == myUser
@@ -120,6 +150,10 @@ class __$$GlobalStateDataImplCopyWithImpl<$Res>
           ? _value.userSub
           : userSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<dynamic>?,
+      userCompanySub: freezed == userCompanySub
+          ? _value.userCompanySub
+          : userCompanySub // ignore: cast_nullable_to_non_nullable
+              as StreamSubscription<dynamic>?,
       doctorSettingSub: freezed == doctorSettingSub
           ? _value.doctorSettingSub
           : doctorSettingSub // ignore: cast_nullable_to_non_nullable
@@ -128,6 +162,14 @@ class __$$GlobalStateDataImplCopyWithImpl<$Res>
           ? _value.doctorSetting
           : doctorSetting // ignore: cast_nullable_to_non_nullable
               as DoctorSettingModel,
+      userCompanies: null == userCompanies
+          ? _value._userCompanies
+          : userCompanies // ignore: cast_nullable_to_non_nullable
+              as List<UserCompanyModel>,
+      userCompanySelected: null == userCompanySelected
+          ? _value.userCompanySelected
+          : userCompanySelected // ignore: cast_nullable_to_non_nullable
+              as UserCompanyModel,
     ));
   }
 }
@@ -138,21 +180,37 @@ class _$GlobalStateDataImpl implements GlobalStateData {
   const _$GlobalStateDataImpl(
       {required this.myUser,
       this.userSub,
+      this.userCompanySub,
       this.doctorSettingSub,
-      required this.doctorSetting});
+      required this.doctorSetting,
+      required final List<UserCompanyModel> userCompanies,
+      required this.userCompanySelected})
+      : _userCompanies = userCompanies;
 
   @override
   final UserModel myUser;
   @override
   final StreamSubscription<dynamic>? userSub;
   @override
+  final StreamSubscription<dynamic>? userCompanySub;
+  @override
   final StreamSubscription<dynamic>? doctorSettingSub;
   @override
   final DoctorSettingModel doctorSetting;
+  final List<UserCompanyModel> _userCompanies;
+  @override
+  List<UserCompanyModel> get userCompanies {
+    if (_userCompanies is EqualUnmodifiableListView) return _userCompanies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_userCompanies);
+  }
+
+  @override
+  final UserCompanyModel userCompanySelected;
 
   @override
   String toString() {
-    return 'GlobalState(myUser: $myUser, userSub: $userSub, doctorSettingSub: $doctorSettingSub, doctorSetting: $doctorSetting)';
+    return 'GlobalState(myUser: $myUser, userSub: $userSub, userCompanySub: $userCompanySub, doctorSettingSub: $doctorSettingSub, doctorSetting: $doctorSetting, userCompanies: $userCompanies, userCompanySelected: $userCompanySelected)';
   }
 
   @override
@@ -162,15 +220,28 @@ class _$GlobalStateDataImpl implements GlobalStateData {
             other is _$GlobalStateDataImpl &&
             (identical(other.myUser, myUser) || other.myUser == myUser) &&
             (identical(other.userSub, userSub) || other.userSub == userSub) &&
+            (identical(other.userCompanySub, userCompanySub) ||
+                other.userCompanySub == userCompanySub) &&
             (identical(other.doctorSettingSub, doctorSettingSub) ||
                 other.doctorSettingSub == doctorSettingSub) &&
             (identical(other.doctorSetting, doctorSetting) ||
-                other.doctorSetting == doctorSetting));
+                other.doctorSetting == doctorSetting) &&
+            const DeepCollectionEquality()
+                .equals(other._userCompanies, _userCompanies) &&
+            (identical(other.userCompanySelected, userCompanySelected) ||
+                other.userCompanySelected == userCompanySelected));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, myUser, userSub, doctorSettingSub, doctorSetting);
+      runtimeType,
+      myUser,
+      userSub,
+      userCompanySub,
+      doctorSettingSub,
+      doctorSetting,
+      const DeepCollectionEquality().hash(_userCompanies),
+      userCompanySelected);
 
   @JsonKey(ignore: true)
   @override
@@ -182,19 +253,29 @@ class _$GlobalStateDataImpl implements GlobalStateData {
 
 abstract class GlobalStateData implements GlobalState {
   const factory GlobalStateData(
-      {required final UserModel myUser,
-      final StreamSubscription<dynamic>? userSub,
-      final StreamSubscription<dynamic>? doctorSettingSub,
-      required final DoctorSettingModel doctorSetting}) = _$GlobalStateDataImpl;
+          {required final UserModel myUser,
+          final StreamSubscription<dynamic>? userSub,
+          final StreamSubscription<dynamic>? userCompanySub,
+          final StreamSubscription<dynamic>? doctorSettingSub,
+          required final DoctorSettingModel doctorSetting,
+          required final List<UserCompanyModel> userCompanies,
+          required final UserCompanyModel userCompanySelected}) =
+      _$GlobalStateDataImpl;
 
   @override
   UserModel get myUser;
   @override
   StreamSubscription<dynamic>? get userSub;
   @override
+  StreamSubscription<dynamic>? get userCompanySub;
+  @override
   StreamSubscription<dynamic>? get doctorSettingSub;
   @override
   DoctorSettingModel get doctorSetting;
+  @override
+  List<UserCompanyModel> get userCompanies;
+  @override
+  UserCompanyModel get userCompanySelected;
   @override
   @JsonKey(ignore: true)
   _$$GlobalStateDataImplCopyWith<_$GlobalStateDataImpl> get copyWith =>

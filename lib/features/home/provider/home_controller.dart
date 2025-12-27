@@ -6,6 +6,8 @@ import 'package:iatros_web/core/models/blood_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:iatros_web/core/models/time_slots_model.dart';
 import 'package:iatros_web/core/extension/date_extension.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
+import 'package:iatros_web/core/models/doctor_setting_model.dart';
 import 'package:iatros_web/core/data/provider/global_controller.dart';
 import 'package:iatros_web/core/models/notification_result_model.dart';
 import 'package:iatros_web/features/home/provider/model/home_state.dart';
@@ -26,16 +28,15 @@ class HomeController extends _$HomeController {
       state.value!.phoneController.dispose();
       state.value!.addressController.dispose();
       state.value!.lastNameController.dispose();
+      state.value!.searchDoctorController.dispose();
       state.value!.identificationNumberController.dispose();
     });
-
-    ref.keepAlive();
-
     return HomeState.initial();
   }
 
   init() {
     _getMyUser();
+    _listenerToSearchDoctor();
     listenerToIdentification();
   }
 
@@ -45,19 +46,66 @@ class HomeController extends _$HomeController {
     ref.listen(globalControllerProvider, (previous, next) {
       final user = next.value!.myUser;
       final doctorSetting = next.value!.doctorSetting;
+      final userCompanySelected = next.value!.userCompanySelected;
       _setState(
-        state.value!.copyWith(myUser: user, doctorSetting: doctorSetting),
+        state.value!.copyWith(
+          myUser: user,
+          doctorSetting: doctorSetting,
+          userCompany: userCompanySelected,
+        ),
       );
-      if (user.id != null) {
-        getMedicalAppointmentBooking(user.id!);
+
+      bool userIsNotNull = user.id != null;
+      bool isDoctor = userCompanySelected.rolUser == RolUser.DOCTOR;
+      bool userCompanySelectedIsNotNull = userCompanySelected.id != null;
+
+      if (userIsNotNull && userCompanySelectedIsNotNull && !isDoctor) {
+        getDoctorsFromCompany();
+        getBookingFromCompany();
+      } else if (userIsNotNull && userCompanySelectedIsNotNull && isDoctor) {
+        getMedicalAppointmentBooking(userCompanySelected.id!);
       }
     }, fireImmediately: true);
+  }
+
+  getDoctorsFromCompany() async {
+    final res = await repository.getDoctorsFromCompany(
+      state.value!.userCompany.companyId,
+    );
+    if (res.isSuccessful) {
+      _setState(
+        state.value!.copyWith(doctors: res.data!, doctorsFilter: res.data!),
+      );
+    } else {
+      addNotification(
+        "No se pudo obtener los doctores: ${res.message}",
+        StatusNotification.ERROR,
+      );
+    }
+  }
+
+  getBookingFromCompany() async {
+    final res = await repository.getBookingFromCompany(
+      state.value!.userCompany.companyId,
+    );
+    if (res.isSuccessful) {
+      _setState(state.value!.copyWith(medicalAppointmentBooking: res.data!));
+    } else {
+      addNotification(
+        "No se pudo obtener las citas: ${res.message}",
+        StatusNotification.ERROR,
+      );
+    }
   }
 
   listenerToIdentification() {
     state.value!.identificationNumberController.addListener(
       searchUserByDocument,
     );
+  }
+
+  _listenerToSearchDoctor() {
+    state.value!.searchDoctorController.addListener(handledToFilerDoctors);
   }
 
   selectedIdentificationTypeNotifier(String? item) {
@@ -96,10 +144,24 @@ class HomeController extends _$HomeController {
       listTimeZone = [...listTimeZone, ...e.workDateList];
     }
 
-    return divideTimeSlots(
+    final availableSlots = divideTimeSlots(
       listTimeZone,
       state.value!.doctorSetting.consultationDuration,
     );
+
+    return availableSlots.where((slot) {
+      final slotDateTime = DateTime(
+        currentDate.year,
+        currentDate.month,
+        currentDate.day,
+        slot.startWorkHours.hour,
+        slot.startWorkHours.minute,
+      );
+      return !state.value!.medicalAppointmentBooking.any(
+        (booking) =>
+            booking.scheduleMedicalAppointment.isAtSameMomentAs(slotDateTime),
+      );
+    }).toList();
   }
 
   bool hasAvailableSlots(DateTime date) {
@@ -122,7 +184,21 @@ class HomeController extends _$HomeController {
       state.value!.doctorSetting.consultationDuration,
     );
 
-    return slots.isNotEmpty;
+    final availableSlots = slots.where((slot) {
+      final slotDateTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        slot.startWorkHours.hour,
+        slot.startWorkHours.minute,
+      );
+      return !state.value!.medicalAppointmentBooking.any(
+        (booking) =>
+            booking.scheduleMedicalAppointment.isAtSameMomentAs(slotDateTime),
+      );
+    }).toList();
+
+    return availableSlots.isNotEmpty;
   }
 
   selectedDateOfBirth(DateTime? item) {
@@ -151,8 +227,6 @@ class HomeController extends _$HomeController {
         if (next > endMinutes) next = endMinutes;
         TimeOfDay start = TimeOfDay(hour: current ~/ 60, minute: current % 60);
         TimeOfDay end = TimeOfDay(hour: next ~/ 60, minute: next % 60);
-        // Exclude slots that start between 10am and 4pm
-        if (start.hour >= 10 && start.hour < 16) continue;
         result.add(TimeSlotsModel(startWorkHours: start, endWorkHours: end));
       }
     }
@@ -163,8 +237,13 @@ class HomeController extends _$HomeController {
     _setState(state.value!.copyWith(hasTriedToValidate: value));
   }
 
-  setPhone(String phoneNumber) {
-    _setState(state.value!.copyWith(phoneNumber: phoneNumber));
+  setPhone(PhoneNumber phone) {
+    _setState(
+      state.value!.copyWith(
+        phoneNumber: phone.number,
+        countryCode: phone.countryCode,
+      ),
+    );
   }
 
   setPhoneMessageError(String? error) {
@@ -277,7 +356,13 @@ class HomeController extends _$HomeController {
         state.value!.selectedBloodTypeNotifier.value = user.bloodType;
         state.value!.selectedIdentificationTypeNotifier.value =
             user.identificationType;
-        setPhone(user.phone);
+        setPhone(
+          PhoneNumber(
+            countryISOCode: "",
+            number: user.phone,
+            countryCode: user.countryCode,
+          ),
+        );
 
         _setState(state.value!.copyWith(userFount: user));
       } else {
@@ -287,8 +372,17 @@ class HomeController extends _$HomeController {
   }
 
   Future<void> scheduleAppointment() async {
+    _setState(state.value!.copyWith(loading: true));
     final res = await _validateAndPerformUser();
     if (res) {
+      String userId = state.value!.myUser.id ?? "";
+      String userCompanyId = state.value!.userCompany.id ?? "";
+
+      if (state.value!.userCompany.rolUser != RolUser.DOCTOR) {
+        userId = state.value!.doctorSetting.id ?? "";
+        userCompanyId = state.value!.doctorSetting.userCompanyId;
+      }
+
       final selectedDate = state.value!.selectedAppointmentDate!;
       final timeSlot = state.value!.timeSlotsSelected!;
       final scheduleDateTime = DateTime(
@@ -299,12 +393,14 @@ class HomeController extends _$HomeController {
         timeSlot.startWorkHours.minute,
       );
       final appointment = MedicalAppointmentBookingModel.init().copyWith(
-        doctorId: state.value!.myUser.id!,
-        userId: state.value!.userFount.id!,
+        userId: userId,
+        userCompanyId: userCompanyId,
         scheduleMedicalAppointment: scheduleDateTime,
+        companyId: state.value!.userCompany.companyId,
       );
       final res = await repository.createMedicalAppointmentBooking(appointment);
       if (res.isSuccessful) {
+        _setState(state.value!.copyWith(loading: false));
         addNotification(
           "Cita medica agendada correctamente",
           StatusNotification.SUCCESS,
@@ -312,8 +408,10 @@ class HomeController extends _$HomeController {
         clearForm();
       } else {
         addNotification(res.message, StatusNotification.ERROR);
+        _setState(state.value!.copyWith(loading: false));
       }
     } else {
+      _setState(state.value!.copyWith(loading: false));
       addNotification("Error con el usuario", StatusNotification.ERROR);
     }
   }
@@ -353,10 +451,13 @@ class HomeController extends _$HomeController {
   }
 
   UserModel _generateUser() {
+    final phone = state.value!.phoneNumber;
+
     final user = state.value!.userFount.copyWith(
+      phone: phone,
+      countryCode: state.value!.countryCode,
       name: state.value!.nameController.text,
       email: state.value!.emailController.text,
-      phone: state.value!.phoneController.text,
       address: state.value!.addressController.text,
       lastName: state.value!.lastNameController.text,
       gender: state.value!.selectedGenderNotifier.value,
@@ -383,12 +484,14 @@ class HomeController extends _$HomeController {
     state.value!.selectedTimeSlotNotifier.value = null;
     _setState(
       state.value!.copyWith(
-        userFount: UserModel.init(),
-        selectedAppointmentDate: null,
         phoneNumber: '',
+        doctorSelected: null,
         phoneErrorMessage: null,
         timeSlotsSelected: null,
         hasTriedToValidate: false,
+        userFount: UserModel.init(),
+        selectedAppointmentDate: null,
+        doctorSetting: DoctorSettingModel.init(),
       ),
     );
   }
@@ -416,11 +519,88 @@ class HomeController extends _$HomeController {
   void getMedicalAppointmentBooking(String doctorId) {
     final res = repository.getMedicalAppointmentBooking(doctorId);
     if (res.isSuccessful) {
+      state.value!.medicalSub?.cancel();
       final sub = res.data!.listen((event) {
-        _setState(state.value!.copyWith(medicalAppointmentBooking: event));
+        if (event.isNotEmpty) {
+          _setState(state.value!.copyWith(medicalAppointmentBooking: event));
+        } else {
+          _setState(state.value!.copyWith(medicalAppointmentBooking: []));
+        }
       });
-        _setState(state.value!.copyWith(medicalSub: sub));
+      _setState(state.value!.copyWith(medicalSub: sub));
     }
+  }
+
+  bool handledShowPanelDoctors() {
+    bool isNotDoctor = state.value!.userCompany.rolUser != RolUser.DOCTOR;
+    bool isScheduling = state.value!.index == 1;
+
+    return isNotDoctor && isScheduling;
+  }
+
+  Future<void> changeDoctorSelected(UserCompanyModel doctor) async {
+    _setState(state.value!.copyWith(loading: true));
+    if (doctor.user!.id == state.value!.doctorSelected?.id) {
+      _setState(
+        state.value!.copyWith(
+          doctorSelected: null,
+          selectedAppointmentDate: null,
+          doctorSetting: DoctorSettingModel.init(),
+        ),
+      );
+    } else {
+      final res = await repository.getSettingDoctor(doctor.id!);
+      if (res.isSuccessful) {
+        _setState(
+          state.value!.copyWith(
+            doctorSetting: res.data!,
+            doctorSelected: doctor.user!,
+          ),
+        );
+      }
+    }
+    _setState(state.value!.copyWith(loading: false));
+  }
+
+  void changeIndex(int index) {
+    _setState(
+      state.value!.copyWith(
+        index: index,
+        doctorSelected: null,
+        selectedAppointmentDate: null,
+        doctorSetting: DoctorSettingModel.init(),
+      ),
+    );
+  }
+
+  void selectSpecialization(String? item) {
+    _setState(state.value!.copyWith(selectedSpecialization: item ?? ""));
+    handledToFilerDoctors();
+  }
+
+  void handledToFilerDoctors() {
+    List<UserCompanyModel> doctors = state.value!.doctors.toList();
+
+    if (state.value!.selectedSpecialization.isNotEmpty) {
+      doctors = doctors.where((e) {
+        return e.user!.specialization == state.value!.selectedSpecialization;
+      }).toList();
+    }
+
+    if (state.value!.searchDoctorController.text.isNotEmpty) {
+      doctors = doctors.where((e) {
+        return "${e.user!.name} ${e.user!.lastName}".toLowerCase().contains(
+          state.value!.searchDoctorController.text.toLowerCase(),
+        );
+      }).toList();
+    }
+
+    _setState(state.value!.copyWith(doctorsFilter: doctors));
+  }
+
+  cleanFilterDoctor() {
+    state.value!.searchDoctorController.clear();
+    selectSpecialization(null);
   }
 
   _setState(HomeState newState) => state = AsyncValue.data(newState);

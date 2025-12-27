@@ -2,14 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iatros_web/core/data/data/global_api.dart';
 import 'package:iatros_web/core/data/data/global_api_interface.dart';
 import 'package:iatros_web/core/models/doctor_setting_model.dart';
+import 'package:iatros_web/core/models/user_company_model.dart';
 import 'package:iatros_web/core/models/user_model.dart';
 import 'package:iatros_web/core/models/query_response_model.dart';
 
 abstract class GlobalRepositoryInterface {
   Future<QueryResponseModel<UserModel>> getUserById(String id);
   QueryResponseModel<Stream<UserModel>> getUserStream(String id);
-  QueryResponseModel<Stream<DoctorSettingModel>> getSettingDoctorStream(String id);
   Future<QueryResponseModel<DoctorSettingModel>> getSettingDoctor(String id);
+  QueryResponseModel<Stream<DoctorSettingModel>> getSettingDoctorStream(String id);
+  QueryResponseModel<Stream<List<UserCompanyModel>>> getUserCompaniesWithCompanyStream(String userId);
 }
 
 class _GlobalRepository implements GlobalRepositoryInterface {
@@ -28,7 +30,9 @@ class _GlobalRepository implements GlobalRepositoryInterface {
   }
 
   @override
-  QueryResponseModel<Stream<DoctorSettingModel>> getSettingDoctorStream(String id) {
+  QueryResponseModel<Stream<DoctorSettingModel>> getSettingDoctorStream(
+    String id,
+  ) {
     try {
       final res = _globalApi.getStreamSettingDoctor(id);
       return QueryResponseModel(data: res);
@@ -48,9 +52,21 @@ class _GlobalRepository implements GlobalRepositoryInterface {
   }
 
   @override
-  Future<QueryResponseModel<DoctorSettingModel>> getSettingDoctor(String id) async{
-        try {
+  Future<QueryResponseModel<DoctorSettingModel>> getSettingDoctor(
+    String id,
+  ) async {
+    try {
       final res = await _globalApi.getSettingDoctor(id);
+      return QueryResponseModel(data: res);
+    } catch (e) {
+      return QueryResponseModel(isSuccessful: false, message: e.toString());
+    }
+  }
+
+  @override
+  QueryResponseModel<Stream<List<UserCompanyModel>>> getUserCompaniesWithCompanyStream(String id) {
+    try {
+      final res = _globalApi.getUserCompaniesWithCompanyStream(id);
       return QueryResponseModel(data: res);
     } catch (e) {
       return QueryResponseModel(isSuccessful: false, message: e.toString());
